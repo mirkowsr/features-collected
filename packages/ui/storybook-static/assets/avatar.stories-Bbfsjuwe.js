@@ -1,0 +1,34 @@
+import{j as c}from"./jsx-runtime-D_zvdyIk.js";import{r as m,a as Q}from"./index-ZH-6pyQh.js";import{u as X}from"./index-BzHRfv9E.js";import{u as y}from"./index-B2_tsCGI.js";import{P as k}from"./index-CFwX3euR.js";import{c as L}from"./cn-BLSKlp9E.js";import"./_commonjsHelpers-CqkleIqs.js";import"./index-BP-xEy0R.js";import"./index-DVyBTwwr.js";import"./index-ZW2Bszwo.js";import"./index-Bo-loign.js";function Y(e,a=[]){let r=[];function d(t,l){const n=m.createContext(l);n.displayName=t+"Context";const u=r.length;r=[...r,l];const v=s=>{var I;const{scope:o,children:p,...g}=s,f=((I=o==null?void 0:o[e])==null?void 0:I[u])||n,A=m.useMemo(()=>g,Object.values(g));return c.jsx(f.Provider,{value:A,children:p})};v.displayName=t+"Provider";function x(s,o){var f;const p=((f=o==null?void 0:o[e])==null?void 0:f[u])||n,g=m.useContext(p);if(g)return g;if(l!==void 0)return l;throw new Error(`\`${s}\` must be used within \`${t}\``)}return[v,x]}const i=()=>{const t=r.map(l=>m.createContext(l));return function(n){const u=(n==null?void 0:n[e])||t;return m.useMemo(()=>({[`__scope${e}`]:{...n,[e]:u}}),[n,u])}};return i.scopeName=e,[d,Z(i,...a)]}function Z(...e){const a=e[0];if(e.length===1)return a;const r=()=>{const d=e.map(i=>({useScope:i(),scopeName:i.scopeName}));return function(t){const l=d.reduce((n,{useScope:u,scopeName:v})=>{const s=u(t)[`__scope${v}`];return{...n,...s}},{});return m.useMemo(()=>({[`__scope${a.scopeName}`]:l}),[l])}};return r.scopeName=a.scopeName,r}var w={exports:{}},_={};/**
+ * @license React
+ * use-sync-external-store-shim.production.js
+ *
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */var F;function ee(){if(F)return _;F=1;var e=Q();function a(s,o){return s===o&&(s!==0||1/s===1/o)||s!==s&&o!==o}var r=typeof Object.is=="function"?Object.is:a,d=e.useState,i=e.useEffect,t=e.useLayoutEffect,l=e.useDebugValue;function n(s,o){var p=o(),g=d({inst:{value:p,getSnapshot:o}}),f=g[0].inst,A=g[1];return t(function(){f.value=p,f.getSnapshot=o,u(f)&&A({inst:f})},[s,p,o]),i(function(){return u(f)&&A({inst:f}),s(function(){u(f)&&A({inst:f})})},[s]),l(p),p}function u(s){var o=s.getSnapshot;s=s.value;try{var p=o();return!r(s,p)}catch{return!0}}function v(s,o){return o()}var x=typeof window>"u"||typeof window.document>"u"||typeof window.document.createElement>"u"?v:n;return _.useSyncExternalStore=e.useSyncExternalStore!==void 0?e.useSyncExternalStore:x,_}var R;function te(){return R||(R=1,w.exports=ee()),w.exports}var ae=te();function re(){return ae.useSyncExternalStore(ne,()=>!0,()=>!1)}function ne(){return()=>{}}var N="Avatar",[se]=Y(N),[oe,V]=se(N),z=m.forwardRef((e,a)=>{const{__scopeAvatar:r,...d}=e,[i,t]=m.useState("idle");return c.jsx(oe,{scope:r,imageLoadingStatus:i,onImageLoadingStatusChange:t,children:c.jsx(k.span,{...d,ref:a})})});z.displayName=N;var B="AvatarImage",J=m.forwardRef((e,a)=>{const{__scopeAvatar:r,src:d,onLoadingStatusChange:i=()=>{},...t}=e,l=V(B,r),n=ce(d,t),u=X(v=>{i(v),l.onImageLoadingStatusChange(v)});return y(()=>{n!=="idle"&&u(n)},[n,u]),n==="loaded"?c.jsx(k.img,{...t,ref:a,src:d}):null});J.displayName=B;var K="AvatarFallback",W=m.forwardRef((e,a)=>{const{__scopeAvatar:r,delayMs:d,...i}=e,t=V(K,r),[l,n]=m.useState(d===void 0);return m.useEffect(()=>{if(d!==void 0){const u=window.setTimeout(()=>n(!0),d);return()=>window.clearTimeout(u)}},[d]),l&&t.imageLoadingStatus!=="loaded"?c.jsx(k.span,{...i,ref:a}):null});W.displayName=K;function M(e,a){return e?a?(e.src!==a&&(e.src=a),e.complete&&e.naturalWidth>0?"loaded":"loading"):"error":"idle"}function ce(e,{referrerPolicy:a,crossOrigin:r}){const d=re(),i=m.useRef(null),t=d?(i.current||(i.current=new window.Image),i.current):null,[l,n]=m.useState(()=>M(t,e));return y(()=>{n(M(t,e))},[t,e]),y(()=>{const u=s=>()=>{n(s)};if(!t)return;const v=u("loaded"),x=u("error");return t.addEventListener("load",v),t.addEventListener("error",x),a&&(t.referrerPolicy=a),typeof r=="string"&&(t.crossOrigin=r),()=>{t.removeEventListener("load",v),t.removeEventListener("error",x)}},[t,r,a]),l}var ue=z,ie=J,le=W;function h({className:e,ref:a,...r}){return c.jsx(ue,{ref:a,"data-slot":"avatar",className:L("relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full",e),...r})}function C({className:e,ref:a,...r}){return c.jsx(ie,{ref:a,"data-slot":"avatar-image",className:L("aspect-square h-full w-full",e),...r})}function S({className:e,ref:a,...r}){return c.jsx(le,{ref:a,"data-slot":"avatar-fallback",className:L("flex h-full w-full items-center justify-center rounded-full","bg-muted text-muted-foreground text-sm font-medium",e),...r})}h.__docgenInfo={description:"",methods:[],displayName:"Avatar"};C.__docgenInfo={description:"",methods:[],displayName:"AvatarImage"};S.__docgenInfo={description:"",methods:[],displayName:"AvatarFallback"};const je={title:"Components/Avatar",component:h,tags:["autodocs"]},b={args:{className:""},render:e=>c.jsxs(h,{...e,children:[c.jsx(C,{src:"https://github.com/shadcn.png",alt:"@shadcn"}),c.jsx(S,{children:"CN"})]})},j={render:()=>c.jsxs(h,{children:[c.jsx(C,{src:"/broken-image.jpg",alt:"@user"}),c.jsx(S,{children:"JD"})]})},E={render:()=>c.jsxs("div",{className:"flex items-center gap-4",children:[c.jsx(h,{className:"h-8 w-8",children:c.jsx(S,{children:"SM"})}),c.jsx(h,{children:c.jsx(S,{children:"MD"})}),c.jsx(h,{className:"h-14 w-14",children:c.jsx(S,{children:"LG"})})]})};var $,P,D;b.parameters={...b.parameters,docs:{...($=b.parameters)==null?void 0:$.docs,source:{originalSource:`{
+  args: {
+    className: ''
+  },
+  render: args => <Avatar {...args}>
+      <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+      <AvatarFallback>CN</AvatarFallback>
+    </Avatar>
+}`,...(D=(P=b.parameters)==null?void 0:P.docs)==null?void 0:D.source}}};var q,G,H;j.parameters={...j.parameters,docs:{...(q=j.parameters)==null?void 0:q.docs,source:{originalSource:`{
+  render: () => <Avatar>
+      <AvatarImage src="/broken-image.jpg" alt="@user" />
+      <AvatarFallback>JD</AvatarFallback>
+    </Avatar>
+}`,...(H=(G=j.parameters)==null?void 0:G.docs)==null?void 0:H.source}}};var O,T,U;E.parameters={...E.parameters,docs:{...(O=E.parameters)==null?void 0:O.docs,source:{originalSource:`{
+  render: () => <div className="flex items-center gap-4">
+      <Avatar className="h-8 w-8">
+        <AvatarFallback>SM</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarFallback>MD</AvatarFallback>
+      </Avatar>
+      <Avatar className="h-14 w-14">
+        <AvatarFallback>LG</AvatarFallback>
+      </Avatar>
+    </div>
+}`,...(U=(T=E.parameters)==null?void 0:T.docs)==null?void 0:U.source}}};const Ee=["Default","Fallback","Sizes"];export{b as Default,j as Fallback,E as Sizes,Ee as __namedExportsOrder,je as default};

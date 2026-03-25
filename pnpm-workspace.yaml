@@ -1,0 +1,12 @@
+packages:
+  - "features/*/*"
+  - "packages/*"
+  - "utils"
+  - "config/*"
+
+onlyBuiltDependencies:
+  - "@nestjs/core"
+  - esbuild
+
+ignoredBuiltDependencies:
+  - sharp

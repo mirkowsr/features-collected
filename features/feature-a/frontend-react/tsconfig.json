@@ -1,0 +1,15 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "outDir": "./dist",
+    "composite": true,
+    "baseUrl": "."
+  },
+  "include": ["src"],
+  "references": [{ "path": "../../../packages/ui" }, { "path": "../../../utils/" }]
+}

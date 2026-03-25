@@ -1,0 +1,22 @@
+{
+  "name": "features-collected",
+  "private": true,
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
+    "format": "turbo run format",
+    "format:check": "turbo run format:check",
+    "create-feature": "node scripts/create-feature.mjs",
+    "feature": "node scripts/run-feature.mjs",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:reset": "docker compose down -v && docker compose up -d",
+    "docker:logs": "docker compose logs -f postgres"
+  },
+  "packageManager": "pnpm@10.12.4",
+  "devDependencies": {
+    "turbo": "^2.0.0"
+  }
+}

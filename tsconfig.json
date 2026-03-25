@@ -1,0 +1,12 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./packages/ui" },
+    { "path": "./utils" },
+    { "path": "./features/feature-a/backend" },
+    { "path": "./features/feature-a/frontend-react" },
+    { "path": "./features/feature-a/frontend-astro" },
+    { "path": "./features/feature-b/backend" },
+    { "path": "./features/feature-b/frontend" }
+  ]
+}

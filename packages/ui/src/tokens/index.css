@@ -1,0 +1,208 @@
+@import 'tailwindcss';
+
+/*
+ * Design Tokens — Black & White Contour System
+ * Color space: OKLCH for perceptual uniformity
+ *
+ * Naming: --color-{semantic-name}
+ * Every background token has a matching -foreground token
+ */
+
+@layer base {
+  :root {
+    /* =========================================
+     * CORE PALETTE — Light Mode
+     * ========================================= */
+
+    /* Page */
+    --color-background: oklch(1 0 0); /* #ffffff — pure white */
+    --color-foreground: oklch(0.145 0 0); /* ~#0a0a0a — near black */
+
+    /* Surface (cards, panels, elevated containers) */
+    --color-surface: oklch(0.985 0 0); /* ~#fafafa */
+    --color-surface-foreground: oklch(0.145 0 0); /* near black */
+
+    /* Muted (disabled states, secondary backgrounds) */
+    --color-muted: oklch(0.96 0 0); /* ~#f4f4f5 */
+    --color-muted-foreground: oklch(0.556 0 0); /* ~#71717a — mid gray */
+
+    /* Primary (main actions) */
+    --color-primary: oklch(0.145 0 0); /* near black */
+    --color-primary-foreground: oklch(0.985 0 0); /* near white */
+
+    /* Secondary */
+    --color-secondary: oklch(0.96 0 0); /* light gray */
+    --color-secondary-foreground: oklch(0.205 0 0); /* very dark gray */
+
+    /* Accent (hover states, highlights) */
+    --color-accent: oklch(0.96 0 0); /* light gray */
+    --color-accent-foreground: oklch(0.205 0 0); /* very dark gray */
+
+    /* Destructive */
+    --color-destructive: oklch(0.577 0.245 27.325); /* red */
+    --color-destructive-foreground: oklch(0.985 0 0); /* white on red */
+
+    /* Border / Ring / Outline (core of contour language) */
+    --color-border: oklch(0.87 0 0); /* ~#e4e4e7 — visible border */
+    --color-border-strong: oklch(0.705 0 0); /* ~#a1a1aa — emphasized border */
+    --color-input: oklch(0.87 0 0); /* input borders */
+    --color-ring: oklch(0.556 0 0); /* focus ring — mid gray */
+
+    /* Overlay */
+    --color-overlay: oklch(0.145 0 0 / 0.6); /* 60% black overlay */
+
+    /* =========================================
+     * RADIUS — Sharp with subtle rounding
+     * ========================================= */
+    --radius-sm: 0.25rem; /* 4px */
+    --radius-md: 0.375rem; /* 6px */
+    --radius-lg: 0.5rem; /* 8px */
+    --radius-xl: 0.75rem; /* 12px */
+
+    /* =========================================
+     * SHADOWS — Minimal, border-focused
+     * ========================================= */
+    --shadow-sm: 0 1px 2px 0 oklch(0 0 0 / 0.04);
+    --shadow: 0 1px 3px 0 oklch(0 0 0 / 0.07), 0 1px 2px -1px oklch(0 0 0 / 0.07);
+    --shadow-md: 0 4px 6px -1px oklch(0 0 0 / 0.07), 0 2px 4px -2px oklch(0 0 0 / 0.07);
+    --shadow-lg: 0 10px 15px -3px oklch(0 0 0 / 0.07), 0 4px 6px -4px oklch(0 0 0 / 0.07);
+
+    /* =========================================
+     * TYPOGRAPHY
+     * ========================================= */
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+    /* =========================================
+     * TRANSITIONS
+     * ========================================= */
+    --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-normal: 200ms cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-slow: 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .dark {
+    /* Page */
+    --color-background: oklch(0.145 0 0); /* near black */
+    --color-foreground: oklch(0.985 0 0); /* near white */
+
+    /* Surface */
+    --color-surface: oklch(0.205 0 0); /* dark gray card */
+    --color-surface-foreground: oklch(0.985 0 0);
+
+    /* Muted */
+    --color-muted: oklch(0.269 0 0); /* ~#27272a */
+    --color-muted-foreground: oklch(0.708 0 0); /* ~#a1a1aa */
+
+    /* Primary */
+    --color-primary: oklch(0.985 0 0); /* white */
+    --color-primary-foreground: oklch(0.205 0 0); /* dark on white */
+
+    /* Secondary */
+    --color-secondary: oklch(0.269 0 0);
+    --color-secondary-foreground: oklch(0.985 0 0);
+
+    /* Accent */
+    --color-accent: oklch(0.269 0 0);
+    --color-accent-foreground: oklch(0.985 0 0);
+
+    /* Destructive */
+    --color-destructive: oklch(0.577 0.245 27.325);
+    --color-destructive-foreground: oklch(0.985 0 0);
+
+    /* Border / Ring (slightly brighter in dark) */
+    --color-border: oklch(0.35 0 0); /* ~#3f3f46 */
+    --color-border-strong: oklch(0.5 0 0); /* ~#52525b */
+    --color-input: oklch(0.35 0 0);
+    --color-ring: oklch(0.556 0 0);
+
+    /* Overlay */
+    --color-overlay: oklch(0 0 0 / 0.7);
+
+    /* Shadows shift to deeper blacks in dark mode */
+    --shadow-sm: 0 1px 2px 0 oklch(0 0 0 / 0.2);
+    --shadow: 0 1px 3px 0 oklch(0 0 0 / 0.3), 0 1px 2px -1px oklch(0 0 0 / 0.3);
+    --shadow-md: 0 4px 6px -1px oklch(0 0 0 / 0.35), 0 2px 4px -2px oklch(0 0 0 / 0.35);
+    --shadow-lg: 0 10px 15px -3px oklch(0 0 0 / 0.4), 0 4px 6px -4px oklch(0 0 0 / 0.4);
+  }
+}
+
+/*
+ * Keyframe Animations
+ */
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+/*
+ * Tailwind CSS v4 — Theme Integration
+ *
+ * @theme inline maps CSS variables into Tailwind's utility classes.
+ * Usage: bg-background, text-foreground, border-border, etc.
+ */
+@theme inline {
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+  --color-surface: var(--color-surface);
+  --color-surface-foreground: var(--color-surface-foreground);
+  --color-muted: var(--color-muted);
+  --color-muted-foreground: var(--color-muted-foreground);
+  --color-primary: var(--color-primary);
+  --color-primary-foreground: var(--color-primary-foreground);
+  --color-secondary: var(--color-secondary);
+  --color-secondary-foreground: var(--color-secondary-foreground);
+  --color-accent: var(--color-accent);
+  --color-accent-foreground: var(--color-accent-foreground);
+  --color-destructive: var(--color-destructive);
+  --color-destructive-foreground: var(--color-destructive-foreground);
+  --color-border: var(--color-border);
+  --color-border-strong: var(--color-border-strong);
+  --color-input: var(--color-input);
+  --color-ring: var(--color-ring);
+  --color-overlay: var(--color-overlay);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+
+  --shadow-sm: var(--shadow-sm);
+  --shadow: var(--shadow);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  --animate-accordion-down: accordion-down 200ms ease-out;
+  --animate-accordion-up: accordion-up 200ms ease-out;
+}
+
+/*
+ * Base resets applied by the token layer
+ */
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+}
