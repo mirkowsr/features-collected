@@ -17,6 +17,7 @@
   },
   "packageManager": "pnpm@10.12.4",
   "devDependencies": {
+    "@types/pg": "^8.20.0",
     "turbo": "^2.0.0"
   }
 }
