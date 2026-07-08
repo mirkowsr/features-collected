@@ -47,7 +47,7 @@ importers:
 
   config/prettier: {}
 
-  features/file-uploader/backend:
+  features/file-uploader/classic-upload:
     dependencies:
       '@aws-sdk/client-s3':
         specifier: ^3.1076.0

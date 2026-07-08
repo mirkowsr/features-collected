@@ -1,5 +1,5 @@
 {
-  "name": "@repo/file-uploader-backend",
+  "name": "@repo/file-uploader-classic-upload",
   "private": true,
   "version": "0.0.1",
   "scripts": {
