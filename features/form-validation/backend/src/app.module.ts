@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config'
 
 import { DrizzleModule } from './db/drizzle.module'
 import { UsersModule } from './users/users.module'
-import { ValidationModule } from './validation/validation.module';
+import { ValidationModule } from './validation/validation.module'
 
 @Module({
   imports: [
