@@ -16,7 +16,7 @@ import { AwsS3Module } from './aws-s3'
         transport: Transport.RMQ,
         options: {
           urls: ['amqp://localhost:5672'],
-          queue: 'cats_queue',
+          queue: 'upload_queue',
           queueOptions: {
             durable: false,
           },
