@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 
-import { ClientsModule, Transport } from '@nestjs/microservices'
+import { RabbitMqGlobalModule } from './rabbit-mq/rabbit-mq-global.module'
 import { DrizzleModule } from './db/drizzle.module'
 import { FileUploadModule } from './file-upload/file-upload.module'
 import { AwsS3Module } from './aws-s3'
@@ -10,19 +10,7 @@ import { AwsS3Module } from './aws-s3'
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     DrizzleModule,
-    ClientsModule.register([
-      {
-        name: 'RABBIT_CLIENT',
-        transport: Transport.RMQ,
-        options: {
-          urls: ['amqp://localhost:5672'],
-          queue: 'upload_queue',
-          queueOptions: {
-            durable: false,
-          },
-        },
-      },
-    ]),
+    RabbitMqGlobalModule,
     FileUploadModule,
     AwsS3Module,
   ],

@@ -1,6 +1,7 @@
 import {
   Controller,
   HttpStatus,
+  Inject,
   ParseFilePipe,
   Post,
   UploadedFile,
@@ -11,14 +12,18 @@ import { FileInterceptor } from '@nestjs/platform-express'
 import { FileSizeValidationPipe } from '../pipes/fileSize.pipe'
 import { fileSizeMiB } from './utils/file.utils'
 import { FileTypeValidationPipe } from '../pipes/fileType.pipe'
+import { ClientProxy } from '@nestjs/microservices'
 
 @Controller('file')
 export class FileUploadController {
-  constructor(private readonly fileUploadService: FileUploadService) {}
+  constructor(
+    private readonly fileUploadService: FileUploadService,
+    @Inject('RABBIT_CLIENT') private RabbitMQ: ClientProxy,
+  ) {}
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  upload(
+  async upload(
     @UploadedFile(
       new ParseFilePipe({
         validators: [
@@ -32,6 +37,10 @@ export class FileUploadController {
     )
     file: Express.Multer.File,
   ) {
-    return this.fileUploadService.upload(file)
+    const res = await this.fileUploadService.upload(file)
+
+    this.RabbitMQ.emit('file.process', { hello: 'world' })
+
+    return res
   }
 }

@@ -1,13 +1,14 @@
 import { Controller } from '@nestjs/common'
-import { MessagePattern } from '@nestjs/microservices'
-import { SimpleQueueService } from './simple-queue.service'
+import { EventPattern } from '@nestjs/microservices'
+import { UploadQueueService } from './upload-queue.service'
 
 @Controller()
-export class SimpleQueueController {
-  constructor(private readonly simpleQueueService: SimpleQueueService) {}
+export class UploadQueueController {
+  constructor(private readonly simpleQueueService: UploadQueueService) {}
 
-  @MessagePattern('receiveMessage')
+  @EventPattern('file.process')
   findAll() {
+    console.log('@@@@ process ')
     return this.simpleQueueService.findAll()
   }
 }
