@@ -22,4 +22,4 @@ const rabbitClientModule = ClientsModule.registerAsync([
   imports: [rabbitClientModule],
   exports: [rabbitClientModule],
 })
-export class RabbitMqGlobalModule {}
+export class RabbitMqModule {}

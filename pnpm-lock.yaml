@@ -190,7 +190,7 @@ importers:
         specifier: ^5.4.0
         version: 5.9.3
 
-  features/file-uploader/queue-uploader:
+  features/file-uploader/file-process:
     dependencies:
       '@nestjs/common':
         specifier: ^11.0.0
