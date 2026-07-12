@@ -3,15 +3,13 @@ import { ClientsModule, Transport } from '@nestjs/microservices'
 
 const rabbitClientModule = ClientsModule.registerAsync([
   {
-    name: 'RABBIT_CLIENT',
+    name: 'FACADE_CLIENT_QUEUE',
     useFactory: () => ({
       transport: Transport.RMQ,
       options: {
         urls: ['amqp://localhost:5672'],
-        queue: 'upload_queue',
-        queueOptions: {
-          durable: false,
-        },
+        queue: 'facade_queue',
+        queueOptions: { durable: false },
       },
     }),
   },

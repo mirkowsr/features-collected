@@ -12,7 +12,8 @@ import { FileInterceptor } from '@nestjs/platform-express'
 import { FileSizeValidationPipe } from '../pipes/fileSize.pipe'
 import { fileSizeMiB } from './utils/file.utils'
 import { FileTypeValidationPipe } from '../pipes/fileType.pipe'
-import { ClientProxy } from '@nestjs/microservices'
+import { ClientProxy, EventPattern } from '@nestjs/microservices'
+import { UploadStatus } from '../db/schema'
 
 @Controller('file')
 export class FileUploadController {
@@ -39,8 +40,18 @@ export class FileUploadController {
   ) {
     const res = await this.fileUploadService.upload(file)
 
-    this.RabbitMQ.emit('file.process', { hello: 'world' })
+    this.RabbitMQ.emit('file.process', { fileId: res.fileId })
 
     return res
+  }
+
+  @EventPattern('file.process.finished')
+  async onProcessFinish(data: { fileId: string }) {
+    console.log('@@@@@@@@@@@', data.fileId)
+
+    await this.fileUploadService.updateStatus(
+      data.fileId,
+      UploadStatus.finished,
+    )
   }
 }

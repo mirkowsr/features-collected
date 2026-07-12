@@ -23,7 +23,6 @@ export const uploadEnum = pgEnum(
 export const files = pgTable('files', {
   id: uuid('id').primaryKey().defaultRandom().unique(),
   mime_type: varchar({ length: 255 }).notNull(),
-  url: varchar().notNull(),
   file_size: integer().notNull(),
   upload_status: uploadEnum().notNull(),
   upload_date: timestamp({ withTimezone: true, mode: 'date' }),

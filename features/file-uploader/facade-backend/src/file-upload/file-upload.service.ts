@@ -3,13 +3,13 @@ import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { InjectS3 } from '../aws-s3'
 import { InjectDrizzle } from '../db/drizzle.decorator'
-import { UploadStatus } from '../db/schema'
+import { files, UploadStatus, UploadStatusTypes } from '../db/schema'
 import { DrizzleSchema } from '../db/types/drizzle.type'
 import { FileUploadResponseDto } from './dto/status.dto'
+import { eq } from 'drizzle-orm'
 
 @Injectable()
 export class FileUploadService {
-  AWS_REGION: string = ''
   BUCKET_NAME: string = ''
 
   constructor(
@@ -17,12 +17,11 @@ export class FileUploadService {
     @InjectDrizzle() private db: DrizzleSchema,
     private config: ConfigService,
   ) {
-    this.AWS_REGION = this.config.getOrThrow('AWS_REGION')
     this.BUCKET_NAME = this.config.getOrThrow('S3_STAGING_BUCKET_NAME')
   }
 
   async upload(file: Express.Multer.File): Promise<FileUploadResponseDto> {
-    const { buffer, mimetype, originalname } = file
+    const { buffer, mimetype, originalname, size } = file
     const fileId = crypto.randomUUID()
 
     await this.s3.send(
@@ -37,6 +36,24 @@ export class FileUploadService {
       }),
     )
 
-    return { status: UploadStatus.pending }
+    await this.db.insert(files).values({
+      id: fileId,
+      mime_type: mimetype,
+      file_size: size,
+      upload_status: UploadStatus.pending,
+      upload_date: new Date(),
+      original_name: originalname,
+    })
+
+    return { status: UploadStatus.pending, fileId }
+  }
+
+  async updateStatus(fileId: string, status: UploadStatusTypes) {
+    console.log('@@@@', fileId)
+
+    await this.db
+      .update(files)
+      .set({ upload_status: status })
+      .where(eq(files.id, fileId))
   }
 }

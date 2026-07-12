@@ -1,14 +1,21 @@
-import { Controller } from '@nestjs/common'
-import { EventPattern } from '@nestjs/microservices'
+import { Controller, Inject } from '@nestjs/common'
+import { ClientProxy, EventPattern } from '@nestjs/microservices'
+import { FileDto } from './dto/file.dto'
 import { FileProcessService } from './file-process.service'
 
 @Controller()
 export class FileProcessController {
-  constructor(private readonly fileProcessService: FileProcessService) {}
+  constructor(
+    private readonly fileProcessService: FileProcessService,
+    @Inject('FACADE_CLIENT_QUEUE') private facadeQueue: ClientProxy,
+  ) {}
 
   @EventPattern('file.process')
-  findAll() {
-    console.log('@@@@ process ')
-    return this.fileProcessService.findAll()
+  async process(data: FileDto) {
+    const res = await this.fileProcessService.processStaggingFile(data.fileId)
+
+    this.facadeQueue.emit('file.process.finished', {
+      fileId: res.uploadedFileId,
+    })
   }
 }
