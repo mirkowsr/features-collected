@@ -7,14 +7,14 @@ import { FileProcessService } from './file-process.service'
 export class FileProcessController {
   constructor(
     private readonly fileProcessService: FileProcessService,
-    @Inject('FILE_UPLOAD_QUEUE') private facadeQueue: ClientProxy,
+    @Inject('FILE_UPLOAD_QUEUE') private fileUploadQueue: ClientProxy,
   ) {}
 
   @EventPattern('file.process')
-  async process(data: FileDto) {
+  async processFile(data: FileDto) {
     const res = await this.fileProcessService.processStaggingFile(data.fileId)
 
-    this.facadeQueue.emit('file.process.finished', {
+    this.fileUploadQueue.emit('file.process.finished', {
       fileId: res.uploadedFileId,
     })
   }

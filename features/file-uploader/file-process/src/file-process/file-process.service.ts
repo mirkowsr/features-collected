@@ -62,7 +62,9 @@ export class FileProcessService {
 
   async processStaggingFile(fileId: string) {
     const file = await this.getFileToProcess(fileId)
+
     await this.mimicFileProcessing()
+
     const uploadedFileId = await this.uploadToBucket(
       { ...file, fileId },
       this.PROCESSED_BUCKET_NAME,

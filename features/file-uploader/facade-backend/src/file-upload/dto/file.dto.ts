@@ -3,3 +3,7 @@ export type FileDto = {
   originalname: string
   fileId: string
 }
+
+export type FileProcessFinishDto = {
+  fileId: string
+}

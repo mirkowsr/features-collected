@@ -7,13 +7,14 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common'
-import { FileUploadService } from './file-upload.service'
-import { FileInterceptor } from '@nestjs/platform-express'
-import { FileSizeValidationPipe } from '../pipes/fileSize.pipe'
-import { fileSizeMiB } from './utils/file.utils'
-import { FileTypeValidationPipe } from '../pipes/fileType.pipe'
 import { ClientProxy, EventPattern } from '@nestjs/microservices'
+import { FileInterceptor } from '@nestjs/platform-express'
 import { UploadStatus } from '../db/schema'
+import { FileSizeValidationPipe } from '../pipes/fileSize.pipe'
+import { FileTypeValidationPipe } from '../pipes/fileType.pipe'
+import { FileUploadService } from './file-upload.service'
+import { fileSizeMiB } from './utils/file.utils'
+import { FileProcessFinishDto } from './dto/file.dto'
 
 @Controller('file')
 export class FileUploadController {
@@ -46,9 +47,7 @@ export class FileUploadController {
   }
 
   @EventPattern('file.process.finished')
-  async onProcessFinish(data: { fileId: string }) {
-    console.log('@@@@@@@@@@@', data.fileId)
-
+  async onFileProcessFinish(data: FileProcessFinishDto) {
     await this.fileUploadService.updateStatus(
       data.fileId,
       UploadStatus.finished,
