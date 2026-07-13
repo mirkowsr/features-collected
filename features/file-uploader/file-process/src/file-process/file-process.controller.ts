@@ -7,7 +7,7 @@ import { FileProcessService } from './file-process.service'
 export class FileProcessController {
   constructor(
     private readonly fileProcessService: FileProcessService,
-    @Inject('FACADE_CLIENT_QUEUE') private facadeQueue: ClientProxy,
+    @Inject('FILE_UPLOAD_QUEUE') private facadeQueue: ClientProxy,
   ) {}
 
   @EventPattern('file.process')

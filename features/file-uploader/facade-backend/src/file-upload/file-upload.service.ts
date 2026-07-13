@@ -49,8 +49,6 @@ export class FileUploadService {
   }
 
   async updateStatus(fileId: string, status: UploadStatusTypes) {
-    console.log('@@@@', fileId)
-
     await this.db
       .update(files)
       .set({ upload_status: status })

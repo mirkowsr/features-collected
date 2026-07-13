@@ -19,7 +19,7 @@ import { UploadStatus } from '../db/schema'
 export class FileUploadController {
   constructor(
     private readonly fileUploadService: FileUploadService,
-    @Inject('RABBIT_CLIENT') private RabbitMQ: ClientProxy,
+    @Inject('FILE_PROCESS') private RabbitMQ: ClientProxy,
   ) {}
 
   @Post('upload')

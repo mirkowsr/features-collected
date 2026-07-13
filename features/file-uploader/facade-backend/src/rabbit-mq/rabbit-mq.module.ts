@@ -1,14 +1,16 @@
 import { Global, Module } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import { ClientsModule, Transport } from '@nestjs/microservices'
 
 const rabbitClientModule = ClientsModule.registerAsync([
   {
-    name: 'RABBIT_CLIENT',
-    useFactory: () => ({
+    name: 'FILE_PROCESS',
+    inject: [ConfigService],
+    useFactory: (config: ConfigService) => ({
       transport: Transport.RMQ,
       options: {
-        urls: ['amqp://localhost:5672'],
-        queue: 'upload_queue',
+        urls: [config.getOrThrow('QUEUE_ADRESS')] as string[],
+        queue: config.getOrThrow('FILE_PROCESS_QUEUE_NAME'),
         queueOptions: {
           durable: false,
         },
