@@ -48,7 +48,7 @@ export class FileUploadController {
 
   @EventPattern('file.process.finished')
   async onFileProcessFinish(data: FileProcessFinishDto) {
-    await this.fileUploadService.updateStatus(
+    await this.fileUploadService.updateFileUploadStatus(
       data.fileId,
       UploadStatus.finished,
     )

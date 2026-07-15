@@ -1,5 +1,5 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
-import { Injectable } from '@nestjs/common'
+import { HttpCode, HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { InjectS3 } from '../aws-s3'
 import { InjectDrizzle } from '../db/drizzle.decorator'
@@ -20,10 +20,12 @@ export class FileUploadService {
     this.BUCKET_NAME = this.config.getOrThrow('S3_STAGING_BUCKET_NAME')
   }
 
-  async upload(file: Express.Multer.File): Promise<FileUploadResponseDto> {
-    const { buffer, mimetype, originalname, size } = file
-    const fileId = crypto.randomUUID()
-
+  async uploadToBucket(
+    fileId: string,
+    buffer: Buffer<ArrayBufferLike>,
+    mimetype: string,
+    originalname: string,
+  ) {
     await this.s3.send(
       new PutObjectCommand({
         Bucket: this.BUCKET_NAME,
@@ -35,6 +37,18 @@ export class FileUploadService {
         },
       }),
     )
+  }
+
+  async updateFileUploadStatus(fileId: string, status: UploadStatusTypes) {
+    await this.db
+      .update(files)
+      .set({ upload_status: status })
+      .where(eq(files.id, fileId))
+  }
+
+  async upload(file: Express.Multer.File): Promise<FileUploadResponseDto> {
+    const { buffer, mimetype, originalname, size } = file
+    const fileId = crypto.randomUUID()
 
     await this.db.insert(files).values({
       id: fileId,
@@ -45,13 +59,19 @@ export class FileUploadService {
       original_name: originalname,
     })
 
-    return { status: UploadStatus.pending, fileId }
-  }
+    try {
+      await this.uploadToBucket(fileId, buffer, mimetype, originalname)
+    } catch (e) {
+      await this.updateFileUploadStatus(fileId, UploadStatus.error)
+      throw new HttpException(
+        'upload error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        {
+          cause: e,
+        },
+      )
+    }
 
-  async updateStatus(fileId: string, status: UploadStatusTypes) {
-    await this.db
-      .update(files)
-      .set({ upload_status: status })
-      .where(eq(files.id, fileId))
+    return { status: UploadStatus.pending, fileId }
   }
 }
