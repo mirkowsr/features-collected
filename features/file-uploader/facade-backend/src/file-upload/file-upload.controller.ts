@@ -14,7 +14,7 @@ import { FileSizeValidationPipe } from '../pipes/fileSize.pipe'
 import { FileTypeValidationPipe } from '../pipes/fileType.pipe'
 import { FileUploadService } from './file-upload.service'
 import { fileSizeMiB } from './utils/file.utils'
-import { FileProcessFinishDto } from './dto/file.dto'
+import { FileProcessErrorDto, FileProcessFinishDto } from './dto/file.dto'
 
 @Controller('file')
 export class FileUploadController {
@@ -51,6 +51,15 @@ export class FileUploadController {
     await this.fileUploadService.updateFileUploadStatus(
       data.fileId,
       UploadStatus.finished,
+    )
+  }
+
+  @EventPattern('file.process.error')
+  async onFileProcessError(data: FileProcessErrorDto) {
+    await this.fileUploadService.updateFileUploadStatus(
+      data.fileId,
+      UploadStatus.error,
+      data.reason,
     )
   }
 }

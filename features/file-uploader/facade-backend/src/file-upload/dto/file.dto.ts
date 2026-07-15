@@ -7,3 +7,8 @@ export type FileDto = {
 export type FileProcessFinishDto = {
   fileId: string
 }
+
+export type FileProcessErrorDto = {
+  fileId: string
+  reason: string
+}

@@ -2,6 +2,7 @@ import { Controller, Inject } from '@nestjs/common'
 import { ClientProxy, EventPattern } from '@nestjs/microservices'
 import { FileDto } from './dto/file.dto'
 import { FileProcessService } from './file-process.service'
+import { toErrorMessage } from './utils/toErrorMessage'
 
 @Controller()
 export class FileProcessController {
@@ -12,10 +13,17 @@ export class FileProcessController {
 
   @EventPattern('file.process')
   async processFile(data: FileDto) {
-    const res = await this.fileProcessService.processStaggingFile(data.fileId)
+    try {
+      const res = await this.fileProcessService.processStaggingFile(data.fileId)
 
-    this.fileUploadQueue.emit('file.process.finished', {
-      fileId: res.uploadedFileId,
-    })
+      this.fileUploadQueue.emit('file.process.finished', {
+        fileId: res.uploadedFileId,
+      })
+    } catch (e) {
+      this.fileUploadQueue.emit('file.process.error', {
+        fileId: data.fileId,
+        reason: toErrorMessage(e),
+      })
+    }
   }
 }

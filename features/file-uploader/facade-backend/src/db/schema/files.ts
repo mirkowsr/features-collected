@@ -27,4 +27,5 @@ export const files = pgTable('files', {
   upload_status: uploadEnum().notNull(),
   upload_date: timestamp({ withTimezone: true, mode: 'date' }),
   original_name: varchar().notNull(),
+  error_message: varchar(),
 })

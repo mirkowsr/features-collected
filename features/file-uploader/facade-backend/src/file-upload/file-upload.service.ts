@@ -1,12 +1,13 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
-import { HttpCode, HttpException, HttpStatus, Injectable } from '@nestjs/common'
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import { eq } from 'drizzle-orm'
 import { InjectS3 } from '../aws-s3'
 import { InjectDrizzle } from '../db/drizzle.decorator'
 import { files, UploadStatus, UploadStatusTypes } from '../db/schema'
 import { DrizzleSchema } from '../db/types/drizzle.type'
 import { FileUploadResponseDto } from './dto/status.dto'
-import { eq } from 'drizzle-orm'
+import { toErrorMessage } from './utils/toErrorMessage'
 
 @Injectable()
 export class FileUploadService {
@@ -39,10 +40,14 @@ export class FileUploadService {
     )
   }
 
-  async updateFileUploadStatus(fileId: string, status: UploadStatusTypes) {
+  async updateFileUploadStatus(
+    fileId: string,
+    status: UploadStatusTypes,
+    error?: string,
+  ) {
     await this.db
       .update(files)
-      .set({ upload_status: status })
+      .set({ upload_status: status, error_message: error })
       .where(eq(files.id, fileId))
   }
 
@@ -62,7 +67,11 @@ export class FileUploadService {
     try {
       await this.uploadToBucket(fileId, buffer, mimetype, originalname)
     } catch (e) {
-      await this.updateFileUploadStatus(fileId, UploadStatus.error)
+      await this.updateFileUploadStatus(
+        fileId,
+        UploadStatus.error,
+        toErrorMessage(e),
+      )
       throw new HttpException(
         'upload error',
         HttpStatus.INTERNAL_SERVER_ERROR,
