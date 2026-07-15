@@ -1,7 +1,9 @@
 import {
   Controller,
+  Get,
   HttpStatus,
   Inject,
+  Param,
   ParseFilePipe,
   Post,
   UploadedFile,
@@ -16,12 +18,22 @@ import { FileUploadService } from './file-upload.service'
 import { fileSizeMiB } from './utils/file.utils'
 import { FileProcessErrorDto, FileProcessFinishDto } from './dto/file.dto'
 
-@Controller('file')
+@Controller('files')
 export class FileUploadController {
   constructor(
     private readonly fileUploadService: FileUploadService,
     @Inject('FILE_PROCESS') private RabbitMQ: ClientProxy,
   ) {}
+
+  @Get()
+  getFiles() {
+    return this.fileUploadService.findFiles()
+  }
+
+  @Get(':id')
+  getFile(@Param('id') id: string) {
+    return this.fileUploadService.findFileById(id)
+  }
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))

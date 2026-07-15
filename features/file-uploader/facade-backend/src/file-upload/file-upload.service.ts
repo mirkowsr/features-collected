@@ -1,5 +1,10 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { eq } from 'drizzle-orm'
 import { InjectS3 } from '../aws-s3'
@@ -19,6 +24,23 @@ export class FileUploadService {
     private config: ConfigService,
   ) {
     this.BUCKET_NAME = this.config.getOrThrow('S3_STAGING_BUCKET_NAME')
+  }
+
+  async findFiles() {
+    return this.db.select().from(files)
+  }
+
+  async findFileById(fileId: string) {
+    const [file] = await this.db
+      .select()
+      .from(files)
+      .where(eq(files.id, fileId))
+
+    if (!file) {
+      throw new NotFoundException(`File with id ${fileId} not found`)
+    }
+
+    return file
   }
 
   async uploadToBucket(
