@@ -1,13 +1,14 @@
-import { ConfigService } from '@nestjs/config'
+import {
+  MailerOptions,
+  MailerModule as NestMailer,
+} from '@nestjs-modules/mailer'
 import { Global, Module } from '@nestjs/common'
-import { MailerModule, MailerOptions } from '@nestjs-modules/mailer'
-import { join } from 'path'
-import { HandlebarsAdapter } from '@nestjs-modules/mailer/adapters/handlebars.adapter'
+import { ConfigService } from '@nestjs/config'
 
 @Global()
 @Module({
   imports: [
-    MailerModule.forRootAsync({
+    NestMailer.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService): MailerOptions => ({
         transport: {
@@ -16,15 +17,11 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/adapters/handlebars.ad
           secure: false,
         },
         defaults: {
-          from: '"No Reply" <noreply@example.com>',
-        },
-        template: {
-          dir: join(__dirname, 'templates'),
-          adapter: new HandlebarsAdapter(),
-          options: { strict: true },
+          from: '"Welcome" <welcome@example.com>',
         },
       }),
     }),
   ],
+  exports: [NestMailer],
 })
-export class Mailer {}
+export class MailerModule {}
