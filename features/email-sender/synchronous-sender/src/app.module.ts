@@ -3,14 +3,14 @@ import { ConfigModule } from '@nestjs/config'
 
 import { DrizzleModule } from './db/drizzle.module'
 import { MailerModule } from './mailer/mailer.module'
-import { RegisterModule } from './register/register.module'
+import { EmailSender } from './email-send/email-send.module'
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     DrizzleModule,
     MailerModule,
-    RegisterModule,
+    EmailSender,
   ],
 })
 export class AppModule {}

@@ -1,14 +1,11 @@
 import { MailerService } from '@nestjs-modules/mailer'
 import { Injectable } from '@nestjs/common'
-import { UserDTO } from './dto/user.dto'
 
 @Injectable()
-export class RegisterService {
+export class EmailService {
   constructor(private emailService: MailerService) {}
 
-  async registerUser(user: UserDTO) {
-    console.log('@@@', user)
-
+  async sendEmail() {
     await this.emailService.sendMail({
       to: 'user@example.com',
       subject: 'Welcome!',
