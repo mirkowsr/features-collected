@@ -1,9 +1,11 @@
 import { MailerService } from '@nestjs-modules/mailer'
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectDrizzle } from '../db/drizzle.decorator'
 import { DrizzleSchema } from '../db/types/drizzle.type'
 import { emails, users } from '../db/schema'
 import { EmailStatus } from '../db/schema/emails'
+import { ReceipentDTO } from './dto/receipent'
+import { eq } from 'drizzle-orm'
 
 @Injectable()
 export class EmailService {
@@ -19,7 +21,31 @@ export class EmailService {
 
     return receipents
   }
-  async sendEmail() {
+
+  async sendEmail({ id: userId }: ReceipentDTO) {
+    const [recipient] = await this.db
+      .select({ email: users.email })
+      .from(users)
+      .where(eq(users.id, userId))
+
+    if (!recipient) throw new BadRequestException(`User ${userId} not found`)
+
+    let status: EmailStatus = EmailStatus.Sent
+
+    try {
+      await this.emailService.sendMail({
+        to: recipient.email,
+        subject: 'Welcome!',
+        html: '<h1>Welcome!</h1>',
+      })
+    } catch {
+      status = EmailStatus.Failed
+    }
+
+    await this.db.insert(emails).values({ status, to: recipient.email, userId })
+  }
+
+  async sendBulkEmail() {
     const receipents = await this.getReceipents()
 
     for (const { email, id } of receipents) {
