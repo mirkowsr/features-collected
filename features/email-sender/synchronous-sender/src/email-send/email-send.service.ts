@@ -1,18 +1,27 @@
+import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import { MailerService } from '@nestjs-modules/mailer'
 import { BadRequestException, Injectable } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
+import { eq } from 'drizzle-orm'
+import { InjectS3 } from '../aws-s3'
 import { InjectDrizzle } from '../db/drizzle.decorator'
-import { DrizzleSchema } from '../db/types/drizzle.type'
 import { emails, users } from '../db/schema'
 import { EmailStatus } from '../db/schema/emails'
+import { DrizzleSchema } from '../db/types/drizzle.type'
 import { ReceipentDTO } from './dto/receipent'
-import { eq } from 'drizzle-orm'
 
 @Injectable()
 export class EmailService {
+  BUCKET_NAME = ''
+  TEMPLATE_KEY = 'welcome.html'
   constructor(
     private emailService: MailerService,
+    private config: ConfigService,
     @InjectDrizzle() private db: DrizzleSchema,
-  ) {}
+    @InjectS3() private s3: S3Client,
+  ) {
+    this.BUCKET_NAME = this.config.getOrThrow('S3_BUCKET_NAME')
+  }
 
   async getReceipents() {
     const receipents = await this.db
@@ -20,6 +29,17 @@ export class EmailService {
       .from(users)
 
     return receipents
+  }
+
+  async getEmailTemplate() {
+    const template = await this.s3.send(
+      new GetObjectCommand({
+        Bucket: this.BUCKET_NAME,
+        Key: this.TEMPLATE_KEY,
+      }),
+    )
+
+    return template.Body!.transformToString()
   }
 
   async sendEmail({ id: userId }: ReceipentDTO) {
@@ -30,13 +50,15 @@ export class EmailService {
 
     if (!recipient) throw new BadRequestException(`User ${userId} not found`)
 
+    const template = await this.getEmailTemplate()
+
     let status: EmailStatus = EmailStatus.Sent
 
     try {
       await this.emailService.sendMail({
         to: recipient.email,
         subject: 'Welcome!',
-        html: '<h1>Welcome!</h1>',
+        html: template,
       })
     } catch {
       status = EmailStatus.Failed
@@ -48,6 +70,8 @@ export class EmailService {
   async sendBulkEmail() {
     const receipents = await this.getReceipents()
 
+    let status: EmailStatus = EmailStatus.Sent
+
     for (const { email, id } of receipents) {
       try {
         await this.emailService.sendMail({
@@ -55,19 +79,15 @@ export class EmailService {
           subject: 'Welcome!',
           html: '<h1>Welcome!</h1>',
         })
-
-        await this.db.insert(emails).values({
-          status: EmailStatus.Sent,
-          to: email,
-          userId: id,
-        })
       } catch {
-        await this.db.insert(emails).values({
-          status: EmailStatus.Failed,
-          to: email,
-          userId: id,
-        })
+        status = EmailStatus.Failed
       }
+
+      await this.db.insert(emails).values({
+        status,
+        to: email,
+        userId: id,
+      })
     }
   }
 }
