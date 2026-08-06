@@ -21,6 +21,6 @@ export class TemplatesController {
   ) {
     const template: TemplateDTO = { file, name: templateMetadata.name }
 
-    this.templatesService.uploadTemplate(template)
+    return this.templatesService.uploadTemplate(template)
   }
 }

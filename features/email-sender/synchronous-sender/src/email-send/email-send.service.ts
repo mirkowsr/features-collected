@@ -1,6 +1,10 @@
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import { MailerService } from '@nestjs-modules/mailer'
-import { BadRequestException, Injectable } from '@nestjs/common'
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { eq } from 'drizzle-orm'
 import { InjectS3 } from '../aws-s3'
@@ -9,6 +13,7 @@ import { emails, users } from '../db/schema'
 import { EmailStatus } from '../db/schema/emails'
 import { DrizzleSchema } from '../db/types/drizzle.type'
 import { ReceipentDTO } from './dto/receipent'
+import { TemplateBody } from './dto/template'
 
 @Injectable()
 export class EmailService {
@@ -31,18 +36,22 @@ export class EmailService {
     return receipents
   }
 
-  async getEmailTemplate() {
-    const template = await this.s3.send(
-      new GetObjectCommand({
-        Bucket: this.BUCKET_NAME,
-        Key: this.TEMPLATE_KEY,
-      }),
-    )
+  async getEmailTemplate(templateKey: number) {
+    try {
+      const template = await this.s3.send(
+        new GetObjectCommand({
+          Bucket: this.BUCKET_NAME,
+          Key: `templates/${templateKey}`,
+        }),
+      )
 
-    return template.Body!.transformToString()
+      return template.Body!.transformToString()
+    } catch (e) {
+      throw new InternalServerErrorException(e)
+    }
   }
 
-  async sendEmail({ id: userId }: ReceipentDTO) {
+  async sendEmail({ id: userId, templateId }: ReceipentDTO) {
     const [recipient] = await this.db
       .select({ email: users.email })
       .from(users)
@@ -50,7 +59,7 @@ export class EmailService {
 
     if (!recipient) throw new BadRequestException(`User ${userId} not found`)
 
-    const template = await this.getEmailTemplate()
+    const template = await this.getEmailTemplate(templateId)
 
     let status: EmailStatus = EmailStatus.Sent
 
@@ -58,17 +67,20 @@ export class EmailService {
       await this.emailService.sendMail({
         to: recipient.email,
         subject: 'Welcome!',
-        html: template,
+        template,
       })
     } catch {
       status = EmailStatus.Failed
     }
 
-    await this.db.insert(emails).values({ status, to: recipient.email, userId })
+    await this.db
+      .insert(emails)
+      .values({ status, to: recipient.email, userId, templateId: 1 })
   }
 
-  async sendBulkEmail() {
+  async sendBulkEmail({ templateId }: TemplateBody) {
     const receipents = await this.getReceipents()
+    const template = await this.getEmailTemplate(templateId)
 
     let status: EmailStatus = EmailStatus.Sent
 
@@ -77,7 +89,7 @@ export class EmailService {
         await this.emailService.sendMail({
           to: email,
           subject: 'Welcome!',
-          html: '<h1>Welcome!</h1>',
+          html: template,
         })
       } catch {
         status = EmailStatus.Failed
@@ -87,6 +99,7 @@ export class EmailService {
         status,
         to: email,
         userId: id,
+        templateId: 1,
       })
     }
   }

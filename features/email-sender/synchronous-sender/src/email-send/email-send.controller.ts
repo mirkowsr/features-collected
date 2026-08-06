@@ -1,7 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common'
-import { EmailService } from './email-send.service'
-import { statusEnum } from '../db/schema'
 import { ReceipentDTO } from './dto/receipent'
+import { TemplateBody } from './dto/template'
+import { EmailService } from './email-send.service'
 
 @Controller('email-send')
 export class EmailSendController {
@@ -9,11 +9,11 @@ export class EmailSendController {
 
   @Post()
   send(@Body() receipent: ReceipentDTO) {
-    this.emailService.sendEmail(receipent)
+    return this.emailService.sendEmail(receipent)
   }
 
   @Post('/bulk')
-  sendBulk() {
-    this.emailService.sendBulkEmail()
+  sendBulk(@Body() body: TemplateBody) {
+    return this.emailService.sendBulkEmail(body)
   }
 }

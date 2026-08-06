@@ -1,4 +1,5 @@
 import {
+  integer,
   pgEnum,
   pgTable,
   serial,
@@ -6,6 +7,7 @@ import {
   timestamp,
   uuid,
 } from 'drizzle-orm/pg-core'
+import { templates } from './templates'
 import { users } from './users'
 
 export enum EmailStatus {
@@ -27,4 +29,7 @@ export const emails = pgTable('emails', {
   userId: uuid('user_id')
     .notNull()
     .references(() => users.id),
+  templateId: integer('template_id')
+    .notNull()
+    .references(() => templates.id),
 })
