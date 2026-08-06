@@ -5,6 +5,7 @@ import { DrizzleModule } from './db/drizzle.module'
 import { MailerModule } from './mailer/mailer.module'
 import { EmailSender } from './email-send/email-send.module'
 import { AwsS3Module } from './aws-s3'
+import { TemplatesModule } from './templates/templates.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { AwsS3Module } from './aws-s3'
     MailerModule,
     EmailSender,
     AwsS3Module,
+    TemplatesModule,
   ],
 })
 export class AppModule {}
