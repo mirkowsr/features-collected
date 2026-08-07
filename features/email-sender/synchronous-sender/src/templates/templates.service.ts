@@ -8,8 +8,9 @@ import { InjectDrizzle } from '../db/drizzle.decorator'
 import { templates } from '../db/schema'
 import { TemplateStatus } from '../db/schema/templates'
 import { DrizzleSchema } from '../db/types/drizzle.type'
-import { TemplateDTO } from './dto/template.dto'
+import { CreatedDraftDTO, CreateTemplateDTO } from './dto/template.dto'
 import to from 'await-to-js'
+import { MIMEType } from 'util'
 
 @Injectable()
 export class TemplatesService {
@@ -23,7 +24,9 @@ export class TemplatesService {
     this.BUCKET_NAME = config.getOrThrow('S3_BUCKET_NAME')
   }
 
-  async uploadTemplate(templateToUpload: TemplateDTO) {
+  async uploadTemplate(
+    templateToUpload: CreateTemplateDTO,
+  ): Promise<CreatedDraftDTO> {
     const templateStorageKey = crypto.randomUUID()
     const { file, name } = templateToUpload
 
@@ -35,12 +38,13 @@ export class TemplatesService {
         .values({
           name,
           storageKey: templateStorageKey,
-          templateUploadStatus: TemplateStatus.Pending,
+          templateUploadStatus: TemplateStatus.Uploading,
         })
-        .returning(),
+        .returning({ storageKey: templates.storageKey })
+        .then((res) => res[0]),
     )
 
-    if (initialDraftError) {
+    if (initialDraftError || !draft) {
       throw new InternalServerErrorException(
         'Error during upload draft initialisation',
       )
@@ -56,6 +60,7 @@ export class TemplatesService {
           Metadata: {
             originalFileName: file.originalname,
             size: `${file.size}`,
+            MIMEType: file.mimetype,
           },
         }),
       ),
@@ -68,9 +73,11 @@ export class TemplatesService {
       )
     }
 
-    await this.setTemplateStatus(templateStorageKey, TemplateStatus.Uploaded)
+    await this.setTemplateStatus(templateStorageKey, TemplateStatus.Ready)
 
-    return draft
+    return {
+      storageKey: draft.storageKey,
+    }
   }
 
   async setTemplateStatus(

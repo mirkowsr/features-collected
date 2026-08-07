@@ -8,8 +8,8 @@ import {
 } from 'drizzle-orm/pg-core'
 
 export enum TemplateStatus {
-  Pending = 'pending',
-  Uploaded = 'uploaded',
+  Uploading = 'pending',
+  Ready = 'uploaded',
   Failed = 'failed',
 }
 
@@ -19,7 +19,7 @@ export const statusEnum = pgEnum(
 )
 export const templates = pgTable('templates', {
   id: serial('id').primaryKey(),
-  storageKey: uuid('storage_key').notNull(),
+  storageKey: uuid('storage_key').unique().notNull(),
   name: text('template_name').notNull(),
   createdAt: timestamp('sent_at').defaultNow(),
   templateUploadStatus: statusEnum().default('pending').notNull(),

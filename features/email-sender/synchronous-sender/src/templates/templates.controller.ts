@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common'
 import { TemplatesService } from './templates.service'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { TemplateDTO } from './dto/template.dto'
+import { CreateTemplateDTO } from './dto/template.dto'
 
 @Controller('templates')
 export class TemplatesController {
@@ -19,7 +19,7 @@ export class TemplatesController {
     @UploadedFile() file: Express.Multer.File,
     @Body() templateMetadata: { name: string },
   ) {
-    const template: TemplateDTO = { file, name: templateMetadata.name }
+    const template: CreateTemplateDTO = { file, name: templateMetadata.name }
 
     return this.templatesService.uploadTemplate(template)
   }
