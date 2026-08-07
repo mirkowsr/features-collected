@@ -1,11 +1,15 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import { Injectable, InternalServerErrorException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import crypto from 'crypto'
+import { eq } from 'drizzle-orm'
 import { InjectS3 } from '../aws-s3'
 import { InjectDrizzle } from '../db/drizzle.decorator'
 import { templates } from '../db/schema'
+import { TemplateStatus } from '../db/schema/templates'
 import { DrizzleSchema } from '../db/types/drizzle.type'
 import { TemplateDTO } from './dto/template.dto'
+import to from 'await-to-js'
 
 @Injectable()
 export class TemplatesService {
@@ -19,20 +23,34 @@ export class TemplatesService {
     this.BUCKET_NAME = config.getOrThrow('S3_BUCKET_NAME')
   }
 
-  async uploadTemplate(template: TemplateDTO) {
-    const { file } = template
+  async uploadTemplate(templateToUpload: TemplateDTO) {
+    const templateStorageKey = crypto.randomUUID()
+    const { file, name } = templateToUpload
+
     const { buffer } = file
 
-    const [dbTemplate] = await this.db
-      .insert(templates)
-      .values({ name: template.name })
-      .returning()
+    const [initialDraftError, draft] = await to(
+      this.db
+        .insert(templates)
+        .values({
+          name,
+          storageKey: templateStorageKey,
+          templateUploadStatus: TemplateStatus.Pending,
+        })
+        .returning(),
+    )
 
-    try {
-      await this.s3.send(
+    if (initialDraftError) {
+      throw new InternalServerErrorException(
+        'Error during upload draft initialisation',
+      )
+    }
+
+    const [uploadError] = await to(
+      this.s3.send(
         new PutObjectCommand({
           Bucket: this.BUCKET_NAME,
-          Key: `templates/${dbTemplate?.id}`,
+          Key: `${templateStorageKey}`,
           Body: buffer,
           ContentType: 'text/html',
           Metadata: {
@@ -40,13 +58,28 @@ export class TemplatesService {
             size: `${file.size}`,
           },
         }),
-      )
-    } catch (e) {
+      ),
+    )
+
+    if (uploadError) {
+      await this.setTemplateStatus(templateStorageKey, TemplateStatus.Failed)
       throw new InternalServerErrorException(
         'Error during upload template to Bucket',
       )
     }
 
-    return dbTemplate
+    await this.setTemplateStatus(templateStorageKey, TemplateStatus.Uploaded)
+
+    return draft
+  }
+
+  async setTemplateStatus(
+    templateStorageKey: string,
+    templateUploadStatus: TemplateStatus,
+  ) {
+    await this.db
+      .update(templates)
+      .set({ templateUploadStatus })
+      .where(eq(templates.storageKey, templateStorageKey))
   }
 }
