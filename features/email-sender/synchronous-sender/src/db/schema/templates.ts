@@ -13,7 +13,7 @@ export enum TemplateStatus {
   Failed = 'failed',
 }
 
-export const statusEnum = pgEnum(
+export const templateUploadStatus = pgEnum(
   'template_upload_status',
   Object.values(TemplateStatus) as [string, ...string[]],
 )
@@ -22,5 +22,7 @@ export const templates = pgTable('templates', {
   storageKey: uuid('storage_key').unique().notNull(),
   name: text('template_name').notNull(),
   createdAt: timestamp('sent_at').defaultNow(),
-  templateUploadStatus: statusEnum().default('pending').notNull(),
+  templateUploadStatus: templateUploadStatus('template_upload_status')
+    .default('pending')
+    .notNull(),
 })

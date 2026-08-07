@@ -16,7 +16,7 @@ export enum EmailStatus {
   Failed = 'failed',
 }
 
-export const statusEnum = pgEnum(
+export const emailSendStatus = pgEnum(
   'email_status',
   Object.values(EmailStatus) as [string, ...string[]],
 )
@@ -24,7 +24,7 @@ export const statusEnum = pgEnum(
 export const emails = pgTable('emails', {
   id: serial('id').primaryKey(),
   to: text('to').notNull(),
-  status: statusEnum().default('pending').notNull(),
+  status: emailSendStatus().default('pending').notNull(),
   sentAt: timestamp('sent_at').defaultNow(),
   userId: uuid('user_id')
     .notNull()

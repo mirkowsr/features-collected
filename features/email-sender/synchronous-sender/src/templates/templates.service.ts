@@ -45,6 +45,8 @@ export class TemplatesService {
     )
 
     if (initialDraftError || !draft) {
+      console.log('@@@', initialDraftError)
+
       throw new InternalServerErrorException(
         'Error during upload draft initialisation',
       )
