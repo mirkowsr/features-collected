@@ -1,6 +1,7 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import { Injectable, InternalServerErrorException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import to from 'await-to-js'
 import crypto from 'crypto'
 import { eq } from 'drizzle-orm'
 import { InjectS3 } from '../aws-s3'
@@ -8,9 +9,7 @@ import { InjectDrizzle } from '../db/drizzle.decorator'
 import { templates } from '../db/schema'
 import { TemplateStatus } from '../db/schema/templates'
 import { DrizzleSchema } from '../db/types/drizzle.type'
-import { CreatedDraftDTO, CreateTemplateDTO } from './dto/template.dto'
-import to from 'await-to-js'
-import { MIMEType } from 'util'
+import { CreatedDraftDTO } from './dto/template.dto'
 
 @Injectable()
 export class TemplatesService {
@@ -24,19 +23,16 @@ export class TemplatesService {
     this.BUCKET_NAME = config.getOrThrow('S3_BUCKET_NAME')
   }
 
-  async uploadTemplate(
-    templateToUpload: CreateTemplateDTO,
-  ): Promise<CreatedDraftDTO> {
+  async uploadTemplate(file: Express.Multer.File): Promise<CreatedDraftDTO> {
     const templateStorageKey = crypto.randomUUID()
-    const { file, name } = templateToUpload
 
-    const { buffer } = file
+    const { buffer, originalname } = file
 
     const [initialDraftError, draft] = await to(
       this.db
         .insert(templates)
         .values({
-          name,
+          name: originalname,
           storageKey: templateStorageKey,
           templateUploadStatus: TemplateStatus.Uploading,
         })
@@ -45,8 +41,6 @@ export class TemplatesService {
     )
 
     if (initialDraftError || !draft) {
-      console.log('@@@', initialDraftError)
-
       throw new InternalServerErrorException(
         'Error during upload draft initialisation',
       )

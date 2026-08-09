@@ -1,5 +1,4 @@
 import {
-  Body,
   Controller,
   HttpStatus,
   ParseFilePipe,
@@ -7,10 +6,9 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common'
-import { TemplatesService } from './templates.service'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { CreateTemplateDTO } from './dto/template.dto'
 import { FileTypeValidationPipe } from './pipes/fileType.pipe'
+import { TemplatesService } from './templates.service'
 
 @Controller('templates')
 export class TemplatesController {
@@ -30,10 +28,7 @@ export class TemplatesController {
       }),
     )
     file: Express.Multer.File,
-    @Body() templateMetadata: { name: string },
   ) {
-    const template: CreateTemplateDTO = { file, name: templateMetadata.name }
-
-    return this.templatesService.uploadTemplate(template)
+    return this.templatesService.uploadTemplate(file)
   }
 }
