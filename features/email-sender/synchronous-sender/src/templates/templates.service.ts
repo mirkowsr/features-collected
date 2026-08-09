@@ -50,7 +50,7 @@ export class TemplatesService {
       this.s3.send(
         new PutObjectCommand({
           Bucket: this.BUCKET_NAME,
-          Key: `${templateStorageKey}`,
+          Key: `templates/${templateStorageKey}`,
           Body: buffer,
           ContentType: 'text/html',
           Metadata: {

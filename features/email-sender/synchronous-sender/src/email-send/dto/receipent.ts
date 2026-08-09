@@ -1,4 +1,4 @@
 export interface ReceipentDTO {
   id: string
-  templateId: number
+  templateId: string
 }

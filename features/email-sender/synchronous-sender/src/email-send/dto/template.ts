@@ -1,3 +1,3 @@
 export interface TemplateBody {
-  templateId: number
+  templateId: string
 }
