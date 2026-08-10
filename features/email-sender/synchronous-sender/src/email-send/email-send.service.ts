@@ -1,8 +1,8 @@
 import { MailerService } from '@nestjs-modules/mailer'
 import {
-  BadRequestException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common'
 import to from 'await-to-js'
 import { eq } from 'drizzle-orm'
@@ -35,8 +35,12 @@ export class EmailService {
       this.db.select().from(templates).where(eq(templates.id, templateId)),
     )
 
-    if (!templateData) {
-      throw new BadRequestException(
+    if (templateQueryError) {
+      throw new InternalServerErrorException(`Template query error.`)
+    }
+
+    if (!templateData.length) {
+      throw new NotFoundException(
         `Template with given id: ${templateId} not found`,
       )
     }
@@ -44,14 +48,8 @@ export class EmailService {
     const templateStorageKey = templateData[0]?.storageKey
 
     if (!templateStorageKey) {
-      throw new BadRequestException(
+      throw new InternalServerErrorException(
         `Template storageKey for template with given id: ${templateId} not found`,
-      )
-    }
-
-    if (templateQueryError) {
-      throw new BadRequestException(
-        `Template with given id: ${templateId} not found`,
       )
     }
 
@@ -59,21 +57,21 @@ export class EmailService {
   }
 
   async sendEmail({ id: userId, templateId }: ReceipentDTO) {
-    const [err, receipents] = await to(
+    const [receipentError, receipents] = await to(
       this.db
         .select({ email: users.email })
         .from(users)
         .where(eq(users.id, userId)),
     )
 
-    if (err) {
-      throw new InternalServerErrorException(err)
+    if (receipentError) {
+      throw new InternalServerErrorException('Failed to fetch receipent')
     }
 
     const receipent = receipents[0]
 
     if (!receipent) {
-      throw new BadRequestException(`User ${userId} not found`)
+      throw new NotFoundException(`User ${userId} not found`)
     }
 
     const templateStorageKey = await this.queryTemplate(templateId)
@@ -114,7 +112,7 @@ export class EmailService {
         this.emailService.sendMail({
           to: email,
           subject: 'Welcome!',
-          html: templateToSend,
+          template: templateToSend,
         }),
       )
 
