@@ -56,10 +56,48 @@ export class EmailService {
     return templateStorageKey
   }
 
+  private async sendAndRecord(config: {
+    email: string
+    userId: string
+    templateId: number
+    templateToSend: string
+  }) {
+    let status: EmailStatus = EmailStatus.Sent
+
+    const [sendEmailError] = await to(
+      this.emailService.sendMail({
+        to: config.email,
+        subject: 'Welcome!',
+        template: config.templateToSend,
+      }),
+    )
+
+    if (sendEmailError) {
+      status = EmailStatus.Failed
+
+      // this will be replaced with logger soon
+      console.error('Sending email failed')
+    }
+
+    const [dbSaveError] = await to(
+      this.db.insert(emails).values({
+        status,
+        to: config.email,
+        userId: config.userId,
+        templateId: config.templateId,
+      }),
+    )
+
+    if (dbSaveError) {
+      // this ill be replaced with logger soon
+      console.error('Storing send status in database failed ')
+    }
+  }
+
   async sendEmail({ id: userId, templateId }: ReceipentDTO) {
     const [receipentError, receipents] = await to(
       this.db
-        .select({ email: users.email })
+        .select({ email: users.email, userId: users.id })
         .from(users)
         .where(eq(users.id, userId)),
     )
@@ -79,23 +117,12 @@ export class EmailService {
     const templateToSend =
       await this.storageService.getEmailTemplate(templateStorageKey)
 
-    let status: EmailStatus = EmailStatus.Sent
-
-    const [sendEmailError] = await to(
-      this.emailService.sendMail({
-        to: receipent.email,
-        subject: 'Welcome!',
-        template: templateToSend,
-      }),
-    )
-
-    if (sendEmailError) {
-      status = EmailStatus.Failed
-    }
-
-    await this.db
-      .insert(emails)
-      .values({ status, to: receipent.email, userId, templateId })
+    await this.sendAndRecord({
+      email: receipent.email,
+      userId: receipent.userId,
+      templateId,
+      templateToSend,
+    })
   }
 
   async sendBulkEmail({ templateId }: TemplateBody) {
@@ -106,25 +133,11 @@ export class EmailService {
       await this.storageService.getEmailTemplate(templateStorageKey)
 
     for (const { email, id } of receipents) {
-      let status: EmailStatus = EmailStatus.Sent
-
-      const [sendError] = await to(
-        this.emailService.sendMail({
-          to: email,
-          subject: 'Welcome!',
-          template: templateToSend,
-        }),
-      )
-
-      if (sendError) {
-        status = EmailStatus.Failed
-      }
-
-      await this.db.insert(emails).values({
-        status,
-        to: email,
+      await this.sendAndRecord({
+        email,
         userId: id,
         templateId,
+        templateToSend,
       })
     }
   }
