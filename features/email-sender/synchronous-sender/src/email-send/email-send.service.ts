@@ -7,7 +7,7 @@ import {
 import to from 'await-to-js'
 import { eq } from 'drizzle-orm'
 import { InjectDrizzle } from '../db/drizzle.decorator'
-import { emails, users } from '../db/schema'
+import { emails, templates, users } from '../db/schema'
 import { EmailStatus } from '../db/schema/emails'
 import { DrizzleSchema } from '../db/types/drizzle.type'
 import { StorageService } from '../storage/storage.service'
@@ -22,12 +22,40 @@ export class EmailService {
     @InjectDrizzle() private db: DrizzleSchema,
   ) {}
 
-  async getReceipents() {
+  private async getReceipents() {
     const receipents = await this.db
       .select({ id: users.id, email: users.email })
       .from(users)
 
     return receipents
+  }
+
+  private async queryTemplate(templateId: number) {
+    const [templateQueryError, templateData] = await to(
+      this.db.select().from(templates).where(eq(templates.id, templateId)),
+    )
+
+    if (!templateData) {
+      throw new BadRequestException(
+        `Template with given id: ${templateId} not found`,
+      )
+    }
+
+    const templateStorageKey = templateData[0]?.storageKey
+
+    if (!templateStorageKey) {
+      throw new BadRequestException(
+        `Template storageKey for template with given id: ${templateId} not found`,
+      )
+    }
+
+    if (templateQueryError) {
+      throw new BadRequestException(
+        `Template with given id: ${templateId} not found`,
+      )
+    }
+
+    return templateStorageKey
   }
 
   async sendEmail({ id: userId, templateId }: ReceipentDTO) {
@@ -48,7 +76,10 @@ export class EmailService {
       throw new BadRequestException(`User ${userId} not found`)
     }
 
-    const template = await this.storageService.getEmailTemplate(templateId)
+    const templateStorageKey = await this.queryTemplate(templateId)
+
+    const templateToSend =
+      await this.storageService.getEmailTemplate(templateStorageKey)
 
     let status: EmailStatus = EmailStatus.Sent
 
@@ -56,7 +87,7 @@ export class EmailService {
       this.emailService.sendMail({
         to: receipent.email,
         subject: 'Welcome!',
-        template,
+        template: templateToSend,
       }),
     )
 
@@ -66,12 +97,15 @@ export class EmailService {
 
     await this.db
       .insert(emails)
-      .values({ status, to: receipent.email, userId, templateId: 1 })
+      .values({ status, to: receipent.email, userId, templateId })
   }
 
   async sendBulkEmail({ templateId }: TemplateBody) {
     const receipents = await this.getReceipents()
-    const template = await this.storageService.getEmailTemplate(templateId)
+    const templateStorageKey = await this.queryTemplate(templateId)
+
+    const templateToSend =
+      await this.storageService.getEmailTemplate(templateStorageKey)
 
     for (const { email, id } of receipents) {
       let status: EmailStatus = EmailStatus.Sent
@@ -80,7 +114,7 @@ export class EmailService {
         this.emailService.sendMail({
           to: email,
           subject: 'Welcome!',
-          html: template,
+          html: templateToSend,
         }),
       )
 
@@ -92,7 +126,7 @@ export class EmailService {
         status,
         to: email,
         userId: id,
-        templateId: 1,
+        templateId,
       })
     }
   }
