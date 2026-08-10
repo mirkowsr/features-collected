@@ -9,25 +9,27 @@ import { eq } from 'drizzle-orm'
 import { InjectDrizzle } from '../db/drizzle.decorator'
 import { emails, templates, users } from '../db/schema'
 import { EmailStatus } from '../db/schema/emails'
-import { DrizzleSchema } from '../db/types/drizzle.type'
+import type { DrizzleSchema } from '../db/types/drizzle.type'
 import { StorageService } from '../storage/storage.service'
-import { ReceipentDTO } from './dto/receipent'
-import { TemplateBody } from './dto/template'
+import type { RecipientDTO } from './dto/recipient'
+import type { SendOutcome } from './dto/send-outcome'
+import type { SendResult } from './dto/send-result'
+import type { TemplateBody } from './dto/template'
 
 @Injectable()
-export class EmailService {
+export class EmailSendService {
   constructor(
-    private emailService: MailerService,
+    private mailer: MailerService,
     private storageService: StorageService,
     @InjectDrizzle() private db: DrizzleSchema,
   ) {}
 
-  private async getReceipents() {
-    const receipents = await this.db
+  private async getRecipients() {
+    const recipients = await this.db
       .select({ id: users.id, email: users.email })
       .from(users)
 
-    return receipents
+    return recipients
   }
 
   private async queryTemplate(templateId: number) {
@@ -61,13 +63,14 @@ export class EmailService {
     userId: string
     templateId: number
     templateToSend: string
-  }) {
+    subject: string
+  }): Promise<SendOutcome> {
     let status: EmailStatus = EmailStatus.Sent
 
     const [sendEmailError] = await to(
-      this.emailService.sendMail({
+      this.mailer.sendMail({
         to: config.email,
-        subject: 'Welcome!',
+        subject: config.subject,
         template: config.templateToSend,
       }),
     )
@@ -92,23 +95,50 @@ export class EmailService {
       // this ill be replaced with logger soon
       console.error('Storing send status in database failed ')
     }
+
+    return {
+      status,
+      email: config.email,
+      userId: config.userId,
+      reason: sendEmailError?.message,
+    }
   }
 
-  async sendEmail({ id: userId, templateId }: ReceipentDTO) {
-    const [receipentError, receipents] = await to(
+  private buildResult(outcomes: SendOutcome[]): SendResult {
+    const failures = outcomes
+      .filter((outcome) => outcome.status === EmailStatus.Failed)
+      .map((outcome) => ({
+        email: outcome.email,
+        userId: outcome.userId,
+        reason: outcome.reason ?? 'Unknown send error',
+      }))
+
+    return {
+      sent: outcomes.length - failures.length,
+      failed: failures.length,
+      failures,
+    }
+  }
+
+  async sendEmail({
+    id: userId,
+    templateId,
+    subject,
+  }: RecipientDTO): Promise<SendResult> {
+    const [recipientError, recipients] = await to(
       this.db
         .select({ email: users.email, userId: users.id })
         .from(users)
         .where(eq(users.id, userId)),
     )
 
-    if (receipentError) {
-      throw new InternalServerErrorException('Failed to fetch receipent')
+    if (recipientError) {
+      throw new InternalServerErrorException('Failed to fetch recipient')
     }
 
-    const receipent = receipents[0]
+    const recipient = recipients[0]
 
-    if (!receipent) {
+    if (!recipient) {
       throw new NotFoundException(`User ${userId} not found`)
     }
 
@@ -117,28 +147,41 @@ export class EmailService {
     const templateToSend =
       await this.storageService.getEmailTemplate(templateStorageKey)
 
-    await this.sendAndRecord({
-      email: receipent.email,
-      userId: receipent.userId,
+    const outcome = await this.sendAndRecord({
+      email: recipient.email,
+      userId: recipient.userId,
       templateId,
       templateToSend,
+      subject,
     })
+
+    return this.buildResult([outcome])
   }
 
-  async sendBulkEmail({ templateId }: TemplateBody) {
-    const receipents = await this.getReceipents()
+  async sendBulkEmail({
+    templateId,
+    subject,
+  }: TemplateBody): Promise<SendResult> {
+    const recipients = await this.getRecipients()
     const templateStorageKey = await this.queryTemplate(templateId)
 
     const templateToSend =
       await this.storageService.getEmailTemplate(templateStorageKey)
 
-    for (const { email, id } of receipents) {
-      await this.sendAndRecord({
+    const outcomes: SendOutcome[] = []
+
+    for (const { email, id } of recipients) {
+      const outcome = await this.sendAndRecord({
         email,
         userId: id,
         templateId,
         templateToSend,
+        subject,
       })
+
+      outcomes.push(outcome)
     }
+
+    return this.buildResult(outcomes)
   }
 }

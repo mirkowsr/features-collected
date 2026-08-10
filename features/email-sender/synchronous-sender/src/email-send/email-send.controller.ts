@@ -1,15 +1,15 @@
 import { Body, Controller, Post } from '@nestjs/common'
-import { ReceipentDTO } from './dto/receipent'
-import { TemplateBody } from './dto/template'
-import { EmailService } from './email-send.service'
+import type { RecipientDTO } from './dto/recipient'
+import { EmailSendService } from './email-send.service'
+import type { TemplateBody } from './dto/template'
 
 @Controller('email-send')
 export class EmailSendController {
-  constructor(private readonly emailService: EmailService) {}
+  constructor(private readonly emailService: EmailSendService) {}
 
   @Post()
-  send(@Body() receipent: ReceipentDTO) {
-    return this.emailService.sendEmail(receipent)
+  send(@Body() recipient: RecipientDTO) {
+    return this.emailService.sendEmail(recipient)
   }
 
   @Post('/bulk')
