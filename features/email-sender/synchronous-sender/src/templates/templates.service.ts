@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common'
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common'
 import to from 'await-to-js'
 import crypto from 'crypto'
 import { eq } from 'drizzle-orm'
@@ -12,6 +16,8 @@ import { ContentTypes } from '../storage/dto/storage.dto'
 
 @Injectable()
 export class TemplatesService {
+  private readonly logger = new Logger(TemplatesService.name)
+
   constructor(
     @InjectDrizzle() private db: DrizzleSchema,
     private storageService: StorageService,
@@ -38,6 +44,7 @@ export class TemplatesService {
     )
 
     if (initialDraftError || !draft) {
+      this.logger.error('DB Error during template draft initialisation')
       throw new InternalServerErrorException(
         'Error during upload draft initialisation',
       )
@@ -54,6 +61,7 @@ export class TemplatesService {
     })
 
     await this.setTemplateStatus(templateStorageKey, TemplateStatus.Ready)
+    this.logger.log('Template uploaded in bucket and stored in db')
 
     return {
       storageKey: draft.storageKey,

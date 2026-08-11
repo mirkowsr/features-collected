@@ -1,17 +1,21 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common'
-import { InjectS3 } from '../aws-s3'
 import {
   GetObjectCommand,
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3'
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import to from 'await-to-js'
-import { buffer } from 'node:stream/consumers'
+import { InjectS3 } from '../aws-s3'
 import { UploadTemplateDTO } from './dto/storage.dto'
 
 @Injectable()
 export class StorageService {
+  private readonly logger = new Logger(StorageService.name)
   BUCKET_NAME = ''
 
   constructor(
@@ -32,6 +36,9 @@ export class StorageService {
     )
 
     if (getTemplateError || !template?.Body) {
+      this.logger.error(
+        `Error during mail template retreive from bucket. Template key: ${templateKey}, error: ${getTemplateError}`,
+      )
       throw new InternalServerErrorException(getTemplateError)
     }
 
