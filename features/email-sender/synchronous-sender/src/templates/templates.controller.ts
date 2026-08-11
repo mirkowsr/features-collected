@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   HttpStatus,
   ParseFilePipe,
@@ -7,8 +8,11 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
+import { TemplateBodyDTO } from './dto/template.dto'
 import { FileTypeValidationPipe } from './pipes/fileType.pipe'
+import { ZodValidationPipe } from './pipes/validation'
 import { TemplatesService } from './templates.service'
+import { TemplateBodySchema } from './validation-schema/template.schema'
 
 @Controller('templates')
 export class TemplatesController {
@@ -28,7 +32,8 @@ export class TemplatesController {
       }),
     )
     file: Express.Multer.File,
+    @Body(new ZodValidationPipe(TemplateBodySchema)) fileData: TemplateBodyDTO,
   ) {
-    return this.templatesService.uploadTemplate(file)
+    return this.templatesService.uploadTemplate({ name: fileData.name, file })
   }
 }

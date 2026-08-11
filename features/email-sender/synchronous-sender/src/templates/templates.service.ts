@@ -7,7 +7,7 @@ import { templates } from '../db/schema'
 import { TemplateStatus } from '../db/schema/templates'
 import { DrizzleSchema } from '../db/types/drizzle.type'
 import { StorageService } from '../storage/storage.service'
-import { CreatedDraftDTO } from './dto/template.dto'
+import { CreatedDraftDTO, TemplateUploadDTO } from './dto/template.dto'
 import { ContentTypes } from '../storage/dto/storage.dto'
 
 @Injectable()
@@ -17,7 +17,10 @@ export class TemplatesService {
     private storageService: StorageService,
   ) {}
 
-  async uploadTemplate(file: Express.Multer.File): Promise<CreatedDraftDTO> {
+  async uploadTemplate({
+    file,
+    name,
+  }: TemplateUploadDTO): Promise<CreatedDraftDTO> {
     const templateStorageKey = crypto.randomUUID()
 
     const { buffer, originalname } = file
@@ -26,7 +29,7 @@ export class TemplatesService {
       this.db
         .insert(templates)
         .values({
-          name: originalname,
+          name,
           storageKey: templateStorageKey,
           templateUploadStatus: TemplateStatus.Uploading,
         })
@@ -54,6 +57,7 @@ export class TemplatesService {
 
     return {
       storageKey: draft.storageKey,
+      name,
     }
   }
 
