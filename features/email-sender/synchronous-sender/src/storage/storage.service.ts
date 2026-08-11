@@ -1,8 +1,14 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common'
 import { InjectS3 } from '../aws-s3'
-import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import {
+  GetObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from '@aws-sdk/client-s3'
 import { ConfigService } from '@nestjs/config'
 import to from 'await-to-js'
+import { buffer } from 'node:stream/consumers'
+import { UploadTemplateDTO } from './dto/storage.dto'
 
 @Injectable()
 export class StorageService {
@@ -30,5 +36,28 @@ export class StorageService {
     }
 
     return template.Body.transformToString()
+  }
+
+  async uploadTemplate({
+    storageKey,
+    buffer,
+    contentType,
+    metadata,
+  }: UploadTemplateDTO) {
+    const [uploadTemplateError] = await to(
+      this.s3.send(
+        new PutObjectCommand({
+          Bucket: this.BUCKET_NAME,
+          Key: `templates/${storageKey}`,
+          Body: buffer,
+          ContentType: contentType,
+          Metadata: { ...metadata },
+        }),
+      ),
+    )
+
+    if (uploadTemplateError) {
+      throw new InternalServerErrorException('Error while uploading template')
+    }
   }
 }
