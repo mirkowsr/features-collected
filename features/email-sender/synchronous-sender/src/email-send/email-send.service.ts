@@ -2,6 +2,7 @@ import { MailerService } from '@nestjs-modules/mailer'
 import {
   Injectable,
   InternalServerErrorException,
+  Logger,
   NotFoundException,
 } from '@nestjs/common'
 import to from 'await-to-js'
@@ -18,6 +19,8 @@ import type { TemplateBody } from './dto/template'
 
 @Injectable()
 export class EmailSendService {
+  private readonly logger = new Logger(EmailSendService.name)
+
   constructor(
     private mailer: MailerService,
     private storageService: StorageService,
@@ -25,9 +28,16 @@ export class EmailSendService {
   ) {}
 
   private async getRecipients() {
-    const recipients = await this.db
-      .select({ id: users.id, email: users.email })
-      .from(users)
+    const [recipientsError, recipients] = await to(
+      this.db.select({ id: users.id, email: users.email }).from(users),
+    )
+
+    if (recipientsError) {
+      this.logger.error(
+        `DB Query: cannot find email recipients, error: ${recipientsError}`,
+      )
+      throw new NotFoundException('Email receipents not found')
+    }
 
     return recipients
   }
@@ -38,6 +48,9 @@ export class EmailSendService {
     )
 
     if (templateQueryError) {
+      this.logger.error(
+        `DB Query: cannot find related template: ${templateId}. Error: ${templateQueryError}`,
+      )
       throw new InternalServerErrorException(`Template query error.`)
     }
 
@@ -50,6 +63,9 @@ export class EmailSendService {
     const templateStorageKey = templateData[0]?.storageKey
 
     if (!templateStorageKey) {
+      this.logger.error(
+        `DB Query: not existing templateStorage key for template at given id: ${templateId}`,
+      )
       throw new InternalServerErrorException(
         `Template storageKey for template with given id: ${templateId} not found`,
       )
@@ -78,8 +94,7 @@ export class EmailSendService {
     if (sendEmailError) {
       status = EmailStatus.Failed
 
-      // this will be replaced with logger soon
-      console.error('Sending email failed')
+      this.logger.error(`Sending email failed. Error: ${sendEmailError}`)
     }
 
     const [dbSaveError] = await to(
@@ -93,7 +108,7 @@ export class EmailSendService {
 
     if (dbSaveError) {
       // this ill be replaced with logger soon
-      console.error('Storing send status in database failed ')
+      this.logger.error('Storing send status in database failed ')
     }
 
     return {
@@ -133,12 +148,18 @@ export class EmailSendService {
     )
 
     if (recipientError) {
+      this.logger.error(
+        `DB Query: failed to query receipent with id: ${userId}. Error: ${recipientError}`,
+      )
       throw new InternalServerErrorException('Failed to fetch recipient')
     }
 
     const recipient = recipients[0]
 
     if (!recipient) {
+      this.logger.error(
+        `DB Query: failed to find receipent at given id: ${userId}`,
+      )
       throw new NotFoundException(`User ${userId} not found`)
     }
 
