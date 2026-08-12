@@ -81,7 +81,32 @@ export class EmailSendService {
     templateToSend: string
     subject: string
   }): Promise<SendOutcome> {
-    let status: EmailStatus = EmailStatus.Sent
+    let status: EmailStatus = EmailStatus.Pending
+
+    const [saveAsPendingError, pendingEmail] = await to(
+      this.db
+        .insert(emails)
+        .values({
+          status,
+          to: config.email,
+          userId: config.userId,
+          templateId: config.templateId,
+        })
+        .returning({ id: emails.id })
+        .then((rows) => {
+          const row = rows[0]
+          if (!row) throw new Error('Insert returned no rows')
+
+          return row
+        }),
+    )
+
+    if (saveAsPendingError) {
+      this.logger.log(
+        `DB Query: failed to record send data for ${config.userId}, templateId: ${config.templateId}`,
+      )
+      throw new InternalServerErrorException('Failed to record send data')
+    }
 
     const [sendEmailError] = await to(
       this.mailer.sendMail({
@@ -93,24 +118,23 @@ export class EmailSendService {
 
     if (sendEmailError) {
       status = EmailStatus.Failed
-
       this.logger.error(`Sending email failed. Error: ${sendEmailError}`)
+    } else {
+      status = EmailStatus.Sent
     }
 
-    const [dbSaveError] = await to(
-      this.db.insert(emails).values({
-        status,
-        to: config.email,
-        userId: config.userId,
-        templateId: config.templateId,
-      }),
+    const [dbUpdateError] = await to(
+      this.db
+        .update(emails)
+        .set({ status, sentAt: new Date() })
+        .where(eq(emails.id, pendingEmail.id)),
     )
 
-    if (dbSaveError) {
-      // this ill be replaced with logger soon
-      this.logger.error('Storing send status in database failed ')
+    if (dbUpdateError) {
+      this.logger.error(
+        `Failed to resolve email record ${pendingEmail.id} — row stays pending, reconcilable`,
+      )
     }
-
     return {
       status,
       email: config.email,

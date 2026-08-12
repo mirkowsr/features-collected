@@ -1,4 +1,4 @@
-import { EmailStatus } from '../../db/schema/emails'
+import type { EmailStatus } from '../../db/schema/emails'
 
 export type SendOutcome = {
   status: EmailStatus

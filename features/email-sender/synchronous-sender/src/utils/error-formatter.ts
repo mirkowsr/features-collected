@@ -1,4 +1,4 @@
-import { ZodError } from 'zod'
+import type { ZodError } from 'zod'
 
 export function formatZodErrors(error: ZodError, key = '') {
   const map = new Map<string, string[]>()
