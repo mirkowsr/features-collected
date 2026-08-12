@@ -136,7 +136,7 @@ export class EmailSendService {
   }
 
   async sendEmail({
-    id: userId,
+    userId,
     templateId,
     subject,
   }: RecipientDTO): Promise<SendResult> {

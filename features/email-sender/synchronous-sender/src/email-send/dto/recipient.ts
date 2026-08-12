@@ -1,5 +1,5 @@
 export interface RecipientDTO {
-  id: string
+  userId: string
   templateId: number
   subject: string
 }
