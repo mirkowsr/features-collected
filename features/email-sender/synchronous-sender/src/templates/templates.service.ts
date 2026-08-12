@@ -50,15 +50,26 @@ export class TemplatesService {
       )
     }
 
-    await this.storageService.uploadTemplate({
-      buffer,
-      storageKey: draft.storageKey,
-      contentType: ContentTypes.html,
-      metadata: {
-        originalname,
-        fileSize: `${file.size}`,
-      },
-    })
+    const [uploadTemplateError] = await to(
+      this.storageService.uploadTemplate({
+        buffer,
+        storageKey: draft.storageKey,
+        contentType: ContentTypes.html,
+        metadata: {
+          originalname,
+          fileSize: `${file.size}`,
+        },
+      }),
+    )
+
+    if (uploadTemplateError) {
+      this.logger.error(
+        `Template upload to S3 failed. Marking status as failed. Storage key: ${draft.storageKey}`,
+      )
+      await this.setTemplateStatus(templateStorageKey, TemplateStatus.Failed)
+
+      throw uploadTemplateError
+    }
 
     await this.setTemplateStatus(templateStorageKey, TemplateStatus.Ready)
     this.logger.log('Template uploaded in bucket and stored in db')
