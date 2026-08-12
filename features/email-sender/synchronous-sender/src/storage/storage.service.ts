@@ -64,6 +64,9 @@ export class StorageService {
     )
 
     if (uploadTemplateError) {
+      this.logger.error(
+        `Error during template upload. Error: ${uploadTemplateError}`,
+      )
       throw new InternalServerErrorException('Error while uploading template')
     }
   }

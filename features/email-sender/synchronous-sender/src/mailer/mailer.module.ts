@@ -16,9 +16,7 @@ import { ConfigService } from '@nestjs/config'
           port: Number(configService.getOrThrow<string>('SMTP_PORT')),
           secure: false,
         },
-        defaults: {
-          from: '"Welcome" <welcome@example.com>',
-        },
+        defaults: {},
       }),
     }),
   ],
