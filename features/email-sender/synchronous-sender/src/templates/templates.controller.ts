@@ -10,7 +10,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express'
 import { TemplateBodyDTO } from './dto/template.dto'
 import { FileTypeValidationPipe } from './pipes/fileType.pipe'
-import { ZodValidationPipe } from './pipes/validation'
+import { ZodValidationPipe } from '../common/pipes/validation'
 import { TemplatesService } from './templates.service'
 import { TemplateBodySchema } from './validation-schema/template.schema'
 
