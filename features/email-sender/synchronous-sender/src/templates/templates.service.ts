@@ -73,9 +73,21 @@ export class TemplatesService {
     templateStorageKey: string,
     templateUploadStatus: TemplateStatus,
   ) {
-    await this.db
-      .update(templates)
-      .set({ templateUploadStatus })
-      .where(eq(templates.storageKey, templateStorageKey))
+    const [setTemplateStatusError] = await to(
+      this.db
+        .update(templates)
+        .set({ templateUploadStatus })
+        .where(eq(templates.storageKey, templateStorageKey)),
+    )
+
+    if (setTemplateStatusError) {
+      this.logger.error(
+        `DB Query: failed to set template upload status. Template storageKey: ${templateStorageKey}`,
+      )
+
+      throw new InternalServerErrorException(
+        'Failed to set template upload status',
+      )
+    }
   }
 }
