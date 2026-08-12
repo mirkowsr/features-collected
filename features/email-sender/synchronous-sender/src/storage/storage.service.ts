@@ -16,7 +16,7 @@ import { UploadTemplateDTO } from './dto/storage.dto'
 @Injectable()
 export class StorageService {
   private readonly logger = new Logger(StorageService.name)
-  BUCKET_NAME = ''
+  private readonly BUCKET_NAME = ''
 
   constructor(
     @InjectS3() private s3: S3Client,
@@ -37,7 +37,7 @@ export class StorageService {
 
     if (getTemplateError || !template?.Body) {
       this.logger.error(
-        `Error during mail template retreive from bucket. Template key: ${templateKey}, error: ${getTemplateError}`,
+        `Error during mail template retreive from bucket. Template key: ${templateKey}`,
       )
       throw new InternalServerErrorException(getTemplateError)
     }

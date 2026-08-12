@@ -21,7 +21,7 @@ export const templates = pgTable('templates', {
   id: serial('id').primaryKey(),
   storageKey: uuid('storage_key').unique().notNull(),
   name: text('template_name').notNull(),
-  createdAt: timestamp('sent_at').defaultNow(),
+  createdAt: timestamp('created_at').defaultNow(),
   templateUploadStatus: templateUploadStatus('template_upload_status')
     .default('pending')
     .notNull(),

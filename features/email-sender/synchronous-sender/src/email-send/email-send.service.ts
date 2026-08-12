@@ -36,7 +36,7 @@ export class EmailSendService {
       this.logger.error(
         `DB Query: cannot find email recipients, error: ${recipientsError}`,
       )
-      throw new NotFoundException('Email receipents not found')
+      throw new InternalServerErrorException('Email receipents not found')
     }
 
     return recipients
@@ -87,7 +87,7 @@ export class EmailSendService {
       this.mailer.sendMail({
         to: config.email,
         subject: config.subject,
-        template: config.templateToSend,
+        html: config.templateToSend,
       }),
     )
 
