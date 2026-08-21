@@ -1,5 +1,5 @@
 {
-  "name": "@repo/aws-lambda-backend",
+  "name": "@repo/aws-lambda-lambda-backend",
   "private": true,
   "version": "0.0.1",
   "scripts": {
