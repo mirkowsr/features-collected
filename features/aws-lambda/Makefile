@@ -2,8 +2,7 @@
 
 TF_DIR := features/aws-lambda/terraform
 
-
-ECR_HOST  := localhost:4566
+ECR_HOST  := 000000000000.dkr.ecr.us-east-1.amazonaws.com:4566
 ECR_REPO  := aws-lambda-backend
 IMAGE     := aws-lambda-backend
 GIT_SHA   := $(shell git rev-parse --short HEAD)
@@ -31,12 +30,11 @@ build:
 	pnpm --filter @repo/aws-lambda-lambda-backend build
 
 prune: build
-	rm -rf pruned
-	rm -rf ${BACKEND}/pruned
-	pnpm --filter @repo/aws-lambda-lambda-backend deploy pruned
+	rm -rf $(BACKEND)/pruned
+	pnpm --filter @repo/aws-lambda-lambda-backend deploy $(BACKEND)/pruned
 
-docker-build: prune
-	docker build --provenance=false -t $(IMAGE):$(GIT_SHA) $(BACKEND)
+docker-build: build
+	docker build --provenance=false -t $(IMAGE):$(GIT_SHA) -f $(BACKEND)/Dockerfile .
 
 ecr-tag:
 	docker tag $(IMAGE):$(GIT_SHA) $(ECR_HOST)/$(ECR_REPO):$(GIT_SHA)
