@@ -34,5 +34,5 @@ pnpm-debug.log*
 .terraform.lock.hcl
 
 # pruned build artifacts
-pruned
+pruned/
 **/pruned/
