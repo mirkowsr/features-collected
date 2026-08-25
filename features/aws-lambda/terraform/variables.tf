@@ -47,3 +47,13 @@ variable "db_name" {
   type        = string
   default     = "features"
 }
+
+/* api gateway variables */
+
+variable "lambda_invoke_arn" {
+  type = string
+}
+
+variable "api_gw_lambda_function_name" {
+  type = string
+}
