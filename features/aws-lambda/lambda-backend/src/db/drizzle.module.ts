@@ -15,11 +15,11 @@ export const DrizzleDB = Symbol('drizzle-connection')
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {
         const pool = new Pool({
-          host: config.getOrThrow('DB_HOST', 'localhost'),
-          port: config.getOrThrow<number>('DB_PORT', 5432),
-          user: config.getOrThrow('DB_USER', 'postgres'),
-          password: config.getOrThrow('DB_PASSWORD', 'postgres'),
-          database: config.getOrThrow('DB_NAME', 'features'),
+          host: config.getOrThrow<string>('DB_HOST'),
+          port: config.getOrThrow<number>('DB_PORT'),
+          user: config.getOrThrow<string>('DB_USER'),
+          password: config.getOrThrow<string>('DB_PASSWORD'),
+          database: config.getOrThrow<string>('DB_NAME'),
         })
         return drizzle({
           client: pool,

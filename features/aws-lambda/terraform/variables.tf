@@ -15,3 +15,33 @@ variable "ecr_registry_port" {
   type        = string
   default     = ":4566"
 }
+
+variable "db_host" {
+  description = "PostgreSQL host. 'postgres' for ministack (container-network DNS); RDS endpoint for real AWS."
+  type        = string
+  default     = "postgres"
+}
+
+variable "db_port" {
+  description = "PostgreSQL port"
+  type        = string
+  default     = "5432"
+}
+
+variable "db_user" {
+  description = "PostgreSQL user"
+  type        = string
+  default     = "postgres"
+}
+
+variable "db_password" {
+  description = "PostgreSQL password"
+  type        = string
+  default     = "postgres"
+}
+
+variable "db_name" {
+  description = "PostgreSQL database name"
+  type        = string
+  default     = "features"
+}

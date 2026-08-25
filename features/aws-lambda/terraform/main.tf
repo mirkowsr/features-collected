@@ -71,6 +71,16 @@ resource "aws_lambda_function" "api" {
     command = ["dist/lambda.handler"] 
   }
 
+  environment {
+    variables = {
+      DB_HOST     = var.db_host
+      DB_PORT     = var.db_port
+      DB_USER     = var.db_user
+      DB_PASSWORD = var.db_password
+      DB_NAME     = var.db_name
+    }
+  }
+
   architectures = ["arm64"] # Graviton support for better price/performance
 }
 
