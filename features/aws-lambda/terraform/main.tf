@@ -20,18 +20,13 @@ data "aws_caller_identity" "current" {}
 
 data "aws_region" "current" {}
 
-resource "aws_ecr_repository" "aws-lambda-backend" {
-  name = var.repository_name
-
-  image_scanning_configuration {
-    scan_on_push = true
-  }
-
-  image_tag_mutability = "MUTABLE"
-
-  encryption_configuration {
-    encryption_type = "AES256"
-  }
+module "ecr" {
+  source             = "./modules/ecr"
+  account_id         = data.aws_caller_identity.current.account_id
+  region             = data.aws_region.current.name
+  repository_name    = var.repository_name 
+  ecr_registry_port  = var.ecr_registry_port
+  image_tag          = var.image_tag
 }
 
 # IAM role for Lambda execution
@@ -57,12 +52,7 @@ resource "aws_lambda_function" "api" {
   function_name = var.lambda_function_name
   role          = aws_iam_role.aws_lambda_role.arn
   package_type  = "Image"
-  image_uri     = format("%s.dkr.ecr.%s.amazonaws.com%s/%s:%s", 
-    data.aws_caller_identity.current.account_id, 
-    data.aws_region.current.name, 
-    var.ecr_registry_port, 
-    var.repository_name, 
-    var.image_tag)
+  image_uri     = module.ecr.image_uri 
 
   memory_size = 512
   timeout     = 30
