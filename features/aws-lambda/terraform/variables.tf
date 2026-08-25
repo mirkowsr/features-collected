@@ -13,10 +13,10 @@ variable "ecr_registry_port" {
   default     = ":4566"
 }
 
+/* lambda variables config, with DB connection details*/
 variable "lambda_function_name" {
   default = "lambda-fn"
 }
-
 
 variable "db_host" {
   description = "PostgreSQL host. 'postgres' for ministack (container-network DNS); RDS endpoint for real AWS."

@@ -29,49 +29,16 @@ module "ecr" {
   image_tag          = var.image_tag
 }
 
-# IAM role for Lambda execution
-data "aws_iam_policy_document" "assume_role" {
-  statement {
-    effect = "Allow"
+module "lambda" {
+  source = "./modules/lambda"
 
-    principals {
-      type        = "Service"
-      identifiers = ["lambda.amazonaws.com"]
-    }
-
-    actions = ["sts:AssumeRole"]
-  }
-}
-
-resource "aws_iam_role" "aws_lambda_role" {
-  name               = "lambda_execution_role"
-  assume_role_policy = data.aws_iam_policy_document.assume_role.json
-}
-
-resource "aws_lambda_function" "api" {
-  function_name = var.lambda_function_name
-  role          = aws_iam_role.aws_lambda_role.arn
-  package_type  = "Image"
-  image_uri     = module.ecr.image_uri 
-
-  memory_size = 512
-  timeout     = 30
-  
-  image_config { 
-    command = ["dist/lambda.handler"] 
-  }
-
-  environment {
-    variables = {
-      DB_HOST     = var.db_host
-      DB_PORT     = var.db_port
-      DB_USER     = var.db_user
-      DB_PASSWORD = var.db_password
-      DB_NAME     = var.db_name
-    }
-  }
-
-  architectures = ["arm64"] # Graviton support for better price/performance
+  db_host = var.db_host
+  db_port = var.db_port
+  db_user = var.db_user
+  db_password = var.db_password
+  db_name = var.db_name
+  lambda_function_name = var.lambda_function_name
+  image_uri = module.ecr.image_uri
 }
 
 # HTTP API GATEWAY
@@ -84,7 +51,7 @@ resource "aws_apigatewayv2_api" "http" {
 resource "aws_apigatewayv2_integration" "lambda" {
   api_id                 = aws_apigatewayv2_api.http.id
   integration_type       = "AWS_PROXY"
-  integration_uri        = aws_lambda_function.api.invoke_arn
+  integration_uri        = module.lambda.invoke_arn 
   payload_format_version = "1.0"
 }
 
@@ -106,7 +73,7 @@ resource "aws_apigatewayv2_stage" "default" {
 resource "aws_lambda_permission" "allow_apigw" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.api.function_name
+  function_name = module.lambda.invoke_arn 
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_apigatewayv2_api.http.execution_arn}/*"
 }
