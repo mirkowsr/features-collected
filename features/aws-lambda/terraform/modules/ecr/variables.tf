@@ -1,5 +1,8 @@
+# Variables defitnition that are 
+# passed from main.tf during module consumption
+
 variable "repository_name" {
-  default = "aws-lambda-backend"
+  type = string
 }
 
 variable "account_id" {
@@ -12,10 +15,8 @@ variable "region" {
 
 variable "ecr_registry_port" {
   type    = string
-  default = ":4566"
 }
 
 variable "image_tag" { 
   type    = string
-  default = "latest"
 }

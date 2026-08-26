@@ -1,3 +1,10 @@
+/* ECR MODULE 
+
+Creation of ECR (Elastic Container Registry)  that will
+store AWS lambda docker image
+
+*/
+
 resource "aws_ecr_repository" "aws-lambda-backend" {
   name = var.repository_name
 
