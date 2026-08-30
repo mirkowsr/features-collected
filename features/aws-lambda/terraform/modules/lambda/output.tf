@@ -6,3 +6,7 @@ output "function_name" {
 output "invoke_arn" {
   value = aws_lambda_function.api.invoke_arn
 }
+
+output "role_name" {
+  value = aws_iam_role.aws_lambda_role.name
+}
