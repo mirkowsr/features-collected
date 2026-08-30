@@ -21,5 +21,3 @@ COPY --from=deps /app/bundle/node_modules ${LAMBDA_TASK_ROOT}/node_modules
 
 # Copy the compiled NestJS output
 COPY features/aws-lambda/lambda-backend/dist/ ${LAMBDA_TASK_ROOT}/dist/
-
-CMD ["dist/lambda.handler"]
