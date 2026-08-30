@@ -30,3 +30,7 @@ variable "lambda_function_name" {
 variable "image_uri" {
   type = string
 }
+
+variable "container_command" {
+  type = string
+}

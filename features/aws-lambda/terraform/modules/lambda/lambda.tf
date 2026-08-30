@@ -22,7 +22,7 @@ data "aws_iam_policy_document" "assume_role" {
 # Permissions container that consumes policy 
 # json data source (aws_iam_policy_document)
 resource "aws_iam_role" "aws_lambda_role" {
-  name               = "lambda_execution_role"
+  name               = "${var.lambda_function_name}_lambda_execution_role"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
@@ -39,7 +39,7 @@ resource "aws_lambda_function" "api" {
   memory_size = 512
   timeout     = 30
   image_config { 
-    command = ["dist/lambda.handler"] 
+    command = [var.container_command] 
   }
 
   environment {
