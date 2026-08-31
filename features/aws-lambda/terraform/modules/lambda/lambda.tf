@@ -18,6 +18,14 @@ data "aws_iam_policy_document" "assume_role" {
   }
 }
 
+data "aws_iam_policy_document" "logs" {
+  statement {
+    effect = "Allow"
+    actions   = ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"]
+    resources = ["${aws_cloudwatch_log_group.this.arn}:*"]
+  }
+}
+
 # This is role creation 
 # Permissions container that consumes policy 
 # json data source (aws_iam_policy_document)
@@ -25,6 +33,18 @@ resource "aws_iam_role" "aws_lambda_role" {
   name               = "${var.lambda_function_name}_lambda_execution_role"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
+
+# logs group creation
+resource "aws_cloudwatch_log_group" "this" {
+  name = "/aws/lambda/${var.lambda_function_name}"
+  retention_in_days = 7
+}
+
+resource "aws_iam_role_policy" "logs" {
+  role = aws_iam_role.aws_lambda_role.id
+  policy = data.aws_iam_policy_document.logs.json
+}
+
 
 # Lambda definition 
 # + role consumption
@@ -51,6 +71,12 @@ resource "aws_lambda_function" "api" {
       DB_NAME     = var.db_name
     }
   }
+
+  logging_config {
+    log_format            = "JSON"
+    application_log_level = "INFO"
+  }
+
 
   architectures = ["arm64"]
 }

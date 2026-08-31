@@ -17,7 +17,11 @@ export class ExampleJobService {
 
     switch (message.type) {
       case 'user.created': {
-        this.logger.log(`Processing user.created: ${message.payload.name}`)
+        this.logger.log(
+          { event: 'user.created', name: message.payload.name },
+          'user.created.processed',
+        )
+
         await this.db.insert(users).values({
           id: crypto.randomUUID(),
           name: message.payload.name ?? 'unknown',
