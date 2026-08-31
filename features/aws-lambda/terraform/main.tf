@@ -17,14 +17,8 @@ provider "aws" {
   }
 }
 
-data "aws_caller_identity" "current" {}
-
-data "aws_region" "current" {}
-
 module "ecr" {
   source            = "./modules/ecr"
-  account_id        = data.aws_caller_identity.current.account_id
-  region            = data.aws_region.current.name
   repository_name   = var.repository_name
   ecr_registry_port = var.ecr_registry_port
   image_tag         = var.image_tag

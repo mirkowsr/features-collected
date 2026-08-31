@@ -4,7 +4,7 @@ variable "repository_name" {
 }
 
 variable "image_tag" {
-  default = "latest"
+  type = string
 }
 
 variable "ecr_registry_port" {

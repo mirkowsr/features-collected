@@ -12,13 +12,19 @@ tf-init:
 	cd $(TF_DIR) && terraform init
 
 tf-plan:
-	cd $(TF_DIR) && terraform plan
+	cd $(TF_DIR) && terraform plan  -var="image_tag=$(GIT_SHA)"
 
 tf-apply:
-	cd $(TF_DIR) && terraform apply
+	cd $(TF_DIR) && terraform apply -var="image_tag=$(GIT_SHA)"
+
+tf-apply-ecr:
+	cd $(TF_DIR) && terraform apply -target=module.ecr -var="image_tag=$(GIT_SHA)"
+
+rollback:
+	cd $(TF_DIR) && terraform apply -var="image_tag=$(SHA)"
 
 tf-destroy:
-	cd $(TF_DIR) && terraform destroy
+	cd $(TF_DIR) && terraform destroy -var="image_tag=irrevelant_here"
 
 tf-fmt:
 	cd $(TF_DIR) && terraform fmt
@@ -30,11 +36,10 @@ build:
 	pnpm --filter @repo/aws-lambda-lambda-backend build
 
 prune: build
-	rm -rf $(BACKEND)/pruned
 	pnpm --filter @repo/aws-lambda-lambda-backend deploy $(BACKEND)/pruned
 
 docker-build: build
-	docker build --provenance=false -t $(IMAGE):$(GIT_SHA) -f $(BACKEND)/Dockerfile .
+	docker build --platform=linux/amd64 --provenance=false -t $(IMAGE):$(GIT_SHA) -f  $(BACKEND)/Dockerfile .
 
 ecr-tag:
 	docker tag $(IMAGE):$(GIT_SHA) $(ECR_HOST)/$(ECR_REPO):$(GIT_SHA)
@@ -42,9 +47,11 @@ ecr-tag:
 
 ecr-push: ecr-tag
 	docker push $(ECR_HOST)/$(ECR_REPO):$(GIT_SHA)
-	docker push $(ECR_HOST)/$(ECR_REPO):latest
+	docker push $(ECR_HOST)/$(ECR_REPO)
 
 ecr-deploy: docker-build ecr-push
-	rm -rf pruned
-	rm -rf $(BACKEND)/pruned
-	@echo "Pushed $(ECR_HOST)/$(ECR_REPO):$(GIT_SHA) and :latest"
+	@echo "Pushed $(ECR_HOST)/$(ECR_REPO):$(GIT_SHA)"
+
+deploy: ecr-push tf-apply
+
+bootstrap: tf-apply-ecr ecr-deploy tf-apply
