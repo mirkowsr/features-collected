@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common'
+import { Controller, Get, Post } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { ProducerService } from '../common/producer/producer.service'
 
@@ -9,6 +9,10 @@ export class UsersController {
     private readonly producerService: ProducerService,
   ) {}
 
+  @Post()
+  async createUser() {
+    await this.producerService.emit()
+  }
   @Get()
   findAll() {
     return this.usersService.findAll()
