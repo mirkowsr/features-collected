@@ -79,9 +79,26 @@ data "aws_iam_policy_document" "sqs_consumer" {
   }
 }
 
+
+data "aws_iam_policy_document" "sqs_producer" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "sqs:SendMessage",
+    ]
+    resources = [module.sqs.queue_arn]
+  }
+}
+
 resource "aws_iam_role_policy" "sqs_consumer" {
   role   = module.lambda_sqs_worker.role_name
   policy = data.aws_iam_policy_document.sqs_consumer.json
+}
+
+
+resource "aws_iam_role_policy" "sqs_producer" {
+  role   = module.lambda.role_name
+  policy = data.aws_iam_policy_document.sqs_producer.json
 }
 
 resource "aws_lambda_event_source_mapping" "sqs_lambda_mapping" {
