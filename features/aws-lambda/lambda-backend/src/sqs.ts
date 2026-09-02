@@ -3,12 +3,15 @@ import type { SQSHandler } from 'aws-lambda'
 import { ExampleJobModule } from './example-job/example-job.module'
 import { ExampleJobService } from './example-job/example-job.service'
 import { PinoLogger } from 'nestjs-pino'
+import { ConsoleLogger } from '@nestjs/common'
 
 let appPromise: ReturnType<typeof NestFactory.createApplicationContext> | null =
   null
 
 export const handler: SQSHandler = async (event) => {
-  appPromise ??= NestFactory.createApplicationContext(ExampleJobModule)
+  appPromise ??= NestFactory.createApplicationContext(ExampleJobModule, {
+    logger: new ConsoleLogger({ colors: false }),
+  })
   const app = await appPromise
 
   const jobs = app.get(ExampleJobService)
