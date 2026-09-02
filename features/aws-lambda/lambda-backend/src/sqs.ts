@@ -22,7 +22,7 @@ export const handler: SQSHandler = async (event) => {
     } catch (error) {
       logger.error(
         { messageId: record.messageId, err: error },
-        'message processing failed',
+        'message processing failed.',
       )
       failures.push(record.messageId)
     }
