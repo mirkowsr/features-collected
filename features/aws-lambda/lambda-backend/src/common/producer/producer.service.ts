@@ -3,6 +3,7 @@ import { Injectable, Logger } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 
 import { InjectSQS } from '../../aws-sqs'
+import { createQueueEvent } from '../events/createQueueEvent'
 
 @Injectable()
 export class ProducerService {
@@ -20,10 +21,9 @@ export class ProducerService {
     await this.sqs.send(
       new SendMessageCommand({
         QueueUrl: this.queueUrl,
-        MessageBody: JSON.stringify({
-          type: 'user.created',
-          payload: { name: 'John' },
-        }),
+        MessageBody: JSON.stringify(
+          createQueueEvent('user.created', { name: 'Barabasz' }),
+        ),
       }),
     )
   }

@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common'
 import { InjectDrizzle } from '../db/drizzle.decorator'
 import { DrizzleSchema } from '../db/types/drizzle.type'
 import { users } from '../db/schema'
+import type { QueueEvent } from '../common/events/event.type'
 
 @Injectable()
 export class ExampleJobService {
@@ -10,10 +11,7 @@ export class ExampleJobService {
   constructor(@InjectDrizzle() private db: DrizzleSchema) {}
 
   async process(body: string): Promise<void> {
-    const message = JSON.parse(body) as {
-      type: string
-      payload: { name?: string }
-    }
+    const message = JSON.parse(body) as QueueEvent
 
     switch (message.type) {
       case 'user.created': {
