@@ -8,6 +8,17 @@ type Variant<K extends keyof EventPayloads> = {
   eventId: string
 }
 
+/*
+
+ Below shape and QueueEvent generic creates correlated union that 
+ allow to narrow down payload based on type 
+ 
+ f.ex:
+ type QueueEvent =
+  | { type: 'user.created'; payload: { name: string }; ... }
+  | { type: 'order.placed'; payload: { orderId: string; total: number }; ... } 
+ */
+
 export type QueueEvent = {
   [K in keyof EventPayloads]: Variant<K>
 }[keyof EventPayloads]
