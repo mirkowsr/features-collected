@@ -18,7 +18,7 @@ export class ProducerService {
 
     await this.sqs.send(
       new SendMessageCommand({
-        QueueUrl: 'http://localhost:4566/000000000000/terraform_queue',
+        QueueUrl: 'http://ministack:4566/000000000000/terraform_queue',
         MessageBody: JSON.stringify({
           type: 'user.created',
           payload: { name: 'John' },

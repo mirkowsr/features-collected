@@ -13,7 +13,7 @@ export const SQS_CLIENT = Symbol('sqs-client')
       useFactory: (config: ConfigService) =>
         new SQSClient({
           region: 'us-east-1',
-          endpoint: 'http://localhost:4566',
+          endpoint: 'http://ministack:4566',
           credentials: {
             accessKeyId: 'test',
             secretAccessKey: 'test',
