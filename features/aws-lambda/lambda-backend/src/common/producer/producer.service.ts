@@ -5,7 +5,7 @@ import { ConfigService } from '@nestjs/config'
 
 @Injectable()
 export class ProducerService {
-  private readonly QUEUE_URL = this.config.getOrThrow('SQS_QUEUE_URL')
+  // private readonly QUEUE_URL = this.config.getOrThrow('SQS_QUEUE_URL')
   private readonly logger = new Logger(ProducerService.name)
 
   constructor(

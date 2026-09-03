@@ -12,12 +12,18 @@ export const SQS_CLIENT = Symbol('sqs-client')
       inject: [ConfigService],
       useFactory: (config: ConfigService) =>
         new SQSClient({
-          region: config.getOrThrow<string>('us-east-1'),
-          endpoint: config.get<string>('http://localhost:4566'),
+          region: 'us-east-1',
+          endpoint: 'http://localhost:4566',
           credentials: {
-            accessKeyId: config.getOrThrow<string>('test'),
-            secretAccessKey: config.getOrThrow<string>('test'),
+            accessKeyId: 'test',
+            secretAccessKey: 'test',
           },
+          // region: config.getOrThrow<string>('us-east-1'),
+          // endpoint: config.get<string>('http://localhost:4566'),
+          // credentials: {
+          //   accessKeyId: config.getOrThrow<string>('test'),
+          //   secretAccessKey: config.getOrThrow<string>('test'),
+          // },
         }),
     },
   ],
