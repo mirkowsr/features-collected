@@ -64,11 +64,16 @@ resource "aws_lambda_function" "api" {
 
   environment {
     variables = {
-      DB_HOST     = var.db_host
-      DB_PORT     = var.db_port
-      DB_USER     = var.db_user
-      DB_PASSWORD = var.db_password
-      DB_NAME     = var.db_name
+      DB_HOST               = var.db_host
+      DB_PORT               = var.db_port
+      DB_USER               = var.db_user
+      DB_PASSWORD           = var.db_password
+      DB_NAME               = var.db_name
+      SQS_ENDPOINT          = var.sqs_endpoint
+      SQS_QUEUE_URL         = var.sqs_queue_url
+      AWS_REGION            = var.aws_region
+      AWS_ACCESS_KEY_ID     = var.aws_access_key_id
+      AWS_SECRET_ACCESS_KEY = var.aws_secret_access_key
     }
   }
 

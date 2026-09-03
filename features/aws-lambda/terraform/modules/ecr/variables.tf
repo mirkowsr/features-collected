@@ -2,7 +2,8 @@
 # passed from main.tf during module consumption
 
 variable "repository_name" {
-  type = string
+  description = "ECR repository name"
+  type        = string
 }
 
 variable "ecr_registry_port" {
@@ -12,6 +13,7 @@ variable "ecr_registry_port" {
 }
 
 variable "image_tag" { 
-  type    = string
+  description = "Tag of the docker image referenced by image_uri"
+  type        = string
 }
 

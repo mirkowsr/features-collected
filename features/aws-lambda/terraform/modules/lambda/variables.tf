@@ -24,13 +24,41 @@ variable "db_name" {
 }
 
 variable "lambda_function_name" {
-  type = string
+  description = "Lambda function name"
+  type        = string
 }
 
 variable "image_uri" {
-  type = string
+  description = "URI of the lambda container image"
+  type        = string
 }
 
 variable "container_command" {
-  type = string
+  description = "Command the lambda runtime executes (e.g. dist/lambda.handler)"
+  type        = string
+}
+
+variable "sqs_endpoint" {
+  description = "SQS endpoint (LocalStack/ministack container-network DNS)"
+  type        = string
+}
+
+variable "sqs_queue_url" {
+  description = "SQS queue URL (ministack container-network DNS)"
+  type        = string
+}
+
+variable "aws_region" {
+  description = "AWS region"
+  type        = string
+}
+
+variable "aws_access_key_id" {
+  description = "AWS access key ID"
+  type        = string
+}
+
+variable "aws_secret_access_key" {
+  description = "AWS secret access key"
+  type        = string
 }

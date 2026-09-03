@@ -1,7 +1,9 @@
 variable "lambda_invoke_arn" {
-  type = string
+  description = "ARN of the backend lambda to proxy requests to"
+  type        = string
 }
 
 variable "lambda_function_name" {
-  type = string
+  description = "Backend lambda function name (naming + invoke permission)"
+  type        = string
 }
