@@ -47,6 +47,6 @@ ecr-push: ecr-tag
 ecr-deploy: docker-build ecr-push
 	@echo "Pushed $(ECR_HOST)/$(ECR_REPO):$(GIT_SHA)"
 
-deploy: ecr-push tf-apply
+deploy: docker-build ecr-push tf-apply
 
 bootstrap: tf-apply-ecr ecr-deploy tf-apply
