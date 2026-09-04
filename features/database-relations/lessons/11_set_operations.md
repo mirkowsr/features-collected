@@ -57,12 +57,12 @@ ORDER BY orderid;
 
 4. Combine the current orders and archive orders, then compute total `sales` per `orderstatus` across both. (Hint: set op inside a subquery/CTE, then aggregate — CTEs are lesson 17.)
 
-5. Column-order gotcha: why does the following error?
+5. Column-order gotcha: what happens here?
    ```sql
    SELECT sales, orderid FROM sales.orders
    UNION ALL
    SELECT orderid, sales FROM sales.ordersarchive;
    ```
-   Fix it.
+   **Trap:** in PostgreSQL this does **not** error — `INT` and `INT` are compatible, so the query runs and silently returns each row's values under the *first* query's column names (you'll see `89.99` labeled `orderid`). The columns are matched by **position**, not name. Run it and inspect the nonsense. Then try it with truly incompatible types — `SELECT orderstatus, orderid ... UNION ALL SELECT orderid, sales ...` — which *does* error (`UNION types character varying and integer cannot be matched`). Lesson: same position, same type family, and always list columns in a consistent order.
 
 6. When would you prefer `UNION ALL` over `UNION` for performance? Give a realistic scenario where you *know* there are no duplicates.

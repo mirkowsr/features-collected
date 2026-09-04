@@ -48,7 +48,7 @@ docker run --name pg-sqlcourse \
 
 ### 2. Load the data
 
-From the repo root (where `datasets/postgres/init-postgres-salesdb.sql` lives):
+From this `lessons/` directory (where `datasets/postgres/init-postgres-salesdb.sql` lives):
 
 ```bash
 psql -U postgres -h localhost -f datasets/postgres/init-postgres-salesdb.sql

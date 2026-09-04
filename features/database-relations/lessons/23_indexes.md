@@ -74,7 +74,7 @@ EXPLAIN SELECT * FROM sales.orders WHERE customerid = 3;
 
 2. Create a **composite** index on `(customerid, orderdate)`. Which of these would it help: filtering on `customerid` alone, on `customerid + orderdate`, on `orderdate` alone? (Hint: leftmost-prefix rule.)
 
-3. Create a **unique** index on `sales.customers(firstname || ' ' || lastname)` (expression index). What happens when you try to insert a duplicate full name?
+3. Create a **unique** index on `sales.customers(firstname || ' ' || lastname)` (expression index). What happens when you try to insert a duplicate full name? (If you built lesson 04.5's partial unique index on `firstname`, the duplicate may be rejected by *that* constraint first — check the constraint name in the error, and list both indexes in `pg_indexes` to see why.)
 
 4. Create a **partial** index on `sales.orders(sales)` `WHERE orderstatus = 'Delivered'`. When would this be smaller and faster than a full index?
 

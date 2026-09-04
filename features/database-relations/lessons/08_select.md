@@ -56,7 +56,7 @@ Result of the `DISTINCT` query → `Germany`, `USA`.
 
 4. Return the **3 most recent** orders from `sales.orders`, showing `orderid`, `orderdate`, and `sales`, ordered by `orderdate` descending.
 
-5. Use `LIMIT` + `OFFSET` to return orders in "pages" of 4: first page (`0`), then second page (`OFFSET 4`).
+5. Use `LIMIT` + `OFFSET` to return orders in "pages" of 4: first page (`OFFSET 0`), second page (`OFFSET 4`).
 
 6. Compute and select a constant expression — e.g. the string `'SalesDB'` aliased as `db_name` and `1000 * 1.2` as `target` — without touching any table.
 
