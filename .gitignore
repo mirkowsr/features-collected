@@ -33,3 +33,6 @@ pnpm-debug.log*
 *.tfstate.backup
 .terraform.lock.hcl
 
+# pruned build artifacts
+pruned/
+**/pruned/

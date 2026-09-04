@@ -1,0 +1,48 @@
+{
+  "name": "@repo/aws-lambda-lambda-backend",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "nest start --watch",
+    "build": "nest build",
+    "start": "node dist/main",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "format": "prettier --write src",
+    "format:check": "prettier --check src",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1076.0",
+    "@aws-sdk/client-sqs": "^3.1124.0",
+    "@codegenie/serverless-express": "^5.0.0",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/config": "^4.0.0",
+    "@nestjs/core": "^11.0.0",
+    "@nestjs/mapped-types": "*",
+    "@nestjs/platform-express": "^11.0.0",
+    "aws-lambda": "^1.0.7",
+    "dotenv": "^17.2.1",
+    "drizzle-orm": "^0.44.5",
+    "nestjs-pino": "^5.0.0",
+    "pg": "^8.0.0",
+    "pino-http": "^11.0.0",
+    "reflect-metadata": "^0.2.0",
+    "rxjs": "^7.8.0"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^11.0.0",
+    "@nestjs/schematics": "^11.0.0",
+    "@types/aws-lambda": "^8.10.162",
+    "@types/node": "^22.0.0",
+    "drizzle-kit": "^0.31.4",
+    "eslint": "^9.0.0",
+    "prettier": "^3.0.0",
+    "tsx": "^4.20.5",
+    "typescript": "^5.4.0"
+  },
+  "prettier": "@repo/prettier-config"
+}

@@ -1,0 +1,44 @@
+# HTTP API GATEWAY
+resource "aws_apigatewayv2_api" "http-api" {
+  name          = "${var.lambda_function_name}-api-gateway"
+  protocol_type = "HTTP"
+}
+
+resource "aws_apigatewayv2_integration" "lambda" {
+  api_id           = aws_apigatewayv2_api.http-api.id
+  integration_type = "AWS_PROXY"
+
+  connection_type           = "INTERNET"
+  content_handling_strategy = "CONVERT_TO_TEXT"
+  description               = "Lambda example"
+  integration_method        = "POST"
+  integration_uri           = var.lambda_invoke_arn 
+  passthrough_behavior      = "WHEN_NO_MATCH"
+}
+
+# API ROUTES ATTACHMENTS 
+resource "aws_apigatewayv2_route" "catchall" {
+  api_id    = aws_apigatewayv2_api.http-api.id
+  route_key = "ANY /{proxy+}"
+
+  target    = "integrations/${aws_apigatewayv2_integration.lambda.id}"
+}
+
+# STAGE
+# what environment it is - default, prod, dev etc
+# it can be configured by name parameter
+resource "aws_apigatewayv2_stage" "default" {
+  api_id      = aws_apigatewayv2_api.http-api.id
+  name        = "$default"
+  auto_deploy = true
+}
+
+# LAMBDA PERMISSION (API → LAMBDA)
+# We are creating policy that answers 'who' can call lambda function
+resource "aws_lambda_permission" "allow_apigw" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = var.lambda_function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_apigatewayv2_api.http-api.execution_arn}/*"
+}
