@@ -1,2 +1,5 @@
 // Add per-entity exports here, e.g. export * from './users.schema'
-export {}
+export { customers } from './customers'
+export { orders } from './orders'
+export { employees } from './employees'
+export { products } from './products'
