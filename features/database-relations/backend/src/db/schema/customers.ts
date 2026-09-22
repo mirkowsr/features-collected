@@ -1,5 +1,9 @@
 import * as p from 'drizzle-orm/pg-core'
 
 export const customers = p.pgTable('customers', {
-  id: p.uuid('customer_id').notNull().primaryKey().defaultRandom(),
+  customerId: p.uuid('customer_id').notNull().primaryKey().defaultRandom(),
+  firstName: p.text('first_name'),
+  lastName: p.text('last_name'),
+  country: p.text('country'),
+  score: p.integer('score'),
 })

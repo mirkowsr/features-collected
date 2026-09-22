@@ -3,3 +3,8 @@ export { customers } from './customers'
 export { orders } from './orders'
 export { employees } from './employees'
 export { products } from './products'
+export { ordersarchive } from './ordersarchive'
+
+export { departmentEnum } from './enums/departments'
+export { genderEnum } from './enums/gender'
+export { orderStatusEnum } from './enums/orders'
