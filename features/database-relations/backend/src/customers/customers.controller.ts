@@ -1,6 +1,5 @@
 import { Controller, Get, Param, Query } from '@nestjs/common'
 import { CustomersService } from './customers.service'
-import { type UUID } from 'node:crypto'
 import { CustomersFilterParams } from './filtering/types'
 
 @Controller('customers')

@@ -7,8 +7,12 @@ import { InjectDrizzle } from '../db/drizzle.decorator'
 import { DrizzleSchema } from '../db/types/drizzle.type'
 import to from 'await-to-js'
 import { customers } from '../db/schema'
-import { desc, isNotNull, eq, SQL, and } from 'drizzle-orm'
-import { CustomersFilterParams } from './filtering/types'
+import { desc, isNotNull, eq, SQL, and, or, ilike } from 'drizzle-orm'
+import {
+  CustomerFilterKeys,
+  CustomerFuzzySearchParam,
+  CustomersFilterParams,
+} from './filtering/types'
 
 @Injectable()
 export class CustomersService {
@@ -16,10 +20,12 @@ export class CustomersService {
 
   constructor(@InjectDrizzle() private db: DrizzleSchema) {}
 
-  private buildQueryConditions(params: CustomersFilterParams): SQL | undefined {
+  private buildQueryParamBasedFilters(
+    params: CustomersFilterParams,
+  ): SQL | undefined {
     const conditions: SQL[] = []
 
-    for (const key of Object.keys(params) as (keyof CustomersFilterParams)[]) {
+    for (const key of Object.keys(params) as CustomerFilterKeys[]) {
       const value = params[key]
 
       if (value) {
@@ -30,10 +36,33 @@ export class CustomersService {
     return conditions.length ? and(...conditions) : undefined
   }
 
-  async getCustomers(params: CustomersFilterParams) {
-    this.logger.log('Querying customers')
+  private buildFuzzySearchFilters({
+    q,
+  }: CustomerFuzzySearchParam): SQL | undefined {
+    const conditions: SQL[] = []
 
-    const conditions = this.buildQueryConditions(params)
+    const filtered_columns: CustomerFilterKeys[] = [
+      'lastName',
+      'firstName',
+      'country',
+    ]
+
+    for (const key of filtered_columns) {
+      conditions.push(ilike(customers[key], `%${q}%`))
+    }
+
+    return conditions.length ? or(...conditions) : undefined
+  }
+
+  async getCustomers({ q, ...restQueryParams }: CustomersFilterParams) {
+    this.logger.log('Querying customers')
+    let conditions = undefined
+
+    if (q) {
+      conditions = this.buildFuzzySearchFilters({ q })
+    } else {
+      conditions = this.buildQueryParamBasedFilters(restQueryParams)
+    }
 
     const [queryCustomersError, customersData] = await to(
       this.db.select().from(customers).where(conditions),
