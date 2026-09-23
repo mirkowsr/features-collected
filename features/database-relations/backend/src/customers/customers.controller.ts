@@ -1,13 +1,15 @@
-import { Controller, Get } from '@nestjs/common'
+import { Controller, Get, Param, Query } from '@nestjs/common'
 import { CustomersService } from './customers.service'
+import { type UUID } from 'node:crypto'
+import { CustomersFilterParams } from './filtering/types'
 
 @Controller('customers')
 export class CustomersController {
   constructor(private readonly customersService: CustomersService) {}
 
   @Get()
-  customers() {
-    return this.customersService.getCustomers()
+  customers(@Query() params: CustomersFilterParams) {
+    return this.customersService.getCustomers(params)
   }
 
   @Get('/countries')

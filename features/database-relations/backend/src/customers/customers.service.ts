@@ -7,7 +7,8 @@ import { InjectDrizzle } from '../db/drizzle.decorator'
 import { DrizzleSchema } from '../db/types/drizzle.type'
 import to from 'await-to-js'
 import { customers } from '../db/schema'
-import { desc, isNotNull, ne } from 'drizzle-orm'
+import { desc, isNotNull, eq, SQL, and } from 'drizzle-orm'
+import { CustomersFilterParams } from './filtering/types'
 
 @Injectable()
 export class CustomersService {
@@ -15,15 +16,32 @@ export class CustomersService {
 
   constructor(@InjectDrizzle() private db: DrizzleSchema) {}
 
-  async getCustomers() {
+  private buildQueryConditions(params: CustomersFilterParams): SQL | undefined {
+    const conditions: SQL[] = []
+
+    for (const key of Object.keys(params) as (keyof CustomersFilterParams)[]) {
+      const value = params[key]
+
+      if (value) {
+        conditions.push(eq(customers[key], value))
+      }
+    }
+
+    return conditions.length ? and(...conditions) : undefined
+  }
+
+  async getCustomers(params: CustomersFilterParams) {
     this.logger.log('Querying customers')
 
+    const conditions = this.buildQueryConditions(params)
+
     const [queryCustomersError, customersData] = await to(
-      this.db.select().from(customers),
+      this.db.select().from(customers).where(conditions),
     )
 
     if (queryCustomersError) {
       this.logger.log('Error during querying customers')
+
       throw new InternalServerErrorException()
     }
 
