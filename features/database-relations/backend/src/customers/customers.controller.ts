@@ -15,7 +15,7 @@ export class CustomersController {
     return this.customersService.customerCountries()
   }
 
-  @Get('/scores')
+  @Get('/top')
   customerScores() {
     return this.customersService.customerScores()
   }
