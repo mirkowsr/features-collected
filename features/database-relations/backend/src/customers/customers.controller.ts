@@ -10,7 +10,7 @@ export class CustomersController {
     return this.customersService.getCustomers()
   }
 
-  @Get('/customers/countries')
+  @Get('/countries')
   customerCountries() {
     return this.customersService.customerCountries()
   }

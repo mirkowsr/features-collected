@@ -33,7 +33,7 @@ export class CustomersService {
     this.logger.log('Querying cutomer countries')
 
     const [customerCountriesError, customerCountries = []] = await to(
-      this.db.select({ country: customers.country }).from(customers),
+      this.db.selectDistinct({ country: customers.country }).from(customers),
     )
 
     if (customerCountriesError) {
