@@ -7,7 +7,7 @@ import { InjectDrizzle } from '../db/drizzle.decorator'
 import { DrizzleSchema } from '../db/types/drizzle.type'
 import to from 'await-to-js'
 import { customers } from '../db/schema'
-import { desc, isNotNull, eq, SQL, and, or, ilike } from 'drizzle-orm'
+import { desc, isNotNull, eq, SQL, and, or, ilike, sql } from 'drizzle-orm'
 import {
   CustomerFilterKeys,
   CustomerFuzzySearchParam,
@@ -115,5 +115,34 @@ export class CustomersService {
     }
 
     return customersWithScores
+  }
+
+  async scoreBands() {
+    this.logger.log('Querying customers with score bands')
+
+    const [customerScoreBandsErrror, customerWithScoreBands = []] = await to(
+      this.db
+        .select({
+          customerId: customers.customerId,
+          firstName: customers.firstName,
+          lastName: customers.lastName,
+          band: sql`
+            case
+              when ${customers.score} is null then 'Unknown'
+              when ${customers.score} >= 800  then 'High'
+              when ${customers.score} >= 400  then 'Medium'
+              else 'Low'
+            end`,
+        })
+        .from(customers),
+    )
+
+    if (customerScoreBandsErrror) {
+      this.logger.error('Error during queriying customers with bands')
+
+      throw new InternalServerErrorException()
+    }
+
+    return customerWithScoreBands
   }
 }

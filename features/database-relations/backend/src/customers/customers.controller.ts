@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query } from '@nestjs/common'
+import { Controller, Get, Query } from '@nestjs/common'
 import { CustomersService } from './customers.service'
 import { CustomersFilterParams } from './filtering/types'
 
@@ -19,5 +19,10 @@ export class CustomersController {
   @Get('/top')
   customerScores() {
     return this.customersService.customerScores()
+  }
+
+  @Get('/score-bands')
+  customerScoreBands() {
+    return this.customersService.scoreBands()
   }
 }
