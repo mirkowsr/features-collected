@@ -7,10 +7,23 @@ import { InjectDrizzle } from '../db/drizzle.decorator'
 import { DrizzleSchema } from '../db/types/drizzle.type'
 import to from 'await-to-js'
 import { customers } from '../db/schema'
-import { desc, isNotNull, eq, SQL, and, or, ilike, sql } from 'drizzle-orm'
+import {
+  desc,
+  isNotNull,
+  eq,
+  SQL,
+  and,
+  or,
+  ilike,
+  sql,
+  asc,
+  getTableColumns,
+  count,
+} from 'drizzle-orm'
 import {
   CustomerFilterKeys,
   CustomerFuzzySearchParam,
+  CustomerQuerySearchParams,
   CustomersFilterParams,
 } from './filtering/types'
 
@@ -20,8 +33,18 @@ export class CustomersService {
 
   constructor(@InjectDrizzle() private db: DrizzleSchema) {}
 
+  private parsePositiveInt(
+    value: string | undefined,
+    fallback: number,
+  ): number {
+    if (value === undefined || value === '') return fallback
+
+    const n = Number(value)
+    return Number.isFinite(n) ? Math.max(1, Math.floor(n)) : fallback
+  }
+
   private buildQueryParamBasedFilters(
-    params: CustomersFilterParams,
+    params: CustomerQuerySearchParams,
   ): SQL | undefined {
     const conditions: SQL[] = []
 
@@ -54,9 +77,17 @@ export class CustomersService {
     return conditions.length ? or(...conditions) : undefined
   }
 
-  async getCustomers({ q, ...restQueryParams }: CustomersFilterParams) {
+  async getCustomers({
+    q,
+    page,
+    pageSize,
+    ...restQueryParams
+  }: CustomersFilterParams) {
     this.logger.log('Querying customers')
     let conditions = undefined
+
+    const pageNumber = this.parsePositiveInt(page, 1)
+    const pageSizeNumber = this.parsePositiveInt(pageSize, 20)
 
     if (q) {
       conditions = this.buildFuzzySearchFilters({ q })
@@ -64,8 +95,30 @@ export class CustomersService {
       conditions = this.buildQueryParamBasedFilters(restQueryParams)
     }
 
+    const [totalCountError, totalCount] = await to(
+      this.db
+        .select({ count: count() })
+        .from(customers)
+        .where(conditions)
+        .then((countData) => countData[0]?.count),
+    )
+
+    if (totalCountError) {
+      this.logger.error('Error during total count querying')
+
+      throw new InternalServerErrorException()
+    }
+
     const [queryCustomersError, customersData] = await to(
-      this.db.select().from(customers).where(conditions),
+      this.db
+        .select({
+          ...getTableColumns(customers),
+        })
+        .from(customers)
+        .where(conditions)
+        .orderBy(asc(customers.customerId))
+        .limit(pageSizeNumber)
+        .offset((pageNumber - 1) * pageSizeNumber),
     )
 
     if (queryCustomersError) {
@@ -74,7 +127,15 @@ export class CustomersService {
       throw new InternalServerErrorException()
     }
 
-    return customersData
+    return {
+      data: customersData,
+      meta: {
+        page: pageNumber,
+        pageSize: pageSizeNumber,
+        total: Number(totalCount),
+        totalPages: Math.max(1, Math.ceil(Number(totalCount) / pageSizeNumber)),
+      },
+    }
   }
 
   async customerCountries() {

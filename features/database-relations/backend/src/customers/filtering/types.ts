@@ -4,7 +4,14 @@ export type CustomersFilterParams = Pick<
   Customers,
   'customerId' | 'country' | 'lastName' | 'firstName'
 > &
-  Partial<CustomerFuzzySearchParam>
+  Partial<CustomerFuzzySearchParam> &
+  Partial<PaginationParams>
+
+// pagination
+export type PaginationParams = {
+  page: string
+  pageSize: string
+}
 
 // fuzzy search
 export type CustomerFuzzySearchParam = {
@@ -12,7 +19,10 @@ export type CustomerFuzzySearchParam = {
 }
 
 // filters by query - matching db columns
-export type CustomerQuerySearchParams = Omit<CustomersFilterParams, 'q'>
+export type CustomerQuerySearchParams = Omit<
+  CustomersFilterParams,
+  'q' | 'page' | 'pageSize'
+>
 
 // key utility
 export type CustomerFilterKeys = keyof CustomerQuerySearchParams
