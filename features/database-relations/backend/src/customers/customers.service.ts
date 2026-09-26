@@ -27,12 +27,16 @@ import {
   CustomersFilterParams,
 } from './filtering/types'
 
+// TODO: refactor idea: move methods to separate filtering and pagination class,
+// add types for meta and data envelope and type return of getCustomers incude data & meta
+
 @Injectable()
 export class CustomersService {
   private logger = new Logger(CustomersService.name)
 
   constructor(@InjectDrizzle() private db: DrizzleSchema) {}
 
+  // TODO: this can be moved to separate class
   private parsePositiveInt(
     value: string | undefined,
     fallback: number,
@@ -43,6 +47,7 @@ export class CustomersService {
     return Number.isFinite(n) ? Math.max(1, Math.floor(n)) : fallback
   }
 
+  // TODO: this can be moved to separate class
   private buildQueryParamBasedFilters(
     params: CustomerQuerySearchParams,
   ): SQL | undefined {
@@ -59,6 +64,7 @@ export class CustomersService {
     return conditions.length ? and(...conditions) : undefined
   }
 
+  // TODO: this can be moved to separate class
   private buildFuzzySearchFilters({
     q,
   }: CustomerFuzzySearchParam): SQL | undefined {
