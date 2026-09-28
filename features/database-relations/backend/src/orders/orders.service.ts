@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common'
 import to from 'await-to-js'
-import { eq } from 'drizzle-orm'
+import { eq, getTableColumns, Table } from 'drizzle-orm'
 import { InjectDrizzle } from '../db/drizzle.decorator'
 import { customers, employees, orders, products } from '../db/schema'
 import { DrizzleSchema } from '../db/types/drizzle.type'
@@ -15,6 +15,7 @@ export class OrdersService {
   constructor(@InjectDrizzle() private db: DrizzleSchema) {}
 
   private logger = new Logger(OrdersService.name)
+
   private CommonQueriedColumns = {
     orderId: orders.orderId,
     customerDetails: {
@@ -83,5 +84,31 @@ export class OrdersService {
     }
 
     return orderDetails
+  }
+
+  async customerDetails() {
+    const { orderId, orderDate, orderStatus } = getTableColumns(orders)
+    const { firstName, lastName, customerId, country } =
+      getTableColumns(customers)
+
+    const [ordersWithCustomersError, ordersWithCustomers] = await to(
+      this.db
+        .select({
+          orderId,
+          orderDate,
+          orderStatus,
+          customerDetails: { firstName, lastName, country, customerId },
+        })
+        .from(orders)
+        .leftJoin(customers, eq(customers.customerId, orders.customerId)),
+    )
+
+    if (ordersWithCustomersError) {
+      this.logger.error('Error while querying orders with customers')
+
+      throw new NotFoundException('Error while querying orders with customers')
+    }
+
+    return ordersWithCustomers
   }
 }

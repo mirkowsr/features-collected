@@ -10,8 +10,13 @@ export class OrdersController {
     return this.ordersService.orders()
   }
 
-  @Get(':id')
+  @Get(':id/details')
   orderDetails(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.ordersService.orderDetails(id)
+  }
+
+  @Get('/customer-details')
+  customerDetails() {
+    return this.ordersService.customerDetails()
   }
 }
