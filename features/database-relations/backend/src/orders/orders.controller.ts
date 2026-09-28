@@ -19,4 +19,9 @@ export class OrdersController {
   customerDetails() {
     return this.ordersService.customerDetails()
   }
+
+  @Get('/by-status')
+  ordersByStatus() {
+    return this.ordersService.ordersByStatus()
+  }
 }

@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common'
 import to from 'await-to-js'
-import { eq, getTableColumns, Table } from 'drizzle-orm'
+import { count, eq, getTableColumns, sum, Table } from 'drizzle-orm'
 import { InjectDrizzle } from '../db/drizzle.decorator'
 import { customers, employees, orders, products } from '../db/schema'
 import { DrizzleSchema } from '../db/types/drizzle.type'
@@ -110,5 +110,27 @@ export class OrdersService {
     }
 
     return ordersWithCustomers
+  }
+
+  async ordersByStatus() {
+    const [ordersByStatusError, ordersByStatus] = await to(
+      this.db
+        .select({
+          orderStatus: orders.orderStatus,
+          orderSales: sum(orders.sales),
+          orderCount: count(orders.orderStatus),
+        })
+        .from(orders)
+        .groupBy(orders.orderStatus)
+        .orderBy(orders.orderStatus),
+    )
+
+    if (ordersByStatusError) {
+      this.logger.error('Error while querying orders with status')
+
+      throw new NotFoundException('Error while querying orders with status')
+    }
+
+    return ordersByStatus
   }
 }
