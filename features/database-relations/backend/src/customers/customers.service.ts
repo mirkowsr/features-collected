@@ -6,7 +6,7 @@ import {
 import { InjectDrizzle } from '../db/drizzle.decorator'
 import { DrizzleSchema } from '../db/types/drizzle.type'
 import to from 'await-to-js'
-import { customers } from '../db/schema'
+import { customers, orders } from '../db/schema'
 import {
   desc,
   isNotNull,
@@ -19,6 +19,7 @@ import {
   asc,
   getTableColumns,
   count,
+  isNull,
 } from 'drizzle-orm'
 import {
   CustomerFilterKeys,
@@ -211,5 +212,28 @@ export class CustomersService {
     }
 
     return customerWithScoreBands
+  }
+
+  async customersNoOrders() {
+    const [customersNoOrdersError, customersNoOrdersData] = await to(
+      this.db
+        .select({
+          firstName: customers.firstName,
+          lastName: customers.lastName,
+          country: customers.country,
+          customerId: customers.customerId,
+        })
+        .from(customers)
+        .leftJoin(orders, eq(customers.customerId, orders.customerId))
+        .where(isNull(orders.customerId)),
+    )
+
+    if (customersNoOrdersError) {
+      this.logger.error('Error during queriying customers without orders')
+
+      throw new InternalServerErrorException()
+    }
+
+    return customersNoOrdersData
   }
 }
