@@ -24,8 +24,14 @@ export class OrdersController {
   ordersByStatus() {
     return this.ordersService.ordersByStatus()
   }
+
   @Get('/customers-with-multiple')
   customersWithMultipleOrders() {
     return this.ordersService.customersWithMultipleOrders()
+  }
+
+  @Get('/monthly')
+  monthlyOrders() {
+    return this.ordersService.monthlyOrders()
   }
 }

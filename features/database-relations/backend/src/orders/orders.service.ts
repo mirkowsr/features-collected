@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common'
 import to from 'await-to-js'
-import { count, eq, getTableColumns, gt, sum, Table } from 'drizzle-orm'
+import { count, eq, getTableColumns, gt, sql, sum, Table } from 'drizzle-orm'
 import { InjectDrizzle } from '../db/drizzle.decorator'
 import { customers, employees, orders, products } from '../db/schema'
 import { DrizzleSchema } from '../db/types/drizzle.type'
@@ -159,5 +159,26 @@ export class OrdersService {
     }
 
     return customersWithMultipleOrdersData
+  }
+
+  async monthlyOrders() {
+    const monthSql = sql<string>`date_trunc('month', ${orders.orderDate})::date`
+
+    const [monthlyOrdersError, monthlyOrdersData] = await to(
+      this.db
+        .select({
+          month: monthSql,
+          ordersCount: count(orders.orderId),
+        })
+        .from(orders)
+        .groupBy(monthSql)
+        .orderBy(monthSql),
+    )
+    if (monthlyOrdersError) {
+      this.logger.error('Error while querying monthly orders')
+
+      throw new NotFoundException('Error while querying monthly orders')
+    }
+    return monthlyOrdersData
   }
 }
