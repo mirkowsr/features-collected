@@ -6,7 +6,7 @@ import {
 import { InjectDrizzle } from '../db/drizzle.decorator'
 import { DrizzleSchema } from '../db/types/drizzle.type'
 import { employees } from '../db/schema'
-import { eq } from 'drizzle-orm'
+import { avg, count, eq, max, min, sql } from 'drizzle-orm'
 import to from 'await-to-js'
 import { alias } from 'drizzle-orm/pg-core'
 
@@ -44,5 +44,30 @@ export class EmployeesService {
     }
 
     return employeesHierarchyData
+  }
+
+  async employeesSalariesStats() {
+    const [employeesSalariesStatsError, employeesSalariesStatsData] = await to(
+      this.db
+        .select({
+          department: employees.department,
+          employeesCount: count(employees.employeeId),
+          avgSalary: sql<number>`round(avg(${employees.salary}), 2)`,
+          maxSalary: max(employees.salary),
+          minSalary: min(employees.salary),
+        })
+        .from(employees)
+        .groupBy(employees.department),
+    )
+
+    if (employeesSalariesStatsError) {
+      this.logger.error('Error during querying employer salary stats')
+
+      throw new InternalServerErrorException(
+        'Error during querying employer salary stats',
+      )
+    }
+
+    return employeesSalariesStatsData
   }
 }

@@ -9,4 +9,9 @@ export class EmployeesController {
   employeesHierarchy() {
     return this.employeesService.employeesHierarchy()
   }
+
+  @Get('/salaries')
+  employeesSalariesStats() {
+    return this.employeesService.employeesSalariesStats()
+  }
 }
