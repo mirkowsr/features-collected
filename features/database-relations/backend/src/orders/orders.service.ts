@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common'
 import to from 'await-to-js'
-import { count, eq, getTableColumns, sum, Table } from 'drizzle-orm'
+import { count, eq, getTableColumns, gt, sum, Table } from 'drizzle-orm'
 import { InjectDrizzle } from '../db/drizzle.decorator'
 import { customers, employees, orders, products } from '../db/schema'
 import { DrizzleSchema } from '../db/types/drizzle.type'
@@ -132,5 +132,32 @@ export class OrdersService {
     }
 
     return ordersByStatus
+  }
+
+  async customersWithMultipleOrders() {
+    const [customersWithMultipleOrdersError, customersWithMultipleOrdersData] =
+      await to(
+        this.db
+          .select({
+            customerId: customers.customerId,
+            lastName: customers.lastName,
+            firstName: customers.firstName,
+            ordersCount: count(orders.orderId),
+          })
+          .from(customers)
+          .leftJoin(orders, eq(customers.customerId, orders.customerId))
+          .groupBy(customers.customerId)
+          .having(({ ordersCount }) => gt(ordersCount, 1)),
+      )
+
+    if (customersWithMultipleOrdersError) {
+      this.logger.error('Error while querying customers with multiple orders')
+
+      throw new NotFoundException(
+        'Error while querying customers with multiple orders',
+      )
+    }
+
+    return customersWithMultipleOrdersData
   }
 }
