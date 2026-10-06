@@ -2,7 +2,7 @@ import * as p from 'drizzle-orm/pg-core'
 import { orderStatusEnum } from './enums/orders'
 
 export const ordersarchive = p.pgTable('ordersarchive', {
-  orderId: p.uuid('order_id'),
+  orderId: p.uuid('order_id').notNull(),
   orderDate: p.date('order_date'),
   shipDate: p.date('ship_date'),
   orderStatus: orderStatusEnum('order_status'),

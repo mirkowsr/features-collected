@@ -7,8 +7,15 @@ import {
 import to from 'await-to-js'
 import { count, eq, getTableColumns, gt, sql, sum, Table } from 'drizzle-orm'
 import { InjectDrizzle } from '../db/drizzle.decorator'
-import { customers, employees, orders, products } from '../db/schema'
+import {
+  customers,
+  employees,
+  orders,
+  ordersarchive,
+  products,
+} from '../db/schema'
 import { DrizzleSchema } from '../db/types/drizzle.type'
+import { unionAll } from 'drizzle-orm/pg-core'
 
 @Injectable()
 export class OrdersService {
@@ -106,7 +113,9 @@ export class OrdersService {
     if (ordersWithCustomersError) {
       this.logger.error('Error while querying orders with customers')
 
-      throw new NotFoundException('Error while querying orders with customers')
+      throw new InternalServerErrorException(
+        'Error while querying orders with customers',
+      )
     }
 
     return ordersWithCustomers
@@ -128,7 +137,9 @@ export class OrdersService {
     if (ordersByStatusError) {
       this.logger.error('Error while querying orders with status')
 
-      throw new NotFoundException('Error while querying orders with status')
+      throw new InternalServerErrorException(
+        'Error while querying orders with status',
+      )
     }
 
     return ordersByStatus
@@ -177,8 +188,47 @@ export class OrdersService {
     if (monthlyOrdersError) {
       this.logger.error('Error while querying monthly orders')
 
-      throw new NotFoundException('Error while querying monthly orders')
+      throw new InternalServerErrorException(
+        'Error while querying monthly orders',
+      )
     }
     return monthlyOrdersData
+  }
+
+  async unionArchiveOrders() {
+    const combined = unionAll(
+      this.db
+        .select({ orderId: orders.orderId, orderStatus: orders.orderStatus })
+        .from(orders),
+      this.db
+        .select({
+          orderId: ordersarchive.orderId,
+          orderStatus: ordersarchive.orderStatus,
+        })
+        .from(ordersarchive),
+    ).as('combined')
+
+    const [unionArchiveOrdersError, unionArchiveOrders] = await to(
+      this.db
+        .select({
+          count: count(combined.orderId),
+          orderStatus: combined.orderStatus,
+        })
+        .from(combined)
+        .groupBy(combined.orderStatus),
+    )
+
+    if (unionArchiveOrdersError) {
+      this.logger.error(
+        'Error while querying unioned orders',
+        unionArchiveOrdersError,
+      )
+
+      throw new InternalServerErrorException(
+        'Error while querying unioned orders',
+      )
+    }
+
+    return unionArchiveOrders
   }
 }

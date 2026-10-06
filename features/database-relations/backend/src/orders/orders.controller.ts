@@ -34,4 +34,9 @@ export class OrdersController {
   monthlyOrders() {
     return this.ordersService.monthlyOrders()
   }
+
+  @Get('/union-archive')
+  unionArchiveOrders() {
+    return this.ordersService.unionArchiveOrders()
+  }
 }
