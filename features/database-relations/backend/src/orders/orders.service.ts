@@ -15,7 +15,7 @@ import {
   products,
 } from '../db/schema'
 import { DrizzleSchema } from '../db/types/drizzle.type'
-import { unionAll } from 'drizzle-orm/pg-core'
+import { except, unionAll } from 'drizzle-orm/pg-core'
 
 @Injectable()
 export class OrdersService {
@@ -219,10 +219,7 @@ export class OrdersService {
     )
 
     if (unionArchiveOrdersError) {
-      this.logger.error(
-        'Error while querying unioned orders',
-        unionArchiveOrdersError,
-      )
+      this.logger.error('Error while querying unioned orders')
 
       throw new InternalServerErrorException(
         'Error while querying unioned orders',
@@ -230,5 +227,25 @@ export class OrdersService {
     }
 
     return unionArchiveOrders
+  }
+  async activeNonArchive() {
+    const nonArchived = except(
+      this.db.select({ orderId: orders.orderId }).from(orders),
+      this.db.select({ orderId: ordersarchive.orderId }).from(ordersarchive),
+    ).as('nonArchived')
+
+    const [nonArchivedError, nonArchivedData] = await to(
+      this.db.select({ orderId: nonArchived.orderId }).from(nonArchived),
+    )
+
+    if (nonArchivedError) {
+      this.logger.error('Error while querying non-archived orders')
+
+      throw new InternalServerErrorException(
+        'Error while querying non-archived orders',
+      )
+    }
+
+    return nonArchivedData
   }
 }

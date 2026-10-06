@@ -39,4 +39,9 @@ export class OrdersController {
   unionArchiveOrders() {
     return this.ordersService.unionArchiveOrders()
   }
+
+  @Get('/active')
+  activeNonArchive() {
+    return this.ordersService.activeNonArchive()
+  }
 }
