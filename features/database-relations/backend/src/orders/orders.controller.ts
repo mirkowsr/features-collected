@@ -44,4 +44,9 @@ export class OrdersController {
   activeNonArchive() {
     return this.ordersService.activeNonArchive()
   }
+
+  @Get('/above-average')
+  aboveAverage() {
+    return this.ordersService.aboveAverage()
+  }
 }

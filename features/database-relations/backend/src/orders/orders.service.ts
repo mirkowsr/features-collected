@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common'
 import to from 'await-to-js'
-import { count, eq, getTableColumns, gt, sql, sum, Table } from 'drizzle-orm'
+import { avg, count, eq, getTableColumns, gt, sql, sum } from 'drizzle-orm'
 import { InjectDrizzle } from '../db/drizzle.decorator'
 import {
   customers,
@@ -247,5 +247,35 @@ export class OrdersService {
     }
 
     return nonArchivedData
+  }
+  async aboveAverage() {
+    const averageSub = this.db
+      .select({
+        average: sql<number>`round(avg(${orders.quantity} * ${products.price}), 2)`,
+      })
+      .from(orders)
+      .leftJoin(products, eq(orders.productId, products.productId))
+
+    const [aboveAverageError, aboveAverageData] = await to(
+      this.db
+        .select({
+          orderId: orders.orderId,
+          orderAmount: sql<number>`${orders.quantity} * ${products.price}`,
+        })
+        .from(orders)
+        .leftJoin(products, eq(orders.productId, products.productId))
+        .groupBy(orders.orderId, products.price)
+        .having(({ orderAmount }) => gt(orderAmount, averageSub)),
+    )
+
+    if (aboveAverageError) {
+      this.logger.error('Error while querying above average orders')
+
+      throw new InternalServerErrorException(
+        'Error while querying above average orders',
+      )
+    }
+
+    return aboveAverageData
   }
 }
