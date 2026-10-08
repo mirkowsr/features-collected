@@ -5,9 +5,9 @@ import {
 } from '@nestjs/common'
 import { InjectDrizzle } from '../db/drizzle.decorator'
 import { DrizzleSchema } from '../db/types/drizzle.type'
-import { orders, products } from '../db/schema'
+import { customers, orders, products } from '../db/schema'
 import to from 'await-to-js'
-import { eq, getTableColumns, inArray } from 'drizzle-orm'
+import { desc, eq, getTableColumns, inArray, sum } from 'drizzle-orm'
 import { OrderStatusEnum } from '../db/schema/enums/orders'
 
 @Injectable()
@@ -40,5 +40,42 @@ export class AnalyticsService {
     }
 
     return productsInDeliveredData
+  }
+
+  async revenueTop(limit: string) {
+    console.log('@@@', limit)
+
+    let numberLimit = Number(limit) ?? undefined
+
+    const revenueCte = this.db.$with('revenueCte').as(
+      this.db
+        .select({
+          saleRevenue: sum(orders.sales).as('saleRevenue'),
+          customerId: orders.customerId,
+        })
+        .from(orders)
+        .groupBy(orders.customerId),
+    )
+
+    const [revenueTopError, revenueTopData] = await to(
+      this.db
+        .with(revenueCte)
+        .select({
+          revenue: revenueCte.saleRevenue,
+          customerId: revenueCte.customerId,
+          firstName: customers.firstName,
+          lastName: customers.lastName,
+        })
+        .from(revenueCte)
+        .leftJoin(customers, eq(customers.customerId, revenueCte.customerId))
+        .orderBy(desc(revenueCte.saleRevenue))
+        .limit(numberLimit),
+    )
+
+    if (revenueTopError) {
+      throw new InternalServerErrorException('revenue top querying error')
+    }
+
+    return revenueTopData
   }
 }
