@@ -6,6 +6,7 @@ import { DrizzleModule } from './db/drizzle.module'
 import { CustomersModule } from './customers/customers.module'
 import { OrdersModule } from './orders/orders.module';
 import { EmployeesModule } from './employees/employees.module';
+import { AnalyticsModule } from './analytics/analytics.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { EmployeesModule } from './employees/employees.module';
     CustomersModule,
     OrdersModule,
     EmployeesModule,
+    AnalyticsModule,
   ],
   controllers: [AppController],
 })
