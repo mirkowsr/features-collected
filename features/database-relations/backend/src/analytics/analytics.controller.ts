@@ -14,4 +14,9 @@ export class AnalyticsController {
   revenueTop(@Query('limit') limit: string) {
     return this.analyticsService.revenueTop(limit)
   }
+
+  @Get('/customers-rank')
+  customersRank() {
+    return this.analyticsService.customersRank()
+  }
 }

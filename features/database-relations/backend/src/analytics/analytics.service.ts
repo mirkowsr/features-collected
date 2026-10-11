@@ -3,12 +3,12 @@ import {
   InternalServerErrorException,
   Logger,
 } from '@nestjs/common'
-import { InjectDrizzle } from '../db/drizzle.decorator'
-import { DrizzleSchema } from '../db/types/drizzle.type'
-import { customers, orders, products } from '../db/schema'
 import to from 'await-to-js'
-import { desc, eq, getTableColumns, inArray, sum } from 'drizzle-orm'
+import { asc, desc, eq, getTableColumns, inArray, sql, sum } from 'drizzle-orm'
+import { InjectDrizzle } from '../db/drizzle.decorator'
+import { customers, orders, products } from '../db/schema'
 import { OrderStatusEnum } from '../db/schema/enums/orders'
+import { DrizzleSchema } from '../db/types/drizzle.type'
 
 @Injectable()
 export class AnalyticsService {
@@ -75,5 +75,31 @@ export class AnalyticsService {
     }
 
     return revenueTopData
+  }
+
+  async customersRank() {
+    const [customersRankError, customersRank] = await to(
+      this.db
+        .select({
+          customerId: customers.customerId,
+          firstName: customers.firstName,
+          lastName: customers.lastName,
+          score: customers.score,
+          rank: sql<number>`dense_rank() over (order by ${customers.score})::int`.as(
+            'customerRank',
+          ),
+        })
+        .from(orders)
+        .leftJoin(customers, eq(customers.customerId, orders.customerId))
+        .orderBy(({ rank }) => asc(rank)),
+    )
+
+    if (customersRankError) {
+      throw new InternalServerErrorException(
+        'Error while querying customer ranks',
+      )
+    }
+
+    return customersRank
   }
 }

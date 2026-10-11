@@ -5,7 +5,8 @@ import {
   NotFoundException,
 } from '@nestjs/common'
 import to from 'await-to-js'
-import { avg, count, eq, getTableColumns, gt, sql, sum } from 'drizzle-orm'
+import { count, desc, eq, getTableColumns, gt, sql, sum } from 'drizzle-orm'
+import { except, unionAll } from 'drizzle-orm/pg-core'
 import { InjectDrizzle } from '../db/drizzle.decorator'
 import {
   customers,
@@ -15,7 +16,6 @@ import {
   products,
 } from '../db/schema'
 import { DrizzleSchema } from '../db/types/drizzle.type'
-import { except, unionAll } from 'drizzle-orm/pg-core'
 
 @Injectable()
 export class OrdersService {
