@@ -19,4 +19,9 @@ export class AnalyticsController {
   customersRank() {
     return this.analyticsService.customersRank()
   }
+
+  @Get('/running-total')
+  runningAverage() {
+    return this.analyticsService.runningTotal()
+  }
 }

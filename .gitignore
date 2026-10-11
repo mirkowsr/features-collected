@@ -36,3 +36,6 @@ pnpm-debug.log*
 # pruned build artifacts
 pruned/
 **/pruned/
+
+#nvim configs
+.lazy.lua

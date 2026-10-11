@@ -102,4 +102,30 @@ export class AnalyticsService {
 
     return customersRank
   }
+
+  async runningTotal() {
+    const [runningAverageError, runningAverageData] = await to(
+      this.db
+        .select({
+          orderId: orders.orderId,
+          orderAmount:
+            sql<number>`${orders.quantity} * ${products.price}::int`.as(
+              'orderAmount',
+            ),
+          runningTotal: sql<number>`sum(${orders.quantity}*${products.price}) 
+          over(order by ${orders.orderDate})`.as('runningTotal'),
+        })
+        .from(orders)
+        .leftJoin(products, eq(products.productId, orders.productId))
+        .orderBy(asc(orders.orderDate)),
+    )
+
+    if (runningAverageError) {
+      throw new InternalServerErrorException(
+        'Error while querying running average data',
+      )
+    }
+
+    return runningAverageData
+  }
 }
