@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectDrizzle } from '../db/drizzle.decorator'
-import { DrizzleSchema } from '../db/types/drizzle.type'
 import { users } from '../db/schema'
+import { DrizzleSchema } from '../db/types/drizzle.type'
 
 @Injectable()
 export class UsersService {
