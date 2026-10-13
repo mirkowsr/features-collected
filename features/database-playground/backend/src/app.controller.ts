@@ -4,6 +4,6 @@ import { Controller, Get } from '@nestjs/common'
 export class AppController {
   @Get()
   getHello(): string {
-    return 'database-relations backend is running'
+    return 'database-playground backend is running'
   }
 }

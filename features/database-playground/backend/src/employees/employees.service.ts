@@ -3,12 +3,12 @@ import {
   InternalServerErrorException,
   Logger,
 } from '@nestjs/common'
-import { InjectDrizzle } from '../db/drizzle.decorator'
-import { DrizzleSchema } from '../db/types/drizzle.type'
-import { employees } from '../db/schema'
-import { avg, count, eq, max, min, sql } from 'drizzle-orm'
 import to from 'await-to-js'
+import { count, eq, max, min, sql } from 'drizzle-orm'
 import { alias } from 'drizzle-orm/pg-core'
+import { InjectDrizzle } from '../db/drizzle.decorator'
+import { employees } from '../db/schema'
+import { DrizzleSchema } from '../db/types/drizzle.type'
 
 @Injectable()
 export class EmployeesService {

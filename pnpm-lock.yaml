@@ -127,7 +127,7 @@ importers:
         specifier: ^5.4.0
         version: 5.9.3
 
-  features/database-relations/backend:
+  features/database-playground/backend:
     dependencies:
       '@aws-sdk/client-s3':
         specifier: ^3.1076.0
