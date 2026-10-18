@@ -1,6 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './card'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from './card'
 
 const meta: Meta<typeof Card> = {
   title: 'Components/Card',
@@ -23,8 +30,8 @@ export const Default: Story = {
       </CardHeader>
       <CardContent>
         <p>
-          Your content goes here. This is an example of a fully composed card with header, content,
-          and footer sections working together.
+          Your content goes here. This is an example of a fully composed card
+          with header, content, and footer sections working together.
         </p>
       </CardContent>
       <CardFooter>

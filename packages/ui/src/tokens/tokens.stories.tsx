@@ -34,7 +34,9 @@ function TokensPreview() {
             />
             <div className="flex flex-col">
               <span className="text-sm font-medium">{token.name}</span>
-              <span className="text-xs text-muted-foreground font-mono">{token.var}</span>
+              <span className="text-xs text-muted-foreground font-mono">
+                {token.var}
+              </span>
             </div>
           </div>
         ))}
@@ -56,12 +58,17 @@ function TokensPreview() {
       <h2 className="text-xl font-semibold mt-4">Shadow Tokens</h2>
       <div className="flex gap-4">
         {['sm', '', 'md', 'lg'].map((size) => (
-          <div key={size || 'default'} className="flex flex-col items-center gap-2">
+          <div
+            key={size || 'default'}
+            className="flex flex-col items-center gap-2"
+          >
             <div
               className="size-16 rounded-md bg-surface"
               style={{ boxShadow: `var(--shadow${size ? `-${size}` : ''})` }}
             />
-            <span className="text-xs font-mono">shadow{size ? `-${size}` : ''}</span>
+            <span className="text-xs font-mono">
+              shadow{size ? `-${size}` : ''}
+            </span>
           </div>
         ))}
       </div>

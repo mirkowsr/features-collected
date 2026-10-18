@@ -7,13 +7,11 @@ import { cn } from '../../utils'
 const Sheet = SheetPrimitive.Root
 const SheetPortal = SheetPrimitive.Portal
 
-type SheetTriggerProps = React.ComponentPropsWithRef<typeof SheetPrimitive.Trigger>
+type SheetTriggerProps = React.ComponentPropsWithRef<
+  typeof SheetPrimitive.Trigger
+>
 
-function SheetTrigger({
-  className,
-  ref,
-  ...props
-}: SheetTriggerProps) {
+function SheetTrigger({ className, ref, ...props }: SheetTriggerProps) {
   return (
     <SheetPrimitive.Trigger
       ref={ref}
@@ -26,11 +24,7 @@ function SheetTrigger({
 
 type SheetCloseProps = React.ComponentPropsWithRef<typeof SheetPrimitive.Close>
 
-function SheetClose({
-  className,
-  ref,
-  ...props
-}: SheetCloseProps) {
+function SheetClose({ className, ref, ...props }: SheetCloseProps) {
   return (
     <SheetPrimitive.Close
       ref={ref}
@@ -41,7 +35,9 @@ function SheetClose({
   )
 }
 
-type SheetOverlayProps = React.ComponentPropsWithRef<typeof SheetPrimitive.Overlay>
+type SheetOverlayProps = React.ComponentPropsWithRef<
+  typeof SheetPrimitive.Overlay
+>
 
 function SheetOverlay({ className, ref, ...props }: SheetOverlayProps) {
   return (
@@ -70,7 +66,8 @@ const sheetVariants = cva(
         top: 'inset-x-0 top-0 border-b border-border',
         bottom: 'inset-x-0 bottom-0 border-t border-border',
         left: 'inset-y-0 left-0 h-full w-3/4 border-r border-border sm:max-w-sm',
-        right: 'inset-y-0 right-0 h-full w-3/4 border-l border-border sm:max-w-sm',
+        right:
+          'inset-y-0 right-0 h-full w-3/4 border-l border-border sm:max-w-sm',
       },
     },
     defaultVariants: {
@@ -79,7 +76,9 @@ const sheetVariants = cva(
   },
 )
 
-type SheetContentProps = React.ComponentPropsWithRef<typeof SheetPrimitive.Content> &
+type SheetContentProps = React.ComponentPropsWithRef<
+  typeof SheetPrimitive.Content
+> &
   VariantProps<typeof sheetVariants>
 
 function SheetContent({
@@ -140,7 +139,10 @@ function SheetFooter({ className, ref, ...props }: SheetFooterProps) {
     <div
       ref={ref}
       data-slot="sheet-footer"
-      className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:gap-2', className)}
+      className={cn(
+        'flex flex-col-reverse sm:flex-row sm:justify-end sm:gap-2',
+        className,
+      )}
       {...props}
     />
   )
@@ -159,7 +161,9 @@ function SheetTitle({ className, ref, ...props }: SheetTitleProps) {
   )
 }
 
-type SheetDescriptionProps = React.ComponentPropsWithRef<typeof SheetPrimitive.Description>
+type SheetDescriptionProps = React.ComponentPropsWithRef<
+  typeof SheetPrimitive.Description
+>
 
 function SheetDescription({ className, ref, ...props }: SheetDescriptionProps) {
   return (

@@ -2,14 +2,11 @@ import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area'
 
 import { cn } from '../../utils'
 
-type ScrollAreaProps = React.ComponentPropsWithRef<typeof ScrollAreaPrimitive.Root>
+type ScrollAreaProps = React.ComponentPropsWithRef<
+  typeof ScrollAreaPrimitive.Root
+>
 
-function ScrollArea({
-  className,
-  children,
-  ref,
-  ...props
-}: ScrollAreaProps) {
+function ScrollArea({ className, children, ref, ...props }: ScrollAreaProps) {
   return (
     <ScrollAreaPrimitive.Root
       ref={ref}
@@ -30,7 +27,9 @@ function ScrollArea({
   )
 }
 
-type ScrollBarProps = React.ComponentPropsWithRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>
+type ScrollBarProps = React.ComponentPropsWithRef<
+  typeof ScrollAreaPrimitive.ScrollAreaScrollbar
+>
 
 function ScrollBar({
   className,
@@ -45,8 +44,10 @@ function ScrollBar({
       orientation={orientation}
       className={cn(
         'flex touch-none select-none transition-colors',
-        orientation === 'vertical' && 'h-full w-2.5 border-l border-l-transparent p-px',
-        orientation === 'horizontal' && 'h-2.5 flex-col border-t border-t-transparent p-px',
+        orientation === 'vertical' &&
+          'h-full w-2.5 border-l border-l-transparent p-px',
+        orientation === 'horizontal' &&
+          'h-2.5 flex-col border-t border-t-transparent p-px',
         className,
       )}
       {...props}
@@ -59,9 +60,4 @@ function ScrollBar({
   )
 }
 
-export {
-  ScrollArea,
-  ScrollBar,
-  type ScrollAreaProps,
-  type ScrollBarProps,
-}
+export { ScrollArea, ScrollBar, type ScrollAreaProps, type ScrollBarProps }

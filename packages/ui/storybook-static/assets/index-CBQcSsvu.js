@@ -1,1 +1,0 @@
-import{r as s,o as a}from"./index-ZH-6pyQh.js";import{u}from"./index-B2_tsCGI.js";var i=a[" useId ".trim().toString()]||(()=>{}),d=0;function f(r){const[t,o]=s.useState(i());return u(()=>{o(e=>e??String(d++))},[r]),t?`radix-${t}`:""}export{f as u};

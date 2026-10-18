@@ -13,13 +13,13 @@ and easy to maintain. Read this guide before opening a PR that touches any compo
 All packages in the monorepo share a common code style enforced by Prettier and ESLint. The
 settings that matter most when working inside `@repo/ui`:
 
-| Setting | Value |
-|---|---|
-| Semicolons | No |
-| Quotes | Single |
+| Setting         | Value                           |
+| --------------- | ------------------------------- |
+| Semicolons      | No                              |
+| Quotes          | Single                          |
 | Trailing commas | All (including function params) |
-| Print width | 100 characters |
-| Indentation | 2 spaces (no tabs) |
+| Print width     | 80 characters                   |
+| Indentation     | 2 spaces (no tabs)              |
 
 TypeScript is configured with `strict: true` and `noUncheckedIndexedAccess: true`. Array and
 object index access returns `T | undefined` -- always guard or assert before use. Access
@@ -137,21 +137,13 @@ Each component folder has an `index.ts` that re-exports everything:
 
 ```ts
 // src/components/button/index.ts
-export {
-  Button,
-  buttonVariants,
-  type ButtonProps,
-} from './button'
+export { Button, buttonVariants, type ButtonProps } from './button'
 ```
 
 After creating the barrel, add the component to the main package barrel at `src/index.ts`:
 
 ```ts
-export {
-  Button,
-  buttonVariants,
-  type ButtonProps,
-} from './components/button'
+export { Button, buttonVariants, type ButtonProps } from './components/button'
 ```
 
 ### Story Pattern

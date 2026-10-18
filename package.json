@@ -8,6 +8,8 @@
     "lint:fix": "turbo run lint:fix",
     "format": "turbo run format",
     "format:check": "turbo run format:check",
+    "prepare": "husky",
+    "typecheck": "turbo run typecheck",
     "create-feature": "node scripts/create-feature.mjs",
     "feature": "node scripts/run-feature.mjs",
     "docker:up": "docker compose up -d",
@@ -16,8 +18,24 @@
     "docker:logs": "docker compose logs -f postgres"
   },
   "packageManager": "pnpm@10.12.4",
+  "engines": {
+    "node": ">=22"
+  },
+  "prettier": "@repo/prettier-config",
   "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
     "@types/pg": "^8.20.0",
+    "eslint": "^9.39.3",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
+    "prettier": "^3.8.1",
     "turbo": "^2.10.4"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,mts,cts,js,mjs,cjs,astro}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,css,yml,yaml}": "prettier --write"
   }
 }

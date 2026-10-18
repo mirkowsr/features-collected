@@ -3,13 +3,11 @@ import { ChevronDown } from 'lucide-react'
 
 import { cn } from '../../utils'
 
-type AccordionProps = React.ComponentPropsWithRef<typeof AccordionPrimitive.Root>
+type AccordionProps = React.ComponentPropsWithRef<
+  typeof AccordionPrimitive.Root
+>
 
-function Accordion({
-  className,
-  ref,
-  ...props
-}: AccordionProps) {
+function Accordion({ className, ref, ...props }: AccordionProps) {
   return (
     <AccordionPrimitive.Root
       ref={ref}
@@ -20,13 +18,11 @@ function Accordion({
   )
 }
 
-type AccordionItemProps = React.ComponentPropsWithRef<typeof AccordionPrimitive.Item>
+type AccordionItemProps = React.ComponentPropsWithRef<
+  typeof AccordionPrimitive.Item
+>
 
-function AccordionItem({
-  className,
-  ref,
-  ...props
-}: AccordionItemProps) {
+function AccordionItem({ className, ref, ...props }: AccordionItemProps) {
   return (
     <AccordionPrimitive.Item
       ref={ref}
@@ -37,7 +33,9 @@ function AccordionItem({
   )
 }
 
-type AccordionTriggerProps = React.ComponentPropsWithRef<typeof AccordionPrimitive.Trigger>
+type AccordionTriggerProps = React.ComponentPropsWithRef<
+  typeof AccordionPrimitive.Trigger
+>
 
 function AccordionTrigger({
   className,
@@ -66,7 +64,9 @@ function AccordionTrigger({
   )
 }
 
-type AccordionContentProps = React.ComponentPropsWithRef<typeof AccordionPrimitive.Content>
+type AccordionContentProps = React.ComponentPropsWithRef<
+  typeof AccordionPrimitive.Content
+>
 
 function AccordionContent({
   className,

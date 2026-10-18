@@ -10,7 +10,8 @@
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "format": "prettier --write src",
-    "format:check": "prettier --check src"
+    "format:check": "prettier --check src",
+    "typecheck": "astro check"
   },
   "dependencies": {
     "@repo/utils": "workspace:*",
@@ -19,6 +20,7 @@
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/prettier-config": "workspace:*",
+    "@astrojs/check": "^0.9.4",
     "eslint": "^9.0.0",
     "prettier": "^3.0.0",
     "typescript": "^5.4.0"

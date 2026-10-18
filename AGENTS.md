@@ -7,6 +7,7 @@ Guidelines for agentic coding assistants working in this repository.
 ## Repository Overview
 
 A **pnpm + Turborepo monorepo** that scaffolds full-stack features, each consisting of:
+
 - A **React 19 + Vite** or **Astro 5** frontend
 - A **NestJS 11 + TypeORM + PostgreSQL** backend
 
@@ -65,6 +66,7 @@ pnpm lint                  # eslint src (report errors)
 pnpm lint:fix              # eslint src --fix (auto-fix)
 pnpm format                # prettier --write src
 pnpm format:check          # prettier --check src (CI-safe, no writes)
+pnpm typecheck             # tsc --noEmit / astro check across packages
 
 # Filter to one package
 pnpm lint --filter @repo/feature-a-frontend
@@ -72,6 +74,10 @@ pnpm lint:fix --filter "@repo/feature-a-*"
 ```
 
 Always run `pnpm lint:fix` and `pnpm format` before committing changes.
+
+Git hooks run `pnpm exec lint-staged` before commits and `pnpm typecheck` before pushes.
+CI runs affected-only format, lint, typecheck, build, and the UI Storybook build. To match CI
+locally, use `pnpm exec turbo run <task> --affected`.
 
 ---
 
@@ -100,16 +106,16 @@ Copy `.env.example` to `.env` and fill in values before starting the backend.
 
 ### Formatting (Prettier)
 
-| Setting | Value |
-|---|---|
-| Semicolons | **No** |
-| Quotes | **Single** |
+| Setting         | Value                               |
+| --------------- | ----------------------------------- |
+| Semicolons      | **No**                              |
+| Quotes          | **Single**                          |
 | Trailing commas | **All** (including function params) |
-| Print width | **100** characters |
-| Indentation | **2 spaces** (no tabs) |
-| Bracket spacing | Yes — `{ foo }` not `{foo}` |
-| Arrow parens | Always — `(x) => x` not `x => x` |
-| Line endings | LF |
+| Print width     | **80** characters                   |
+| Indentation     | **2 spaces** (no tabs)              |
+| Bracket spacing | Yes — `{ foo }` not `{foo}`         |
+| Arrow parens    | Always — `(x) => x` not `x => x`    |
+| Line endings    | LF                                  |
 
 ### TypeScript
 
@@ -137,6 +143,7 @@ explaining why, and only when there is no better alternative.
 2. Within each group, sort **alphabetically, case-insensitive**.
 
 3. Use **`import type`** for type-only imports:
+
    ```ts
    import type { FC } from 'react'
    ```
@@ -145,17 +152,17 @@ explaining why, and only when there is no better alternative.
 
 ### Naming Conventions
 
-| Item | Style | Example |
-|---|---|---|
-| React components | PascalCase | `UserCard`, `App` |
-| Component files | PascalCase | `UserCard.tsx` |
-| NestJS classes | PascalCase | `AppModule`, `UserService` |
-| Functions & variables | camelCase | `bootstrap`, `getUserById` |
-| Script-level path constants | SCREAMING_SNAKE | `FEATURES_DIR`, `TEMPLATES_DIR` |
-| Unused parameters | Prefix with `_` | `_unusedParam` |
-| npm package names | kebab-case | `@repo/feature-a-backend` |
-| Non-component filenames | kebab-case | `create-feature.mjs` |
-| Template placeholders | `__FEATURE_NAME__` (double underscores) | — |
+| Item                        | Style                                   | Example                         |
+| --------------------------- | --------------------------------------- | ------------------------------- |
+| React components            | PascalCase                              | `UserCard`, `App`               |
+| Component files             | PascalCase                              | `UserCard.tsx`                  |
+| NestJS classes              | PascalCase                              | `AppModule`, `UserService`      |
+| Functions & variables       | camelCase                               | `bootstrap`, `getUserById`      |
+| Script-level path constants | SCREAMING_SNAKE                         | `FEATURES_DIR`, `TEMPLATES_DIR` |
+| Unused parameters           | Prefix with `_`                         | `_unusedParam`                  |
+| npm package names           | kebab-case                              | `@repo/feature-a-backend`       |
+| Non-component filenames     | kebab-case                              | `create-feature.mjs`            |
+| Template placeholders       | `__FEATURE_NAME__` (double underscores) | —                               |
 
 ### Error Handling
 
@@ -163,7 +170,10 @@ explaining why, and only when there is no better alternative.
   optional-chaining no-ops.
 - **Top-level async entrypoints** — always wrap with `.catch()`:
   ```ts
-  main().catch((err) => { console.error(err); process.exit(1) })
+  main().catch((err) => {
+    console.error(err)
+    process.exit(1)
+  })
   ```
 - **Fatal script errors** — call `process.exit(1)` so Turbo marks the task as failed.
 - **Environment variables** — access via bracket notation (`process.env['PORT']`) to satisfy
@@ -212,17 +222,22 @@ pnpm dev --filter "@repo/<feature-name>-*"
 
 ## Key Configuration Files
 
-| File | Purpose |
-|---|---|
-| `turbo.json` | Pipeline: build → lint → format task graph; TUI enabled by default |
-| `pnpm-workspace.yaml` | Workspace package globs |
-| `tsconfig.base.json` | Shared TypeScript base (extended by all packages) |
-| `config/eslint/index.js` | Base ESLint config (`@repo/eslint-config`) |
-| `config/eslint/react.js` | React-specific ESLint additions |
-| `config/eslint/astro.js` | Astro-specific ESLint additions |
-| `config/prettier/index.js` | Shared Prettier config (`@repo/prettier-config`) |
-| `docker-compose.yml` | PostgreSQL 16 service definition |
-| `.env.example` | Template for required environment variables |
+| File                       | Purpose                                                            |
+| -------------------------- | ------------------------------------------------------------------ |
+| `turbo.json`               | Pipeline: build → lint → format task graph; TUI enabled by default |
+| `pnpm-workspace.yaml`      | Workspace package globs                                            |
+| `tsconfig.base.json`       | Shared TypeScript base (extended by all packages)                  |
+| `config/eslint/index.js`   | Base ESLint config (`@repo/eslint-config`)                         |
+| `config/eslint/react.js`   | React-specific ESLint additions                                    |
+| `config/eslint/astro.js`   | Astro-specific ESLint additions                                    |
+| `config/prettier/index.js` | Shared Prettier config (`@repo/prettier-config`)                   |
+| `eslint.config.js`         | Root ESLint flat config for lint-staged                            |
+| `.husky/pre-commit`        | Runs lint-staged before commits                                    |
+| `.husky/pre-push`          | Runs typecheck before pushes                                       |
+| `.github/workflows/ci.yml` | Affected-only CI quality gates                                     |
+| `.nvmrc`                   | Required Node.js major version                                     |
+| `docker-compose.yml`       | PostgreSQL 16 service definition                                   |
+| `.env.example`             | Template for required environment variables                        |
 
 ---
 
@@ -246,14 +261,14 @@ with **CSS variables (OKLCH) + Tailwind CSS v4**, using **CVA** for variant mana
 
 Animation approach: **CSS transitions only** (no `motion` library, no `tailwindcss-animate`).
 
-| Element type | Approach |
-|---|---|
-| Overlays (backdrop) | `transition-opacity duration-200 data-[state=open]:opacity-100 data-[state=closed]:opacity-0` |
-| Dialog/AlertDialog content | `transition-all duration-200` + opacity and scale via `data-[state=open/closed]:` |
-| Sheet content | `transition-transform duration-300 ease-out` + directional slide via CVA side variants |
-| Tooltip content | `transition-opacity duration-150` + `data-[state=delayed-open]:opacity-100` |
-| Popover/DropdownMenu/Select content | `transition-opacity duration-200` + `data-[state=open/closed]:` |
-| Accordion | CSS `@keyframes` using `--radix-accordion-content-height` |
+| Element type                        | Approach                                                                                      |
+| ----------------------------------- | --------------------------------------------------------------------------------------------- |
+| Overlays (backdrop)                 | `transition-opacity duration-200 data-[state=open]:opacity-100 data-[state=closed]:opacity-0` |
+| Dialog/AlertDialog content          | `transition-all duration-200` + opacity and scale via `data-[state=open/closed]:`             |
+| Sheet content                       | `transition-transform duration-300 ease-out` + directional slide via CVA side variants        |
+| Tooltip content                     | `transition-opacity duration-150` + `data-[state=delayed-open]:opacity-100`                   |
+| Popover/DropdownMenu/Select content | `transition-opacity duration-200` + `data-[state=open/closed]:`                               |
+| Accordion                           | CSS `@keyframes` using `--radix-accordion-content-height`                                     |
 
 Radix unmounts overlays from the DOM on close — only enter animations are visible without
 `forceMount`. This is acceptable and matches the shadcn/ui approach.
@@ -283,12 +298,12 @@ Never leave `ring-offset-background` without a corresponding `ring-offset-2` (th
 
 ### Semantic HTML Convention
 
-| Element type | Tag | Type base |
-|---|---|---|
-| Inline (Badge, Label) | `<span>` | `ComponentPropsWithRef<'span'>` |
-| Block (Card, Alert) | `<div>` | `ComponentPropsWithRef<'div'>` |
-| Interactive (Button) | `<button>` | `ComponentPropsWithRef<'button'>` |
-| Text input | `<input>` / `<textarea>` | `ComponentPropsWithRef<'input'>` / `ComponentPropsWithRef<'textarea'>` |
+| Element type          | Tag                      | Type base                                                              |
+| --------------------- | ------------------------ | ---------------------------------------------------------------------- |
+| Inline (Badge, Label) | `<span>`                 | `ComponentPropsWithRef<'span'>`                                        |
+| Block (Card, Alert)   | `<div>`                  | `ComponentPropsWithRef<'div'>`                                         |
+| Interactive (Button)  | `<button>`               | `ComponentPropsWithRef<'button'>`                                      |
+| Text input            | `<input>` / `<textarea>` | `ComponentPropsWithRef<'input'>` / `ComponentPropsWithRef<'textarea'>` |
 
 ### Component Export Checklist
 
@@ -321,11 +336,11 @@ Every component MUST export:
 
 ### Three-Tier Consumer Model
 
-| Tier | What | Example |
-|---|---|---|
-| 1 | Pre-styled components | `<Button variant="outline">` |
-| 2 | Exported CVA variants only | `buttonVariants({ variant: 'ghost', size: 'sm' })` |
-| 3 | Raw Radix primitives + `cn()` | Full custom composition |
+| Tier | What                          | Example                                            |
+| ---- | ----------------------------- | -------------------------------------------------- |
+| 1    | Pre-styled components         | `<Button variant="outline">`                       |
+| 2    | Exported CVA variants only    | `buttonVariants({ variant: 'ghost', size: 'sm' })` |
+| 3    | Raw Radix primitives + `cn()` | Full custom composition                            |
 
 ### Bug Fix Protocol
 

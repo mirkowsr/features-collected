@@ -39,11 +39,11 @@ features-collected/
 
 ## Prerequisites
 
-- **Node.js** v18 or higher
-- **pnpm** v8 or higher
+- **Node.js** v22 or higher
+- **pnpm** v10 or higher
 
 ```bash
-npm install -g pnpm
+corepack enable
 ```
 
 ---
@@ -180,7 +180,11 @@ pnpm lint:fix      # auto-fix lint errors
 
 pnpm format        # format all files with Prettier
 pnpm format:check  # check formatting without writing
+pnpm typecheck     # check TypeScript and Astro types
 ```
+
+Commits run `pnpm exec lint-staged` and pushes run `pnpm typecheck` through Husky hooks. CI runs
+format, lint, typecheck, build, and the UI Storybook build only for affected packages.
 
 ### Run for a single feature
 
