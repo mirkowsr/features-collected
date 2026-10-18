@@ -4,13 +4,11 @@ import { cn } from '../../utils'
 
 const Popover = PopoverPrimitive.Root
 
-type PopoverTriggerProps = React.ComponentPropsWithRef<typeof PopoverPrimitive.Trigger>
+type PopoverTriggerProps = React.ComponentPropsWithRef<
+  typeof PopoverPrimitive.Trigger
+>
 
-function PopoverTrigger({
-  className,
-  ref,
-  ...props
-}: PopoverTriggerProps) {
+function PopoverTrigger({ className, ref, ...props }: PopoverTriggerProps) {
   return (
     <PopoverPrimitive.Trigger
       ref={ref}
@@ -21,13 +19,11 @@ function PopoverTrigger({
   )
 }
 
-type PopoverAnchorProps = React.ComponentPropsWithRef<typeof PopoverPrimitive.Anchor>
+type PopoverAnchorProps = React.ComponentPropsWithRef<
+  typeof PopoverPrimitive.Anchor
+>
 
-function PopoverAnchor({
-  className,
-  ref,
-  ...props
-}: PopoverAnchorProps) {
+function PopoverAnchor({ className, ref, ...props }: PopoverAnchorProps) {
   return (
     <PopoverPrimitive.Anchor
       ref={ref}
@@ -38,7 +34,9 @@ function PopoverAnchor({
   )
 }
 
-type PopoverContentProps = React.ComponentPropsWithRef<typeof PopoverPrimitive.Content>
+type PopoverContentProps = React.ComponentPropsWithRef<
+  typeof PopoverPrimitive.Content
+>
 
 function PopoverContent({
   className,

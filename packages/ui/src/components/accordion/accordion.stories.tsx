@@ -1,6 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './accordion'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from './accordion'
 
 const meta: Meta<typeof Accordion> = {
   title: 'Components/Accordion',
@@ -37,14 +42,15 @@ export const Default: Story = {
       <AccordionItem value="item-2">
         <AccordionTrigger>Is it styled?</AccordionTrigger>
         <AccordionContent>
-          Yes. It comes with default styles that match the other components in the design system.
+          Yes. It comes with default styles that match the other components in
+          the design system.
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-3">
         <AccordionTrigger>Is it animated?</AccordionTrigger>
         <AccordionContent>
-          Yes. It uses CSS animations via Radix data attributes for smooth open and close
-          transitions.
+          Yes. It uses CSS animations via Radix data attributes for smooth open
+          and close transitions.
         </AccordionContent>
       </AccordionItem>
     </Accordion>
@@ -63,14 +69,15 @@ export const Multiple: Story = {
       <AccordionItem value="item-2">
         <AccordionTrigger>Is it styled?</AccordionTrigger>
         <AccordionContent>
-          Yes. It comes with default styles that match the other components in the design system.
+          Yes. It comes with default styles that match the other components in
+          the design system.
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-3">
         <AccordionTrigger>Is it animated?</AccordionTrigger>
         <AccordionContent>
-          Yes. It uses CSS animations via Radix data attributes for smooth open and close
-          transitions.
+          Yes. It uses CSS animations via Radix data attributes for smooth open
+          and close transitions.
         </AccordionContent>
       </AccordionItem>
     </Accordion>

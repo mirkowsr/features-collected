@@ -2,12 +2,7 @@ import { cn } from '../../utils'
 
 type InputProps = React.ComponentPropsWithRef<'input'>
 
-function Input({
-  className,
-  type = 'text',
-  ref,
-  ...props
-}: InputProps) {
+function Input({ className, type = 'text', ref, ...props }: InputProps) {
   return (
     <input
       type={type}

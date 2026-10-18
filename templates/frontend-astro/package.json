@@ -1,27 +1,26 @@
 {
   "name": "@repo/__FEATURE_NAME__-frontend-astro",
-  "private": true,
   "version": "0.0.1",
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
-    "format": "prettier --write src",
-    "format:check": "prettier --check src"
+    "lint": "oxlint src",
+    "lint:fix": "oxlint src --fix",
+    "format": "oxfmt src",
+    "format:check": "oxfmt --check src",
+    "typecheck": "astro check"
   },
   "dependencies": {
     "@repo/utils": "workspace:*",
     "astro": "^5.0.0"
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
-    "@repo/prettier-config": "workspace:*",
-    "eslint": "^9.0.0",
-    "prettier": "^3.0.0",
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/compiler-rs": "^0.5.2",
+    "oxfmt": "^0.73.0",
     "typescript": "^5.4.0"
-  },
-  "prettier": "@repo/prettier-config"
+  }
 }

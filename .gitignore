@@ -7,6 +7,8 @@ dist
 .next
 .astro
 build
+storybook-static/
+*.tsbuildinfo
 
 # turbo
 .turbo

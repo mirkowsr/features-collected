@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 
+import { AnalyticsModule } from './analytics/analytics.module'
 import { AppController } from './app.controller'
-import { DrizzleModule } from './db/drizzle.module'
 import { CustomersModule } from './customers/customers.module'
-import { OrdersModule } from './orders/orders.module';
-import { EmployeesModule } from './employees/employees.module';
-import { AnalyticsModule } from './analytics/analytics.module';
-import { ProductsModule } from './products/products.module';
+import { DrizzleModule } from './db/drizzle.module'
+import { EmployeesModule } from './employees/employees.module'
+import { OrdersModule } from './orders/orders.module'
+import { ProductsModule } from './products/products.module'
 
 @Module({
   imports: [

@@ -25,25 +25,25 @@ Effort: S = <30 min, M = 30 min–2 h, L = half-day+
 
 ### Correctness / contract
 
-| # | Change | Effort |
-|---|---|---|
-| 1 | Add `GET /templates` + return `id` in upload response — the API is unusable end-to-end without it | M |
-| 2 | `bootstrap()` `.catch()` + `enableShutdownHooks()`; drain pg pool on shutdown | S |
-| 3 | Unify bulk error model — per-recipient failures of any kind land in `failures[]`, loop continues | M |
-| 4 | Tighten Zod schemas (`z.uuid()`, `int().positive()`, `min(1)`) — turn DB-thrown 500s into 400s | S |
-| 5 | Fix `sentAt` semantics — no `defaultNow()`, set only on success (or rename `processedAt`) — migration needed | M |
-| 6 | Sync `.env.example` with reality (`SMTP_*`, `S3_BUCKET_NAME`); one config policy | S |
-| 7 | `git rm --cached .env` — it's tracked despite being ignored | S |
-| 8 | Bound the bulk loop (pagination + limited concurrency, or document the ceiling) | M |
-| 9 | Close the upload saga gap (stale `pending` templates / orphan S3 objects) | M |
+| #   | Change                                                                                                       | Effort |
+| --- | ------------------------------------------------------------------------------------------------------------ | ------ |
+| 1   | Add `GET /templates` + return `id` in upload response — the API is unusable end-to-end without it            | M      |
+| 2   | `bootstrap()` `.catch()` + `enableShutdownHooks()`; drain pg pool on shutdown                                | S      |
+| 3   | Unify bulk error model — per-recipient failures of any kind land in `failures[]`, loop continues             | M      |
+| 4   | Tighten Zod schemas (`z.uuid()`, `int().positive()`, `min(1)`) — turn DB-thrown 500s into 400s               | S      |
+| 5   | Fix `sentAt` semantics — no `defaultNow()`, set only on success (or rename `processedAt`) — migration needed | M      |
+| 6   | Sync `.env.example` with reality (`SMTP_*`, `S3_BUCKET_NAME`); one config policy                             | S      |
+| 7   | `git rm --cached .env` — it's tracked despite being ignored                                                  | S      |
+| 8   | Bound the bulk loop (pagination + limited concurrency, or document the ceiling)                              | M      |
+| 9   | Close the upload saga gap (stale `pending` templates / orphan S3 objects)                                    | M      |
 
 ### Error contract
 
-| # | Change | Effort |
-|---|---|---|
-| 10 | Stop leaking raw S3/SMTP errors into HTTP responses | S |
-| 11 | Global exception filter — one error response shape | M |
-| 12 | Read access to the audit trail (`GET /email-send`) | M |
+| #   | Change                                              | Effort |
+| --- | --------------------------------------------------- | ------ |
+| 10  | Stop leaking raw S3/SMTP errors into HTTP responses | S      |
+| 11  | Global exception filter — one error response shape  | M      |
+| 12  | Read access to the audit trail (`GET /email-send`)  | M      |
 
 ### Hygiene sweep (one pass)
 
@@ -53,7 +53,7 @@ constructor props; `BUCKET_NAME` initializer; template status enum naming + colu
 `formatZodErrors` shape; `<=` in file-size pipe; consistent pipe application; `@HttpCode(200)`.
 
 **Concepts this phase teaches:** consumer-driven API design, data modeling (what does a column
-*claim*?), process/resource lifecycle, error model as API contract.
+_claim_?), process/resource lifecycle, error model as API contract.
 
 ---
 
@@ -95,28 +95,28 @@ graph LR
 
 ### Tier 1 — must know (the async sender teaches these)
 
-| Service | Core lesson |
-|---|---|
-| Lambda | Execution model: cold starts, init outside handler, concurrency |
-| IAM | Roles not keys; least privilege — the single most important AWS skill |
-| SQS (deep) | Visibility timeout, redrive policy, DLQ, at-least-once delivery |
-| EventBridge Scheduler | Cron as a service — the outbox relay trigger |
-| CloudWatch | Structured logs, metrics, alarms (DLQ depth) |
-| Secrets Manager / SSM | Runtime secrets; kills the `.env` pattern |
-| RDS | Managed Postgres — same engine, new connectivity model |
-| API Gateway (HTTP API) | Front door for Lambda |
+| Service                | Core lesson                                                           |
+| ---------------------- | --------------------------------------------------------------------- |
+| Lambda                 | Execution model: cold starts, init outside handler, concurrency       |
+| IAM                    | Roles not keys; least privilege — the single most important AWS skill |
+| SQS (deep)             | Visibility timeout, redrive policy, DLQ, at-least-once delivery       |
+| EventBridge Scheduler  | Cron as a service — the outbox relay trigger                          |
+| CloudWatch             | Structured logs, metrics, alarms (DLQ depth)                          |
+| Secrets Manager / SSM  | Runtime secrets; kills the `.env` pattern                             |
+| RDS                    | Managed Postgres — same engine, new connectivity model                |
+| API Gateway (HTTP API) | Front door for Lambda                                                 |
 
 ### Tier 2 — within a few months (fullstack-critical)
 
-| Service | Why |
-|---|---|
-| VPC fundamentals | Subnets, security groups; Lambda-in-VPC loses internet without NAT ($) |
-| ECR + ECS/Fargate | Where the NestJS API runs in prod; containers vs Lambda hosting models |
-| CloudFront + S3 hosting | Standard fullstack deploy shape (Vite build + CDN) |
-| Cognito (or JWT/OIDC) | Auth — biggest remaining frontend-to-backend gap |
-| SNS | Pub/sub fan-out (SNS -> many SQS) |
-| ElastiCache (Redis) | Cache, rate limiting, distributed locks |
-| S3 presigned URLs | Browser uploads directly to S3 — replaces multer proxying |
+| Service                 | Why                                                                    |
+| ----------------------- | ---------------------------------------------------------------------- |
+| VPC fundamentals        | Subnets, security groups; Lambda-in-VPC loses internet without NAT ($) |
+| ECR + ECS/Fargate       | Where the NestJS API runs in prod; containers vs Lambda hosting models |
+| CloudFront + S3 hosting | Standard fullstack deploy shape (Vite build + CDN)                     |
+| Cognito (or JWT/OIDC)   | Auth — biggest remaining frontend-to-backend gap                       |
+| SNS                     | Pub/sub fan-out (SNS -> many SQS)                                      |
+| ElastiCache (Redis)     | Cache, rate limiting, distributed locks                                |
+| S3 presigned URLs       | Browser uploads directly to S3 — replaces multer proxying              |
 
 ### Tier 3 — awareness only (don't deep-dive yet)
 
@@ -125,7 +125,7 @@ Know what problem each solves; learn them when a project demands it.
 
 ### Concepts that aren't services
 
-1. **Delivery semantics** — queues promise at-least-once; exactly-once *processing* is your code's job.
+1. **Delivery semantics** — queues promise at-least-once; exactly-once _processing_ is your code's job.
 2. **Poison messages & DLQs** — redrive policy + alarm is the safety net.
 3. **Retries with jittered exponential backoff** — default answer for transient failures.
 4. **Cold starts & execution reuse** — warm containers persist; DB pool outside the handler.

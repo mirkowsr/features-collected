@@ -42,7 +42,7 @@ import { Button } from '@repo/ui'
 
 ```json
 {
-  ".":        { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+  ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
   "./tokens": "./src/tokens/index.css"
 }
 ```
@@ -53,22 +53,22 @@ import { Button } from '@repo/ui'
 
 25 components across four categories:
 
-| Category | Components |
-|---|---|
-| Core Primitives | Button, Badge, Separator, Label, Input, Textarea, Card, Skeleton, Alert |
-| Interactive | Toggle, Switch, Checkbox, RadioGroup, Tabs, Accordion, Avatar, ScrollArea |
-| Overlays | Tooltip, Popover, DropdownMenu, Select, Dialog, AlertDialog, Sheet |
-| Data Display | Table |
+| Category        | Components                                                                |
+| --------------- | ------------------------------------------------------------------------- |
+| Core Primitives | Button, Badge, Separator, Label, Input, Textarea, Card, Skeleton, Alert   |
+| Interactive     | Toggle, Switch, Checkbox, RadioGroup, Tabs, Accordion, Avatar, ScrollArea |
+| Overlays        | Tooltip, Popover, DropdownMenu, Select, Dialog, AlertDialog, Sheet        |
+| Data Display    | Table                                                                     |
 
 ### Three-Tier Consumer Model
 
 Components expose three levels of abstraction:
 
-| Tier | What You Get | When to Use |
-|---|---|---|
-| Tier 1 — Styled | Pre-composed, opinionated components | Most application code |
-| Tier 2 — CVA Variants | Variant functions via class-variance-authority | Custom compositions that need consistent variants |
-| Tier 3 — Raw Primitives | Unstyled Radix UI primitives | Full control over markup and styling |
+| Tier                    | What You Get                                   | When to Use                                       |
+| ----------------------- | ---------------------------------------------- | ------------------------------------------------- |
+| Tier 1 — Styled         | Pre-composed, opinionated components           | Most application code                             |
+| Tier 2 — CVA Variants   | Variant functions via class-variance-authority | Custom compositions that need consistent variants |
+| Tier 3 — Raw Primitives | Unstyled Radix UI primitives                   | Full control over markup and styling              |
 
 See `docs/three-tier-model.md` for details.
 
@@ -90,29 +90,29 @@ pnpm --filter @repo/ui storybook:build  # Production Storybook
 
 ## Documentation
 
-| Guide | Description |
-|---|---|
-| `docs/getting-started.md` | Installation and setup |
-| `docs/design-tokens.md` | Token reference, customization, Figma transfer |
-| `docs/three-tier-model.md` | Tier 1/2/3 consumer model |
-| `docs/animation-guide.md` | Animation system and motion presets |
-| `docs/dark-mode.md` | Dark mode implementation |
-| `docs/contributing.md` | How to add new components |
+| Guide                      | Description                                    |
+| -------------------------- | ---------------------------------------------- |
+| `docs/getting-started.md`  | Installation and setup                         |
+| `docs/design-tokens.md`    | Token reference, customization, Figma transfer |
+| `docs/three-tier-model.md` | Tier 1/2/3 consumer model                      |
+| `docs/animation-guide.md`  | Animation system and motion presets            |
+| `docs/dark-mode.md`        | Dark mode implementation                       |
+| `docs/contributing.md`     | How to add new components                      |
 
 ---
 
 ## Tech Stack
 
-| Technology | Role |
-|---|---|
-| React 19 | UI framework (no `forwardRef` — ref passed as prop) |
-| Radix UI Primitives | Accessible, unstyled behavior layer |
-| Tailwind CSS v4 | Utility-first styling with `@theme inline` |
-| CVA | Variant management via `class-variance-authority` |
-| `cn()` (clsx + tailwind-merge) | Conditional class merging utility |
-| OKLCH color space | Perceptually uniform color tokens |
-| tsup | Library bundling |
-| Storybook 8 | Component development and documentation |
+| Technology                     | Role                                                |
+| ------------------------------ | --------------------------------------------------- |
+| React 19                       | UI framework (no `forwardRef` — ref passed as prop) |
+| Radix UI Primitives            | Accessible, unstyled behavior layer                 |
+| Tailwind CSS v4                | Utility-first styling with `@theme inline`          |
+| CVA                            | Variant management via `class-variance-authority`   |
+| `cn()` (clsx + tailwind-merge) | Conditional class merging utility                   |
+| OKLCH color space              | Perceptually uniform color tokens                   |
+| tsup                           | Library bundling                                    |
+| Storybook 8                    | Component development and documentation             |
 
 ### Design Philosophy
 

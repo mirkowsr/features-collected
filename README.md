@@ -12,9 +12,8 @@ features-collected/
 ├── tsconfig.base.json            # Shared TypeScript base config
 ├── pnpm-workspace.yaml           # pnpm workspace + build allow-list
 │
-├── config/
-│   ├── eslint/                   # @repo/eslint-config (base, react, astro)
-│   └── prettier/                 # @repo/prettier-config
+├── .oxlintrc.json                # repository Oxlint configuration
+├── .oxfmtrc.json                 # repository Oxfmt configuration
 │
 ├── utils/                        # @repo/utils — shared hooks, helpers, types
 │   └── src/
@@ -39,11 +38,11 @@ features-collected/
 
 ## Prerequisites
 
-- **Node.js** v18 or higher
-- **pnpm** v8 or higher
+- **Node.js** v22 or higher
+- **pnpm** v10 or higher
 
 ```bash
-npm install -g pnpm
+corepack enable
 ```
 
 ---
@@ -178,15 +177,20 @@ Build outputs land in each package's `dist/` directory.
 pnpm lint          # check for lint errors
 pnpm lint:fix      # auto-fix lint errors
 
-pnpm format        # format all files with Prettier
+pnpm format        # format all files with Oxfmt
 pnpm format:check  # check formatting without writing
+pnpm typecheck     # check TypeScript and Astro types
 ```
+
+Commits run `pnpm exec lint-staged` and pushes run `pnpm typecheck` through Husky hooks. CI runs
+repository-wide `pnpm format:check`; lint, typecheck, build, and the UI Storybook build run only
+for affected packages.
 
 ### Run for a single feature
 
 ```bash
 pnpm lint --filter @repo/payments-frontend
-pnpm format --filter @repo/payments-backend
+pnpm --filter @repo/payments-backend format
 ```
 
 ### Run inside a package directly
@@ -197,15 +201,22 @@ pnpm lint
 pnpm format
 ```
 
-ESLint rules used across all frontends:
+Oxlint rules used across all frontends:
 
-- `@typescript-eslint/recommended` — TypeScript best practices
+- TypeScript correctness and best-practice rules
 - `react` + `react-hooks` — React and hooks rules
 - `jsx-a11y` — accessibility
-- `import/order` — enforced import grouping and ordering
-- `eslint-config-prettier` — disables rules that conflict with Prettier
+- import duplication checks
+- Oxfmt runs separately for formatting
 
-Astro packages additionally use `eslint-plugin-astro`.
+Astro packages additionally use `eslint-plugin-astro` as an Oxlint JavaScript plugin because
+Oxlint does not provide native Astro rules. The dependency remains required to lint `.astro`
+files and is the reason ESLint remains transitive in the lockfile.
+
+Oxlint does not provide an equivalent for `import/order`; the migration tool intentionally
+skips it because import sorting belongs in a formatter. React's `jsx-uses-react` and
+`jsx-uses-vars` rules are unnecessary with the React 19 JSX transform and Oxlint's unused
+variable analysis. No ESLint fallback is retained.
 
 ---
 

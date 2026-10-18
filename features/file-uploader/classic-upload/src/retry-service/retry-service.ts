@@ -1,5 +1,5 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
+import type { ConfigService } from '@nestjs/config'
 
 @Injectable()
 export class RetryService {
@@ -15,7 +15,7 @@ export class RetryService {
 
       try {
         return await fn()
-      } catch (e) {
+      } catch {
         if (this.attempts >= retries) {
           throw new InternalServerErrorException(
             `Upload failed after ${this.attempts} UPLOAD_RETRIES`,
