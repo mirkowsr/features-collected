@@ -8,17 +8,14 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
+    "lint": "oxlint src",
+    "lint:fix": "oxlint src --fix",
     "format": "prettier --write src",
     "format:check": "prettier --check src",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
     "@repo/prettier-config": "workspace:*",
-    "@typescript-eslint/parser": "^8.0.0",
-    "eslint": "^9.0.0",
     "prettier": "^3.0.0",
     "typescript": "^5.4.0"
   },

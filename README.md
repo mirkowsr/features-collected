@@ -12,8 +12,8 @@ features-collected/
 ├── tsconfig.base.json            # Shared TypeScript base config
 ├── pnpm-workspace.yaml           # pnpm workspace + build allow-list
 │
+├── .oxlintrc.json                # repository Oxlint configuration
 ├── config/
-│   ├── eslint/                   # @repo/eslint-config (base, react, astro)
 │   └── prettier/                 # @repo/prettier-config
 │
 ├── utils/                        # @repo/utils — shared hooks, helpers, types
@@ -201,15 +201,22 @@ pnpm lint
 pnpm format
 ```
 
-ESLint rules used across all frontends:
+Oxlint rules used across all frontends:
 
-- `@typescript-eslint/recommended` — TypeScript best practices
+- TypeScript correctness and best-practice rules
 - `react` + `react-hooks` — React and hooks rules
 - `jsx-a11y` — accessibility
-- `import/order` — enforced import grouping and ordering
-- `eslint-config-prettier` — disables rules that conflict with Prettier
+- import duplication checks
+- Prettier runs separately for formatting
 
-Astro packages additionally use `eslint-plugin-astro`.
+Astro packages additionally use `eslint-plugin-astro` as an Oxlint JavaScript plugin because
+Oxlint does not provide native Astro rules. The dependency remains required to lint `.astro`
+files and is the reason ESLint remains transitive in the lockfile.
+
+Oxlint does not provide an equivalent for `import/order`; the migration tool intentionally
+skips it because import sorting belongs in a formatter. React's `jsx-uses-react` and
+`jsx-uses-vars` rules are unnecessary with the React 19 JSX transform and Oxlint's unused
+variable analysis. No ESLint fallback is retained.
 
 ---
 

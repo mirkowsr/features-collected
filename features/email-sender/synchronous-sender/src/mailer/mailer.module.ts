@@ -1,7 +1,5 @@
-import {
-  MailerOptions,
-  MailerModule as NestMailer,
-} from '@nestjs-modules/mailer'
+import { MailerModule as NestMailer } from '@nestjs-modules/mailer'
+import type { MailerOptions } from '@nestjs-modules/mailer'
 import { Global, Module } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 

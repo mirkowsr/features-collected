@@ -18,8 +18,8 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
+    "lint": "oxlint src",
+    "lint:fix": "oxlint src --fix",
     "format": "prettier --write src",
     "format:check": "prettier --check src",
     "storybook": "storybook dev -p 6006",
@@ -54,7 +54,6 @@
     "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
     "@repo/prettier-config": "workspace:*",
     "@storybook/addon-a11y": "^8.6.0",
     "@storybook/addon-essentials": "^8.6.0",
@@ -65,7 +64,6 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^5.1.4",
-    "eslint": "^9.0.0",
     "prettier": "^3.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

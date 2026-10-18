@@ -1,4 +1,4 @@
-import { MailerService } from '@nestjs-modules/mailer'
+import type { MailerService } from '@nestjs-modules/mailer'
 import {
   Injectable,
   InternalServerErrorException,
@@ -11,7 +11,7 @@ import { InjectDrizzle } from '../db/drizzle.decorator'
 import { emails, templates, users } from '../db/schema'
 import { EmailStatus } from '../db/schema/emails'
 import type { DrizzleSchema } from '../db/types/drizzle.type'
-import { StorageService } from '../storage/storage.service'
+import type { StorageService } from '../storage/storage.service'
 import type { RecipientDTO } from './dto/recipient'
 import type { SendOutcome } from './dto/send-outcome'
 import type { SendResult } from './dto/send-result'

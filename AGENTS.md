@@ -62,8 +62,8 @@ node dist/main             # production start
 
 ```bash
 # Root — runs across all packages
-pnpm lint                  # eslint src (report errors)
-pnpm lint:fix              # eslint src --fix (auto-fix)
+pnpm lint                  # oxlint src (report errors)
+pnpm lint:fix              # oxlint src --fix (auto-fix)
 pnpm format                # prettier --write src
 pnpm format:check          # prettier --check src (CI-safe, no writes)
 pnpm typecheck             # tsc --noEmit / astro check across packages
@@ -180,7 +180,7 @@ explaining why, and only when there is no better alternative.
   `noUncheckedIndexedAccess`. Validate at startup and throw if required vars are missing.
 - **No `console.log` in library/frontend code** — use `console.warn` or `console.error`.
   `console.log` is allowed inside `scripts/` and NestJS entry points.
-- **Avoid `any`** — `@typescript-eslint/no-explicit-any` is a warning; fix the type instead.
+- **Avoid `any`** — `typescript/no-explicit-any` is a warning; fix the type instead.
 - **Avoid non-null assertions (`!`)** — guarded by a lint warning; prefer proper null checks.
 
 ### File Organization
@@ -227,11 +227,8 @@ pnpm dev --filter "@repo/<feature-name>-*"
 | `turbo.json`               | Pipeline: build → lint → format task graph; TUI enabled by default |
 | `pnpm-workspace.yaml`      | Workspace package globs                                            |
 | `tsconfig.base.json`       | Shared TypeScript base (extended by all packages)                  |
-| `config/eslint/index.js`   | Base ESLint config (`@repo/eslint-config`)                         |
-| `config/eslint/react.js`   | React-specific ESLint additions                                    |
-| `config/eslint/astro.js`   | Astro-specific ESLint additions                                    |
+| `.oxlintrc.json`           | Repository Oxlint configuration                                    |
 | `config/prettier/index.js` | Shared Prettier config (`@repo/prettier-config`)                   |
-| `eslint.config.js`         | Root ESLint flat config for lint-staged                            |
 | `.husky/pre-commit`        | Runs lint-staged before commits                                    |
 | `.husky/pre-push`          | Runs typecheck before pushes                                       |
 | `.github/workflows/ci.yml` | Affected-only CI quality gates                                     |

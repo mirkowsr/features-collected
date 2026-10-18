@@ -41,7 +41,7 @@ function Alert({ className, variant, ref, ...props }: AlertProps) {
 
 type AlertTitleProps = React.ComponentPropsWithRef<'h5'>
 
-/* eslint-disable jsx-a11y/heading-has-content -- children are supplied through props. */
+/* oxlint-disable jsx-a11y/heading-has-content -- children are supplied through props. */
 function AlertTitle({ className, ref, ...props }: AlertTitleProps) {
   return (
     <h5
@@ -52,7 +52,6 @@ function AlertTitle({ className, ref, ...props }: AlertTitleProps) {
     />
   )
 }
-/* eslint-enable jsx-a11y/heading-has-content */
 
 type AlertDescriptionProps = React.ComponentPropsWithRef<'div'>
 

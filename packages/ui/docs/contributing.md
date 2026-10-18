@@ -10,7 +10,7 @@ and easy to maintain. Read this guide before opening a PR that touches any compo
 
 ## Code Style
 
-All packages in the monorepo share a common code style enforced by Prettier and ESLint. The
+All packages in the monorepo share a common code style enforced by Prettier and Oxlint. The
 settings that matter most when working inside `@repo/ui`:
 
 | Setting         | Value                           |

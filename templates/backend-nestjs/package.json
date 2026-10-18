@@ -6,8 +6,8 @@
     "dev": "nest start --watch",
     "build": "nest build",
     "start": "node dist/main",
-    "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
+    "lint": "oxlint src",
+    "lint:fix": "oxlint src --fix",
     "format": "prettier --write src",
     "format:check": "prettier --check src",
     "typecheck": "tsc --noEmit",
@@ -34,7 +34,6 @@
     "@nestjs/schematics": "^11.0.0",
     "@types/node": "^22.0.0",
     "drizzle-kit": "^0.31.4",
-    "eslint": "^9.0.0",
     "prettier": "^3.0.0",
     "tsx": "^4.20.5",
     "typescript": "^5.4.0"

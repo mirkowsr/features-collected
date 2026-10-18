@@ -8,7 +8,7 @@
     "tsconfig.base.json",
     "tsconfig.json",
     "turbo.json",
-    "eslint.config.js",
+    ".oxlintrc.json",
     "config/**"
   ],
   "tasks": {

@@ -23,17 +23,17 @@
   },
   "prettier": "@repo/prettier-config",
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
     "@types/pg": "^8.20.0",
-    "eslint": "^9.39.3",
+    "eslint-plugin-astro": "^3.2.1",
     "husky": "^9.1.7",
     "lint-staged": "^17.6.0",
+    "oxlint": "^1.88.0",
     "prettier": "^3.8.1",
     "turbo": "^2.10.4"
   },
   "lint-staged": {
     "*.{ts,tsx,mts,cts,js,mjs,cjs,astro}": [
-      "eslint --fix",
+      "oxlint --fix",
       "prettier --write"
     ],
     "*.{json,md,css,yml,yaml}": "prettier --write"

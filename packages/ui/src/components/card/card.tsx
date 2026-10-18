@@ -32,7 +32,7 @@ function CardHeader({ className, ref, ...props }: CardHeaderProps) {
 
 type CardTitleProps = React.ComponentPropsWithRef<'h3'>
 
-/* eslint-disable jsx-a11y/heading-has-content -- children are supplied through props. */
+/* oxlint-disable jsx-a11y/heading-has-content -- children are supplied through props. */
 function CardTitle({ className, ref, ...props }: CardTitleProps) {
   return (
     <h3
@@ -46,7 +46,6 @@ function CardTitle({ className, ref, ...props }: CardTitleProps) {
     />
   )
 }
-/* eslint-enable jsx-a11y/heading-has-content */
 
 type CardDescriptionProps = React.ComponentPropsWithRef<'p'>
 
