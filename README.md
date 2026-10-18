@@ -13,8 +13,7 @@ features-collected/
 ├── pnpm-workspace.yaml           # pnpm workspace + build allow-list
 │
 ├── .oxlintrc.json                # repository Oxlint configuration
-├── config/
-│   └── prettier/                 # @repo/prettier-config
+├── .oxfmtrc.json                 # repository Oxfmt configuration
 │
 ├── utils/                        # @repo/utils — shared hooks, helpers, types
 │   └── src/
@@ -178,7 +177,7 @@ Build outputs land in each package's `dist/` directory.
 pnpm lint          # check for lint errors
 pnpm lint:fix      # auto-fix lint errors
 
-pnpm format        # format all files with Prettier
+pnpm format        # format all files with Oxfmt
 pnpm format:check  # check formatting without writing
 pnpm typecheck     # check TypeScript and Astro types
 ```
@@ -207,7 +206,7 @@ Oxlint rules used across all frontends:
 - `react` + `react-hooks` — React and hooks rules
 - `jsx-a11y` — accessibility
 - import duplication checks
-- Prettier runs separately for formatting
+- Oxfmt runs separately for formatting
 
 Astro packages additionally use `eslint-plugin-astro` as an Oxlint JavaScript plugin because
 Oxlint does not provide native Astro rules. The dependency remains required to lint `.astro`

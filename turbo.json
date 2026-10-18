@@ -9,7 +9,7 @@
     "tsconfig.json",
     "turbo.json",
     ".oxlintrc.json",
-    "config/**"
+    ".oxfmtrc.json"
   ],
   "tasks": {
     "build": {

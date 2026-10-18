@@ -25,7 +25,7 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm exec turbo run format:check --affected
+      - run: pnpm format:check
       - run: pnpm exec turbo run lint --affected
       - run: pnpm exec turbo run typecheck --affected
       - run: pnpm exec turbo run build --affected

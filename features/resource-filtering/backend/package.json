@@ -1,15 +1,15 @@
 {
   "name": "@repo/resource-filtering-backend",
-  "private": true,
   "version": "0.0.1",
+  "private": true,
   "scripts": {
     "dev": "nest start --watch",
     "build": "nest build",
     "start": "node dist/main",
     "lint": "oxlint src",
     "lint:fix": "oxlint src --fix",
-    "format": "prettier --write src",
-    "format:check": "prettier --check src",
+    "format": "oxfmt src",
+    "format:check": "oxfmt --check src",
     "typecheck": "tsc --noEmit",
     "seed": "ts-node src/seed.ts"
   },
@@ -33,10 +33,9 @@
     "@nestjs/schematics": "^11.0.0",
     "@types/express": "^5.0.6",
     "@types/node": "^22.0.0",
-    "prettier": "^3.0.0",
+    "oxfmt": "^0.73.0",
     "ts-node": "^10.9.0",
     "typescript": "^5.4.0",
     "zod": "^4.4.3"
-  },
-  "prettier": "@repo/prettier-config"
+  }
 }

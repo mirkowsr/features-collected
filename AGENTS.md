@@ -64,8 +64,8 @@ node dist/main             # production start
 # Root — runs across all packages
 pnpm lint                  # oxlint src (report errors)
 pnpm lint:fix              # oxlint src --fix (auto-fix)
-pnpm format                # prettier --write src
-pnpm format:check          # prettier --check src (CI-safe, no writes)
+pnpm format                # oxfmt src
+pnpm format:check          # oxfmt --check src (CI-safe, no writes)
 pnpm typecheck             # tsc --noEmit / astro check across packages
 
 # Filter to one package
@@ -104,7 +104,7 @@ Copy `.env.example` to `.env` and fill in values before starting the backend.
 
 ## Code Style
 
-### Formatting (Prettier)
+### Formatting (Oxfmt)
 
 | Setting         | Value                               |
 | --------------- | ----------------------------------- |
@@ -228,7 +228,7 @@ pnpm dev --filter "@repo/<feature-name>-*"
 | `pnpm-workspace.yaml`      | Workspace package globs                                            |
 | `tsconfig.base.json`       | Shared TypeScript base (extended by all packages)                  |
 | `.oxlintrc.json`           | Repository Oxlint configuration                                    |
-| `config/prettier/index.js` | Shared Prettier config (`@repo/prettier-config`)                   |
+| `.oxfmtrc.json`            | Shared Oxfmt formatting configuration                              |
 | `.husky/pre-commit`        | Runs lint-staged before commits                                    |
 | `.husky/pre-push`          | Runs typecheck before pushes                                       |
 | `.github/workflows/ci.yml` | Affected-only CI quality gates                                     |

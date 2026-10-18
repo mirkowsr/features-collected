@@ -57,10 +57,7 @@ import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  plugins: [
-    react(),
-    tailwindcss(),
-  ],
+  plugins: [react(), tailwindcss()],
 })
 ```
 
@@ -138,12 +135,12 @@ Button variants and sizes are controlled through CVA props:
 
 25 components organized across four phases:
 
-| Phase | Components |
-|---|---|
-| **1 -- Core** | Button, Badge, Separator, Label, Input, Textarea, Card (compound), Skeleton, Alert |
-| **2 -- Interactive** | Toggle, Switch, Checkbox, RadioGroup, Tabs, Accordion, Avatar, ScrollArea |
-| **3 -- Overlays** | Tooltip, Popover, DropdownMenu, Select, Dialog, AlertDialog, Sheet |
-| **4 -- Data** | Table (compound) |
+| Phase                | Components                                                                         |
+| -------------------- | ---------------------------------------------------------------------------------- |
+| **1 -- Core**        | Button, Badge, Separator, Label, Input, Textarea, Card (compound), Skeleton, Alert |
+| **2 -- Interactive** | Toggle, Switch, Checkbox, RadioGroup, Tabs, Accordion, Avatar, ScrollArea          |
+| **3 -- Overlays**    | Tooltip, Popover, DropdownMenu, Select, Dialog, AlertDialog, Sheet                 |
+| **4 -- Data**        | Table (compound)                                                                   |
 
 All components are exported from the package root. Compound components (Card, Table) export their
 sub-components as named exports (e.g. `CardHeader`, `CardContent`, `TableRow`, `TableCell`).

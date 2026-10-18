@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 80,
+  "semi": false,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "tabWidth": 2,
+  "useTabs": false,
+  "bracketSpacing": true,
+  "arrowParens": "always",
+  "endOfLine": "lf",
+  "astro": true,
+  "ignorePatterns": [
+    "dist/**",
+    ".turbo/**",
+    "storybook-static/**",
+    "build/**",
+    "coverage/**",
+    "node_modules/**"
+  ]
+}

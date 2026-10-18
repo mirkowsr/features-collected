@@ -1,7 +1,7 @@
 {
   "name": "@repo/__FEATURE_NAME__-frontend-react",
-  "private": true,
   "version": "0.0.1",
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,8 +9,8 @@
     "preview": "vite preview",
     "lint": "oxlint src",
     "lint:fix": "oxlint src --fix",
-    "format": "prettier --write src",
-    "format:check": "prettier --check src",
+    "format": "oxfmt src",
+    "format:check": "oxfmt --check src",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -19,13 +19,11 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@repo/prettier-config": "workspace:*",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^5.0.0",
-    "prettier": "^3.0.0",
+    "oxfmt": "^0.73.0",
     "typescript": "^5.4.0",
     "vite": "^7.0.0"
-  },
-  "prettier": "@repo/prettier-config"
+  }
 }

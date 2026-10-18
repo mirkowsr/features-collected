@@ -10,14 +10,12 @@
   "scripts": {
     "lint": "oxlint src",
     "lint:fix": "oxlint src --fix",
-    "format": "prettier --write src",
-    "format:check": "prettier --check src",
+    "format": "oxfmt src",
+    "format:check": "oxfmt --check src",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@repo/prettier-config": "workspace:*",
-    "prettier": "^3.0.0",
+    "oxfmt": "^0.73.0",
     "typescript": "^5.4.0"
-  },
-  "prettier": "@repo/prettier-config"
+  }
 }

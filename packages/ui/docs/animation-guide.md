@@ -38,13 +38,21 @@ The Accordion component uses CSS `@keyframes` for smooth height transitions. The
 /* src/tokens/index.css */
 
 @keyframes accordion-down {
-  from { height: 0; }
-  to   { height: var(--radix-accordion-content-height); }
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
 }
 
 @keyframes accordion-up {
-  from { height: var(--radix-accordion-content-height); }
-  to   { height: 0; }
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
 }
 ```
 
@@ -100,7 +108,9 @@ design system's timing:
 
 ```css
 .sidebar-panel {
-  transition: opacity var(--transition-normal), transform var(--transition-normal);
+  transition:
+    opacity var(--transition-normal),
+    transform var(--transition-normal);
 }
 
 .quick-fade {
@@ -111,9 +121,7 @@ design system's timing:
 Or with Tailwind's arbitrary value syntax:
 
 ```tsx
-<div className="transition-opacity duration-[var(--transition-fast)]">
-  ...
-</div>
+<div className="transition-opacity duration-[var(--transition-fast)]">...</div>
 ```
 
 ## Motion Presets (Tier 3)
@@ -128,13 +136,13 @@ All presets are exported from the package root and defined in `src/animations/pr
 
 ```ts
 import {
-  overlayAnimation,    // backdrop fade (opacity 0 -> 1)
-  contentAnimation,    // scale + fade (0.95 -> 1, for dialogs)
-  slideDownAnimation,  // slide + fade from above (dropdowns, selects, popovers)
-  slideUpAnimation,    // slide + fade from below (bottom sheets, toasts)
-  sheetAnimation,      // parameterized slide from edge (side: 'top' | 'right' | 'bottom' | 'left')
-  collapseAnimation,   // height 0 -> auto + fade (accordion/collapsible)
-  tooltipAnimation,    // scale + fade (0.96 -> 1, tooltip)
+  overlayAnimation, // backdrop fade (opacity 0 -> 1)
+  contentAnimation, // scale + fade (0.95 -> 1, for dialogs)
+  slideDownAnimation, // slide + fade from above (dropdowns, selects, popovers)
+  slideUpAnimation, // slide + fade from below (bottom sheets, toasts)
+  sheetAnimation, // parameterized slide from edge (side: 'top' | 'right' | 'bottom' | 'left')
+  collapseAnimation, // height 0 -> auto + fade (accordion/collapsible)
+  tooltipAnimation, // scale + fade (0.96 -> 1, tooltip)
 } from '@repo/ui'
 ```
 
@@ -169,7 +177,12 @@ content:
 
 ```tsx
 import { motion, AnimatePresence } from 'motion/react'
-import { overlayAnimation, contentAnimation, DialogTitle, DialogDescription } from '@repo/ui'
+import {
+  overlayAnimation,
+  contentAnimation,
+  DialogTitle,
+  DialogDescription,
+} from '@repo/ui'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 
 function AnimatedDialog({ open, onOpenChange, children }) {
@@ -236,7 +249,9 @@ Use the transition tokens for consistent timing across your app:
 
 ```css
 .my-panel {
-  transition: opacity var(--transition-normal), transform var(--transition-normal);
+  transition:
+    opacity var(--transition-normal),
+    transform var(--transition-normal);
 }
 ```
 
@@ -247,13 +262,21 @@ the Accordion does. This is the most work but gives you CSS-only enter/exit anim
 
 ```css
 @keyframes fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fade-out {
-  from { opacity: 1; }
-  to   { opacity: 0; }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 @theme inline {
