@@ -183,13 +183,14 @@ pnpm typecheck     # check TypeScript and Astro types
 ```
 
 Commits run `pnpm exec lint-staged` and pushes run `pnpm typecheck` through Husky hooks. CI runs
-format, lint, typecheck, build, and the UI Storybook build only for affected packages.
+repository-wide `pnpm format:check`; lint, typecheck, build, and the UI Storybook build run only
+for affected packages.
 
 ### Run for a single feature
 
 ```bash
 pnpm lint --filter @repo/payments-frontend
-pnpm format --filter @repo/payments-backend
+pnpm --filter @repo/payments-backend format
 ```
 
 ### Run inside a package directly

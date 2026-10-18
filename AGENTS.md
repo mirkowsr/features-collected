@@ -64,8 +64,8 @@ node dist/main             # production start
 # Root — runs across all packages
 pnpm lint                  # oxlint src (report errors)
 pnpm lint:fix              # oxlint src --fix (auto-fix)
-pnpm format                # oxfmt src
-pnpm format:check          # oxfmt --check src (CI-safe, no writes)
+pnpm format                # oxfmt .
+pnpm format:check          # oxfmt --check . (CI-safe, no writes)
 pnpm typecheck             # tsc --noEmit / astro check across packages
 
 # Filter to one package
@@ -76,8 +76,9 @@ pnpm lint:fix --filter "@repo/feature-a-*"
 Always run `pnpm lint:fix` and `pnpm format` before committing changes.
 
 Git hooks run `pnpm exec lint-staged` before commits and `pnpm typecheck` before pushes.
-CI runs affected-only format, lint, typecheck, build, and the UI Storybook build. To match CI
-locally, use `pnpm exec turbo run <task> --affected`.
+CI runs repository-wide `pnpm format:check`; lint, typecheck, build, and the UI Storybook build
+run only for affected packages. To match CI locally, use `pnpm exec turbo run <task> --affected`
+for the affected-only tasks.
 
 ---
 
@@ -224,14 +225,14 @@ pnpm dev --filter "@repo/<feature-name>-*"
 
 | File                       | Purpose                                                            |
 | -------------------------- | ------------------------------------------------------------------ |
-| `turbo.json`               | Pipeline: build → lint → format task graph; TUI enabled by default |
+| `turbo.json`               | Package tasks; root formatting using Oxfmt; TUI enabled by default |
 | `pnpm-workspace.yaml`      | Workspace package globs                                            |
 | `tsconfig.base.json`       | Shared TypeScript base (extended by all packages)                  |
 | `.oxlintrc.json`           | Repository Oxlint configuration                                    |
 | `.oxfmtrc.json`            | Shared Oxfmt formatting configuration                              |
 | `.husky/pre-commit`        | Runs lint-staged before commits                                    |
 | `.husky/pre-push`          | Runs typecheck before pushes                                       |
-| `.github/workflows/ci.yml` | Affected-only CI quality gates                                     |
+| `.github/workflows/ci.yml` | Repository-wide formatting; affected-only CI quality gates         |
 | `.nvmrc`                   | Required Node.js major version                                     |
 | `docker-compose.yml`       | PostgreSQL 16 service definition                                   |
 | `.env.example`             | Template for required environment variables                        |
