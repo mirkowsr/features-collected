@@ -22,6 +22,7 @@
     "@nestjs/core": "^11.0.0",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^11.0.0",
+    "@repo/backend-validation": "workspace:*",
     "@repo/utils": "workspace:*",
     "dotenv": "^17.2.1",
     "drizzle-orm": "^0.44.5",

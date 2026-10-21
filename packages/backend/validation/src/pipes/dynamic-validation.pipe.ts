@@ -1,4 +1,4 @@
-import type { PipeTransform } from '@nestjs/common'
+import { BadRequestException, type PipeTransform } from '@nestjs/common'
 import type { ZodType } from 'zod'
 
 import { formatZodErrors } from '../utils/error-formatter'
@@ -77,6 +77,15 @@ export class DynamicValidation implements PipeTransform {
       }
     }
 
+    const hasInvalidResults = response.some((result) => !result.isValid)
+
+    if (hasInvalidResults) {
+      throw new BadRequestException({
+        message: 'validation failed',
+        isValid: false,
+        results: response,
+      })
+    }
     return response
   }
 }
