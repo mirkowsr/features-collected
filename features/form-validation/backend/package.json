@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "nest start --watch",
+    "dev": "nest build --webpack --webpackPath webpack.config.js --watch",
     "build": "nest build",
     "start": "node dist/main",
     "lint": "oxlint src",
@@ -37,7 +37,11 @@
     "@types/node": "^22.0.0",
     "drizzle-kit": "^0.31.4",
     "oxfmt": "^0.73.0",
+    "run-script-webpack-plugin": "^0.2.3",
+    "ts-loader": "^9.6.2",
     "tsx": "^4.20.5",
-    "typescript": "^5.4.0"
+    "typescript": "^5.4.0",
+    "webpack": "^5.112.0",
+    "webpack-node-externals": "^3.0.0"
   }
 }

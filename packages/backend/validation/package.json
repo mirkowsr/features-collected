@@ -13,6 +13,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "dev": "tsc --watch",
     "lint": "oxlint src",
     "lint:fix": "oxlint src --fix",
     "format": "oxfmt src",
