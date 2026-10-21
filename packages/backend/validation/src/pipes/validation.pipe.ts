@@ -7,7 +7,7 @@ import type { ZodError, ZodType, z } from 'zod'
 
 import { formatZodErrors } from '../utils/error-formatter'
 
-export type ZodErrorFormatter = (error: ZodError) => unknown
+export type ZodErrorFormatter = (error: ZodError, key?: string) => unknown
 
 export class ZodValidationPipe<T extends ZodType> implements PipeTransform {
   constructor(

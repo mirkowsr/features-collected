@@ -1,5 +1,8 @@
 import type { ZodError } from 'zod'
 
+// TODO: this can be splitted to dedicated classes - dynamic and regular validation uses it both
+// we can create dedicated per class utility
+
 export function formatZodErrors(error: ZodError, key = '') {
   const map = new Map<string, string[]>()
 
