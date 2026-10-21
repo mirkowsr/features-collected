@@ -6,7 +6,7 @@ module.exports = (options, webpack) => ({
   entry: ['webpack/hot/poll?100', options.entry],
   externals: [
     nodeExternals({
-      allowlist: ['webpack/hot/poll?100', '@repo/backend-validation'],
+      allowlist: ['webpack/hot/poll?100', /^@repo\/backend-/],
     }),
   ],
   plugins: [
