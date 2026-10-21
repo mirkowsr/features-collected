@@ -2,24 +2,6 @@ import { NestFactory } from '@nestjs/core'
 
 import { AppModule } from './app.module'
 
-declare global {
-  namespace NodeJS {
-    interface HotModuleData {
-      closePromise?: Promise<void>
-    }
-
-    interface HotModule {
-      accept: () => void
-      data?: HotModuleData
-      dispose: (callback: (data: HotModuleData) => void) => void
-    }
-
-    interface Module {
-      hot?: HotModule
-    }
-  }
-}
-
 async function bootstrap() {
   if (module.hot?.data?.closePromise) {
     await module.hot.data.closePromise

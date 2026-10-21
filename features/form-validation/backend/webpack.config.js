@@ -13,7 +13,7 @@ module.exports = (options, webpack) => ({
     ...options.plugins,
     new webpack.HotModuleReplacementPlugin(),
     new RunScriptWebpackPlugin({
-      autoRestart: false,
+      autoRestart: true,
       name: options.output.filename,
     }),
   ],
