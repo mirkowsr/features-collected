@@ -1,5 +1,10 @@
 **/node_modules
 **/.turbo
+**/.env
+**/.env.*
+!**/.env.example
+**/terraform/.terraform
+**/terraform/*.tfstate*
 
 dist
 .git

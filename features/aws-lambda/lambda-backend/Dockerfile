@@ -3,16 +3,10 @@ FROM node:22-alpine AS build
 RUN npm install -g pnpm@10
 WORKDIR /usr/src/app
 
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc tsconfig.base.json turbo.json ./
-COPY packages/ ./packages/
-COPY utils/ ./utils/
-COPY features/aws-lambda/lambda-backend/package.json ./features/aws-lambda/lambda-backend/
-COPY features/aws-lambda/lambda-backend/tsconfig.json ./features/aws-lambda/lambda-backend/
-COPY features/aws-lambda/lambda-backend/nest-cli.json ./features/aws-lambda/lambda-backend/
-COPY features/aws-lambda/lambda-backend/src/ ./features/aws-lambda/lambda-backend/src/
+COPY . .
 
-RUN pnpm install --frozen-lockfile
-RUN pnpm build
+RUN pnpm install --frozen-lockfile --filter @repo/aws-lambda-lambda-backend...
+RUN pnpm --filter @repo/aws-lambda-lambda-backend... build
 
 # pnpm deploy produces a self-contained, portable production dependency bundle.
 RUN pnpm deploy --filter @repo/aws-lambda-lambda-backend --prod /app/bundle
