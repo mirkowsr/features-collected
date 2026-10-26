@@ -3,7 +3,7 @@ import { Injectable, Logger } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 
 import { InjectSQS } from '../../aws-sqs'
-import { createQueueEvent } from '../events/createQueueEvent'
+import type { QueueEvent } from '../events/event.type'
 
 @Injectable()
 export class ProducerService {
@@ -15,15 +15,13 @@ export class ProducerService {
     private readonly config: ConfigService,
   ) {}
 
-  async emit() {
+  async emit(event: QueueEvent): Promise<void> {
     this.logger.log('sending message to terraform queue')
 
     await this.sqs.send(
       new SendMessageCommand({
         QueueUrl: this.queueUrl,
-        MessageBody: JSON.stringify(
-          createQueueEvent('user.created', { name: 'Barabasz' }),
-        ),
+        MessageBody: JSON.stringify(event),
       }),
     )
   }

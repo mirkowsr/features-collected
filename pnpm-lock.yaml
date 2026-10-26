@@ -60,6 +60,9 @@ importers:
       '@repo/backend-events':
         specifier: workspace:*
         version: link:../../../packages/backend/events
+      '@repo/backend-validation':
+        specifier: workspace:*
+        version: link:../../../packages/backend/validation
       aws-lambda:
         specifier: ^1.0.7
         version: 1.0.7
@@ -84,6 +87,9 @@ importers:
       rxjs:
         specifier: ^7.8.0
         version: 7.8.2
+      zod:
+        specifier: ^4.4.3
+        version: 4.4.3
     devDependencies:
       '@nestjs/cli':
         specifier: ^11.0.0

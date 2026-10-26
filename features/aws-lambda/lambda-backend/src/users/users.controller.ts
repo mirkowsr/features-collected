@@ -1,18 +1,20 @@
-import { Controller, Get, Post } from '@nestjs/common'
+import { Body, Controller, Get, Post, UsePipes } from '@nestjs/common'
+
+import { ZodValidationPipe } from '@repo/backend-validation'
+
 import { UsersService } from './users.service'
-import { ProducerService } from '../common/producer/producer.service'
+import { CreateUserSchema, type CreateUserBody } from './validation/users'
 
 @Controller('users')
 export class UsersController {
-  constructor(
-    private readonly usersService: UsersService,
-    private readonly producerService: ProducerService,
-  ) {}
+  constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  async createUser() {
-    await this.producerService.emit()
+  @UsePipes(new ZodValidationPipe(CreateUserSchema))
+  createUser(@Body() body: CreateUserBody) {
+    return this.usersService.createUser(body.name)
   }
+
   @Get()
   findAll() {
     return this.usersService.findAll()
