@@ -1,1 +1,8 @@
-export { FilterBuilder, type FilterParams } from './filter-builder'
+export { FilterBuilder } from './filter-builder'
+export type {
+  FilterParams,
+  FuzzySearchParams,
+  PaginatedResponse,
+  PaginationParams,
+  PaginationMeta,
+} from './filter-builder.type'

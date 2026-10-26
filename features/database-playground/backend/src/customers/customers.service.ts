@@ -3,9 +3,10 @@ import {
   InternalServerErrorException,
   Logger,
 } from '@nestjs/common'
-import { FilterBuilder } from '@repo/backend-filtering'
+import { FilterBuilder, type PaginatedResponse } from '@repo/backend-filtering'
 import { InjectDrizzle } from '../db/drizzle.decorator'
 import { DrizzleSchema } from '../db/types/drizzle.type'
+import type { Customers } from '../db/types/customers.type'
 import to from 'await-to-js'
 import { customers, orders } from '../db/schema'
 import {
@@ -18,11 +19,12 @@ import {
   count,
   isNull,
 } from 'drizzle-orm'
-import { CustomersFilterParams } from './filtering/types'
+import type { CustomersFilterParams } from './filtering/types'
 
 @Injectable()
 export class CustomersService {
   private logger = new Logger(CustomersService.name)
+
   private filterBuilder = new FilterBuilder(customers, [
     customers.lastName,
     customers.firstName,
@@ -36,7 +38,7 @@ export class CustomersService {
     page,
     pageSize,
     ...restQueryParams
-  }: CustomersFilterParams) {
+  }: CustomersFilterParams): Promise<PaginatedResponse<Customers>> {
     this.logger.log('Querying customers')
     const { conditions, pageNumber, pageSizeNumber, offset } =
       this.filterBuilder.build({ q, page, pageSize, ...restQueryParams })
