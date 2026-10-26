@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common'
 import { LoggerModule as PinoLogger } from 'nestjs-pino'
 
+// TODO: PACKAGE: move this to separate package
 @Module({
   imports: [
     PinoLogger.forRoot({

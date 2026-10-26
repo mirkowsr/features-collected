@@ -35,7 +35,7 @@ tf-validate:
 build:
 	pnpm --filter @repo/aws-lambda-lambda-backend build
 
-docker-build: build
+docker-build:
 	docker build --platform=linux/arm64 --provenance=false -t $(IMAGE):$(GIT_SHA) -f  $(BACKEND)/Dockerfile .
 
 ecr-tag:

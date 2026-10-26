@@ -57,6 +57,9 @@ importers:
       '@nestjs/platform-express':
         specifier: ^11.0.0
         version: 11.1.16(@nestjs/common@11.1.16(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.16)
+      '@repo/backend-events':
+        specifier: workspace:*
+        version: link:../../../packages/backend/events
       aws-lambda:
         specifier: ^1.0.7
         version: 1.0.7
@@ -741,6 +744,18 @@ importers:
         version: 5.9.3
 
   packages/backend: {}
+
+  packages/backend/events:
+    devDependencies:
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.19.13
+      oxfmt:
+        specifier: ^0.73.0
+        version: 0.73.0(@astrojs/compiler-rs@0.5.2)
+      typescript:
+        specifier: ^5.4.0
+        version: 5.9.3
 
   packages/backend/filtering:
     dependencies:
