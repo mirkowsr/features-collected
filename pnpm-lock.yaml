@@ -60,6 +60,9 @@ importers:
       '@repo/backend-events':
         specifier: workspace:*
         version: link:../../../packages/backend/events
+      '@repo/backend-logging':
+        specifier: workspace:*
+        version: link:../../../packages/backend/logging
       '@repo/backend-validation':
         specifier: workspace:*
         version: link:../../../packages/backend/validation
@@ -768,6 +771,22 @@ importers:
       drizzle-orm:
         specifier: ^0.44.5
         version: 0.44.7(@types/pg@8.20.0)(pg@8.20.0)
+    devDependencies:
+      oxfmt:
+        specifier: ^0.73.0
+        version: 0.73.0(@astrojs/compiler-rs@0.5.2)
+      typescript:
+        specifier: ^5.4.0
+        version: 5.9.3
+
+  packages/backend/logging:
+    dependencies:
+      '@nestjs/common':
+        specifier: ^11.0.0
+        version: 11.1.16(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      nestjs-pino:
+        specifier: ^5.0.0
+        version: 5.0.0(@nestjs/common@11.1.16(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.16)(pino-http@11.0.0)(pino@10.3.1)(rxjs@7.8.2)
     devDependencies:
       oxfmt:
         specifier: ^0.73.0

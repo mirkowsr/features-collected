@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common'
-import { AppLoggerModule } from '../logger/logger.module'
+import { AppLoggerModule } from '@repo/backend-logging'
+
 import { ProducerService } from './producer.service'
 
 @Module({
