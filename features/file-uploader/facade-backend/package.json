@@ -25,6 +25,7 @@
     "@nestjs/microservices": "^11.1.27",
     "@nestjs/platform-express": "^11.0.0",
     "@repo/backend-aws-s3": "workspace:*",
+    "@repo/backend-validation": "workspace:*",
     "@repo/utils": "workspace:*",
     "amqp-connection-manager": "^5.0.0",
     "amqplib": "^2.0.1",

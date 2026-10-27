@@ -24,6 +24,7 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^11.0.0",
     "@repo/backend-aws-s3": "workspace:*",
+    "@repo/backend-validation": "workspace:*",
     "@repo/utils": "workspace:*",
     "dotenv": "^17.2.1",
     "drizzle-orm": "^0.45.2",

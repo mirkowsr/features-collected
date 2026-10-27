@@ -11,11 +11,13 @@ import {
 } from '@nestjs/common'
 import { ClientProxy, EventPattern } from '@nestjs/microservices'
 import { FileInterceptor } from '@nestjs/platform-express'
+import {
+  FileSizeValidationPipe,
+  FileTypeValidationPipe,
+  fileSizeMiB,
+} from '@repo/backend-validation'
 import { UploadStatus } from '../db/schema'
-import { FileSizeValidationPipe } from '../pipes/fileSize.pipe'
-import { FileTypeValidationPipe } from '../pipes/fileType.pipe'
 import { FileUploadService } from './file-upload.service'
-import { fileSizeMiB } from './utils/file.utils'
 import { FileProcessErrorDto, FileProcessFinishDto } from './dto/file.dto'
 
 @Controller('files')

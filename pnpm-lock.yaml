@@ -312,6 +312,9 @@ importers:
       '@repo/backend-aws-s3':
         specifier: workspace:*
         version: link:../../../packages/backend/aws-s3
+      '@repo/backend-validation':
+        specifier: workspace:*
+        version: link:../../../packages/backend/validation
       '@repo/utils':
         specifier: workspace:*
         version: link:../../../utils
@@ -382,6 +385,9 @@ importers:
       '@repo/backend-aws-s3':
         specifier: workspace:*
         version: link:../../../packages/backend/aws-s3
+      '@repo/backend-validation':
+        specifier: workspace:*
+        version: link:../../../packages/backend/validation
       '@repo/utils':
         specifier: workspace:*
         version: link:../../../utils
@@ -900,6 +906,9 @@ importers:
         specifier: ^4.4.3
         version: 4.4.3
     devDependencies:
+      '@types/multer':
+        specifier: ^2.1.0
+        version: 2.1.0
       oxfmt:
         specifier: ^0.73.0
         version: 0.73.0(@astrojs/compiler-rs@0.5.2)

@@ -11,6 +11,7 @@ export class FileTypeValidationPipe extends FileValidator<FileTypeValidationPipe
   isValid(file: Express.Multer.File): boolean | Promise<boolean> {
     return this.validationOptions.allowedMimeTypes.includes(file.mimetype)
   }
+
   buildErrorMessage(): string {
     return `File type not allowed. Accepted: ${this.validationOptions.allowedMimeTypes.join(', ')}`
   }

@@ -6,11 +6,13 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common'
-import { FileUploadService } from './file-upload.service'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { FileSizeValidationPipe } from '../pipes/fileSize.pipe'
-import { fileSizeMiB } from './utils/file.utils'
-import { FileTypeValidationPipe } from '../pipes/fileType.pipe'
+import {
+  FileSizeValidationPipe,
+  FileTypeValidationPipe,
+  fileSizeMiB,
+} from '@repo/backend-validation'
+import { FileUploadService } from './file-upload.service'
 
 @Controller('file')
 export class FileUploadController {
