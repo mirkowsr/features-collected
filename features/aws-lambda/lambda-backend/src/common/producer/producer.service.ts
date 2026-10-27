@@ -1,8 +1,8 @@
 import { SendMessageCommand, SQSClient } from '@aws-sdk/client-sqs'
 import { Injectable, Logger } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import { InjectSQS } from '@repo/backend-aws-sqs'
 
-import { InjectSQS } from '../../aws-sqs'
 import type { QueueEvent } from '../events/event.type'
 
 @Injectable()

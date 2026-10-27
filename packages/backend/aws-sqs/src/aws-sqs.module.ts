@@ -1,6 +1,6 @@
+import { SQSClient } from '@aws-sdk/client-sqs'
 import { Global, Module } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { SQSClient } from '@aws-sdk/client-sqs'
 
 export const SQS_CLIENT = Symbol('sqs-client')
 
