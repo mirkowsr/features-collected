@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 
-import { AwsS3Module } from './aws-s3'
+import { AwsS3Module } from '@repo/backend-aws-s3'
 import { DrizzleModule } from './db/drizzle.module'
 import { EmailSender } from './email-send/email-send.module'
 import { MailerModule } from './mailer/mailer.module'

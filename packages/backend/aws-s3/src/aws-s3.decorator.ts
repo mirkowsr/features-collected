@@ -1,4 +1,5 @@
 import { Inject } from '@nestjs/common'
+
 import { S3_CLIENT } from './aws-s3.module'
 
 export { S3_CLIENT } from './aws-s3.module'

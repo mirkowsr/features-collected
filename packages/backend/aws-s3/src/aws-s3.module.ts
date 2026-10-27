@@ -1,6 +1,6 @@
+import { S3Client } from '@aws-sdk/client-s3'
 import { Global, Module } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { S3Client } from '@aws-sdk/client-s3'
 
 export const S3_CLIENT = Symbol('s3-client')
 
