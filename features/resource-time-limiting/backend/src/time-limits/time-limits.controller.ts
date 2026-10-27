@@ -1,5 +1,5 @@
 import { Get, Body, Controller, Post, UsePipes } from '@nestjs/common'
-import { ZodValidationPipe } from '../common/pipes/ZodValidationPipe'
+import { ZodValidationPipe } from '@repo/backend-validation'
 import { TimeLimitsService } from './time-limits.service'
 import { TimeLimitDto, TimeLimitSchema } from './validation/time-limits'
 

@@ -145,6 +145,9 @@ importers:
       '@repo/backend-filtering':
         specifier: workspace:*
         version: link:../../../packages/backend/filtering
+      '@repo/backend-validation':
+        specifier: workspace:*
+        version: link:../../../packages/backend/validation
       '@repo/utils':
         specifier: workspace:*
         version: link:../../../utils
@@ -224,6 +227,9 @@ importers:
       '@repo/backend-mailer':
         specifier: workspace:*
         version: link:../../../packages/backend/mailer
+      '@repo/backend-validation':
+        specifier: workspace:*
+        version: link:../../../packages/backend/validation
       '@repo/utils':
         specifier: workspace:*
         version: link:../../../utils
@@ -659,6 +665,9 @@ importers:
       '@nestjs/typeorm':
         specifier: ^11.0.0
         version: 11.0.0(@nestjs/common@11.1.16(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.16)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.28(pg@8.20.0)(ts-node@10.9.2(@types/node@22.19.13)(typescript@5.9.3)))
+      '@repo/backend-validation':
+        specifier: workspace:*
+        version: link:../../../packages/backend/validation
       '@repo/utils':
         specifier: workspace:*
         version: link:../../../utils
@@ -683,6 +692,9 @@ importers:
       typeorm:
         specifier: ^0.3.0
         version: 0.3.28(pg@8.20.0)(ts-node@10.9.2(@types/node@22.19.13)(typescript@5.9.3))
+      zod:
+        specifier: ^4.4.3
+        version: 4.4.3
     devDependencies:
       '@nestjs/cli':
         specifier: ^11.0.0
@@ -705,9 +717,6 @@ importers:
       typescript:
         specifier: ^5.4.0
         version: 5.9.3
-      zod:
-        specifier: ^4.4.3
-        version: 4.4.3
 
   features/resource-time-limiting/backend:
     dependencies:
@@ -726,6 +735,9 @@ importers:
       '@nestjs/platform-express':
         specifier: ^11.0.0
         version: 11.1.16(@nestjs/common@11.1.16(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.16)
+      '@repo/backend-validation':
+        specifier: workspace:*
+        version: link:../../../packages/backend/validation
       '@repo/utils':
         specifier: workspace:*
         version: link:../../../utils

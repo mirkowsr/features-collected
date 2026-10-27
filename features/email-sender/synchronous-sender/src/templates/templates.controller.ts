@@ -8,9 +8,9 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
+import { ZodValidationPipe } from '@repo/backend-validation'
 import type { TemplateBodyDTO } from './dto/template.dto'
 import { FileTypeValidationPipe } from './pipes/file-type.pipe'
-import { ZodValidationPipe } from '../common/pipes/validation'
 import type { TemplatesService } from './templates.service'
 import { TemplateBodySchema } from './validation-schema/template.schema'
 import { FileSizeValidationPipe } from './pipes/file-size.pipe'
