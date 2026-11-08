@@ -1,4 +1,5 @@
-export { InjectSQS, SQS_CLIENT } from './aws-sqs.decorator'
+export { SQS_CLIENT } from './aws-sqs.constants'
+export { InjectSQS } from './aws-sqs.decorator'
 export { AwsSQSModule } from './aws-sqs.module'
 export {
   SqsProducerService,

@@ -2,7 +2,7 @@ import { S3Client } from '@aws-sdk/client-s3'
 import { Global, Module } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 
-export const S3_CLIENT = Symbol('s3-client')
+import { S3_CLIENT } from './aws-s3.constants'
 
 @Global()
 @Module({
