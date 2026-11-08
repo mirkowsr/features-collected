@@ -36,9 +36,6 @@ importers:
       '@aws-sdk/client-s3':
         specifier: ^3.1076.0
         version: 3.1077.0
-      '@aws-sdk/client-sqs':
-        specifier: ^3.1124.0
-        version: 3.1124.0
       '@codegenie/serverless-express':
         specifier: ^5.0.0
         version: 5.0.0

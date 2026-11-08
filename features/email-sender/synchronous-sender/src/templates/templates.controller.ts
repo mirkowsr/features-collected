@@ -15,7 +15,7 @@ import {
   ZodValidationPipe,
 } from '@repo/backend-validation'
 import type { TemplateBodyDTO } from './dto/template.dto'
-import type { TemplatesService } from './templates.service'
+import { TemplatesService } from './templates.service'
 import { TemplateBodySchema } from './validation-schema/template.schema'
 
 @Controller('templates')

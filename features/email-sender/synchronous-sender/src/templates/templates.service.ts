@@ -10,7 +10,7 @@ import { InjectDrizzle } from '../db/drizzle.decorator'
 import { templates } from '../db/schema'
 import { TemplateStatus } from '../db/schema/templates'
 import type { DrizzleSchema } from '../db/types/drizzle.type'
-import type { StorageService } from '../storage/storage.service'
+import { StorageService } from '../storage/storage.service'
 import type { CreatedDraftDTO, TemplateUploadDTO } from './dto/template.dto'
 import { ContentTypes } from '../storage/dto/storage.dto'
 
