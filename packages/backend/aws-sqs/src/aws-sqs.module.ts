@@ -2,6 +2,8 @@ import { SQSClient } from '@aws-sdk/client-sqs'
 import { Global, Module } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 
+import { SqsProducerService } from './aws-sqs.producer'
+
 export const SQS_CLIENT = Symbol('sqs-client')
 
 @Global()
@@ -20,7 +22,8 @@ export const SQS_CLIENT = Symbol('sqs-client')
           },
         }),
     },
+    SqsProducerService,
   ],
-  exports: [SQS_CLIENT],
+  exports: [SQS_CLIENT, SqsProducerService],
 })
 export class AwsSQSModule {}
