@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, UsePipes } from '@nestjs/common'
-import { ZodValidationPipe } from '../common/pipes/ZodValidationPipe'
+import { ZodValidationPipe } from '@repo/backend-validation'
 import { ProductsService } from './products.service'
 import { BulkInsertsProductsSchema, Products } from './validation/products'
 

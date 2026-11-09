@@ -1,23 +1,21 @@
-# ---- Stage 1: build a self-contained dependency bundle ----
-FROM node:22-alpine AS deps
+# ---- Stage 1: build the Lambda and its workspace dependencies ----
+FROM node:22-alpine AS build
 RUN npm install -g pnpm@10
 WORKDIR /usr/src/app
 
-# Copy lockfile + workspace config so pnpm can resolve the workspace
-COPY pnpm-lock.yaml pnpm-workspace.yaml ./
-COPY .npmrc ./
+COPY . .
 
-# Copy the lambda package manifest
-COPY features/aws-lambda/lambda-backend/package.json ./features/aws-lambda/lambda-backend/
+RUN pnpm install --frozen-lockfile --filter @repo/aws-lambda-lambda-backend...
+RUN pnpm --filter @repo/aws-lambda-lambda-backend... build
 
-# pnpm deploy produces a self-contained, portable dependency bundle
-RUN pnpm --filter @repo/aws-lambda-lambda-backend --prod deploy /app/bundle
+# pnpm deploy produces a self-contained, portable production dependency bundle.
+RUN pnpm deploy --filter @repo/aws-lambda-lambda-backend --prod /app/bundle
 
 # ---- Stage 2: Lambda runtime image ----
 FROM public.ecr.aws/lambda/nodejs:22
 
 # Copy the self-contained node_modules from the bundle
-COPY --from=deps /app/bundle/node_modules ${LAMBDA_TASK_ROOT}/node_modules
+COPY --from=build /app/bundle/node_modules ${LAMBDA_TASK_ROOT}/node_modules
 
 # Copy the compiled NestJS output
-COPY features/aws-lambda/lambda-backend/dist/ ${LAMBDA_TASK_ROOT}/dist/
+COPY --from=build /usr/src/app/features/aws-lambda/lambda-backend/dist/ ${LAMBDA_TASK_ROOT}/dist/

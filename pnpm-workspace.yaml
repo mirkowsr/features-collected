@@ -1,6 +1,7 @@
 packages:
   - 'features/*/*'
   - 'packages/*'
+  - 'packages/*/*'
   - 'utils'
 
 onlyBuiltDependencies:

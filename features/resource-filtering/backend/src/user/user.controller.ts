@@ -5,13 +5,13 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common'
+import { ZodValidationPipe } from '@repo/backend-validation'
 
 import { ValidateQueryParams } from './decorators/validateQuery.decorator'
 import { QueryPipe } from './pipes/query.pipe'
 import { UserFilterKeys, UserRepositoryQueryParams } from './types'
 import { UserService } from './user.service'
 import { UserFilterParamsDto } from './dto/user-filter-params.dto'
-import { QueryFilter } from './pipes/query-params.pipe'
 import {
   UserFilterQuery,
   UserFilterQuerySchema,
@@ -61,7 +61,7 @@ export class UserController {
 
   @Get('/zod-validator')
   findByZodValidator(
-    @Query(new QueryFilter(UserFilterQuerySchema))
+    @Query(new ZodValidationPipe(UserFilterQuerySchema))
     params: UserFilterQuery,
   ) {
     return this.userService.findByZodFilteredParams(params)
@@ -69,7 +69,7 @@ export class UserController {
 
   @Get('/paginated')
   paginated(
-    @Query(new QueryFilter(UserFilterQuerySchema))
+    @Query(new ZodValidationPipe(UserFilterQuerySchema))
     params: UserFilterQuery,
   ) {
     return this.userService.findPaginated(params)

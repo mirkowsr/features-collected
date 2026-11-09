@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
-import { UsersModule } from './users/users.module'
+import { AwsSQSModule } from '@repo/backend-aws-sqs'
+import { AppLoggerModule } from '@repo/backend-logging'
+
 import { DrizzleModule } from './db/drizzle.module'
 import { ExampleJobModule } from './example-job/example-job.module'
-import { AppLoggerModule } from './common/logger/logger.module'
-import { AwsSQSModule } from './aws-sqs'
+import { UsersModule } from './users/users.module'
 
 @Module({
   imports: [

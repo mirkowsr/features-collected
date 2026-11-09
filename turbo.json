@@ -6,6 +6,8 @@
     "pnpm-lock.yaml",
     "pnpm-workspace.yaml",
     "tsconfig.base.json",
+    "tsconfig.lib.backend.json",
+    "tsconfig.lib.frontend.json",
     "tsconfig.json",
     "turbo.json",
     ".oxlintrc.json",

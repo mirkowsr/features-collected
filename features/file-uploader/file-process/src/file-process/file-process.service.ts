@@ -5,7 +5,7 @@ import {
 } from '@aws-sdk/client-s3'
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { InjectS3 } from '../aws-s3'
+import { InjectS3 } from '@repo/backend-aws-s3'
 import { toErrorMessage } from './utils/toErrorMessage'
 
 @Injectable()

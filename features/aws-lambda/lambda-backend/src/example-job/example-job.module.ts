@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common'
-import { ExampleJobService } from './example-job.service'
 import { ConfigModule } from '@nestjs/config'
+import { AppLoggerModule } from '@repo/backend-logging'
+
 import { DrizzleModule } from '../db/drizzle.module'
-import { AppLoggerModule } from '../common/logger/logger.module'
+import { ExampleJobService } from './example-job.service'
 
 @Module({
   imports: [

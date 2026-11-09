@@ -8,9 +8,9 @@ import {
   UseGuards,
   UsePipes,
 } from '@nestjs/common'
+import { ZodValidationPipe } from '@repo/backend-validation'
 import { ImagesService } from './images.service'
 import { ImageDto, ImagesSchema } from './validation/images.schema'
-import { ZodValidationPipe } from '../common/pipes/ZodValidationPipe'
 import { TimeLimitsGuard } from '../common/guards/time-limit.guard'
 import { TimeLimitedResource } from '../time-limits/decorators/time-limit.decorator'
 

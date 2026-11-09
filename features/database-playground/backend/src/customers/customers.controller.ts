@@ -1,6 +1,6 @@
 import { Controller, Get, Query } from '@nestjs/common'
 import { CustomersService } from './customers.service'
-import { CustomersFilterParams } from './filtering/types'
+import type { CustomersFilterParams } from './filtering/types'
 
 @Controller('customers')
 export class CustomersController {

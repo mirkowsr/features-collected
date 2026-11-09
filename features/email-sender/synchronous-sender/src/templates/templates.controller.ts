@@ -8,13 +8,15 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
+import {
+  FileSizeValidationPipe,
+  FileTypeValidationPipe,
+  fileSizeMiB,
+  ZodValidationPipe,
+} from '@repo/backend-validation'
 import type { TemplateBodyDTO } from './dto/template.dto'
-import { FileTypeValidationPipe } from './pipes/file-type.pipe'
-import { ZodValidationPipe } from '../common/pipes/validation'
-import type { TemplatesService } from './templates.service'
+import { TemplatesService } from './templates.service'
 import { TemplateBodySchema } from './validation-schema/template.schema'
-import { FileSizeValidationPipe } from './pipes/file-size.pipe'
-import { fileSizeMiB } from '../utils/file-size'
 
 @Controller('templates')
 export class TemplatesController {

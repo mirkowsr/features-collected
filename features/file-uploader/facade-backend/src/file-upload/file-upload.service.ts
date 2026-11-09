@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { eq } from 'drizzle-orm'
-import { InjectS3 } from '../aws-s3'
+import { InjectS3 } from '@repo/backend-aws-s3'
 import { InjectDrizzle } from '../db/drizzle.decorator'
 import { files, UploadStatus, UploadStatusTypes } from '../db/schema'
 import { DrizzleSchema } from '../db/types/drizzle.type'

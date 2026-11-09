@@ -5,9 +5,9 @@ import {
   InternalServerErrorException,
   Logger,
 } from '@nestjs/common'
-import type { ConfigService } from '@nestjs/config'
+import { ConfigService } from '@nestjs/config'
 import to from 'await-to-js'
-import { InjectS3 } from '../aws-s3'
+import { InjectS3 } from '@repo/backend-aws-s3'
 import type { UploadTemplateDTO } from './dto/storage.dto'
 
 @Injectable()

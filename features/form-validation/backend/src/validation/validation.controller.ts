@@ -1,5 +1,5 @@
 import { Body, Controller, Post, UsePipes } from '@nestjs/common'
-import { DynamicValidation } from '../common/pipes/dynamic-validation'
+import { DynamicValidation } from '@repo/backend-validation'
 import { SchemaMap } from '../users/validation/dynamic'
 
 @Controller('validation')
