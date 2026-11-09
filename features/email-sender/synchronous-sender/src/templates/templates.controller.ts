@@ -8,10 +8,10 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { TemplateBodyDTO } from './dto/template.dto'
+import type { TemplateBodyDTO } from './dto/template.dto'
 import { FileTypeValidationPipe } from './pipes/file-type.pipe'
 import { ZodValidationPipe } from '../common/pipes/validation'
-import { TemplatesService } from './templates.service'
+import type { TemplatesService } from './templates.service'
 import { TemplateBodySchema } from './validation-schema/template.schema'
 import { FileSizeValidationPipe } from './pipes/file-size.pipe'
 import { fileSizeMiB } from '../utils/file-size'

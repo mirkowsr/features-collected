@@ -26,27 +26,27 @@ Light mode values apply to `:root`. Dark mode values apply when the `.dark` clas
 
 Every color token defines a foreground/background pair. Use the base token for backgrounds and the `-foreground` variant for text or icons rendered on that background.
 
-| Token Name | CSS Variable | Light OKLCH | Dark OKLCH | Light Hex | Dark Hex | Tailwind Utility |
-|---|---|---|---|---|---|---|
-| Background | `--color-background` | `oklch(1 0 0)` | `oklch(0.145 0 0)` | `#ffffff` | `#0a0a0a` | `bg-background` |
-| Foreground | `--color-foreground` | `oklch(0.145 0 0)` | `oklch(0.985 0 0)` | `#0a0a0a` | `#fafafa` | `text-foreground` |
-| Surface | `--color-surface` | `oklch(0.985 0 0)` | `oklch(0.205 0 0)` | `#fafafa` | `#18181b` | `bg-surface` |
-| Surface Foreground | `--color-surface-foreground` | `oklch(0.145 0 0)` | `oklch(0.985 0 0)` | `#0a0a0a` | `#fafafa` | `text-surface-foreground` |
-| Muted | `--color-muted` | `oklch(0.96 0 0)` | `oklch(0.269 0 0)` | `#f4f4f5` | `#27272a` | `bg-muted` |
-| Muted Foreground | `--color-muted-foreground` | `oklch(0.556 0 0)` | `oklch(0.708 0 0)` | `#71717a` | `#a1a1aa` | `text-muted-foreground` |
-| Primary | `--color-primary` | `oklch(0.145 0 0)` | `oklch(0.985 0 0)` | `#0a0a0a` | `#fafafa` | `bg-primary` |
-| Primary Foreground | `--color-primary-foreground` | `oklch(0.985 0 0)` | `oklch(0.205 0 0)` | `#fafafa` | `#18181b` | `text-primary-foreground` |
-| Secondary | `--color-secondary` | `oklch(0.96 0 0)` | `oklch(0.269 0 0)` | `#f4f4f5` | `#27272a` | `bg-secondary` |
-| Secondary Foreground | `--color-secondary-foreground` | `oklch(0.205 0 0)` | `oklch(0.985 0 0)` | `#18181b` | `#fafafa` | `text-secondary-foreground` |
-| Accent | `--color-accent` | `oklch(0.96 0 0)` | `oklch(0.269 0 0)` | `#f4f4f5` | `#27272a` | `bg-accent` |
-| Accent Foreground | `--color-accent-foreground` | `oklch(0.205 0 0)` | `oklch(0.985 0 0)` | `#18181b` | `#fafafa` | `text-accent-foreground` |
-| Destructive | `--color-destructive` | `oklch(0.577 0.245 27.325)` | `oklch(0.577 0.245 27.325)` | `#dc2626` | `#dc2626` | `bg-destructive` |
-| Destructive Foreground | `--color-destructive-foreground` | `oklch(0.985 0 0)` | `oklch(0.985 0 0)` | `#fafafa` | `#fafafa` | `text-destructive-foreground` |
-| Border | `--color-border` | `oklch(0.87 0 0)` | `oklch(0.35 0 0)` | `#e4e4e7` | `#3f3f46` | `border-border` |
-| Border Strong | `--color-border-strong` | `oklch(0.705 0 0)` | `oklch(0.5 0 0)` | `#a1a1aa` | `#52525b` | `border-border-strong` |
-| Input | `--color-input` | `oklch(0.87 0 0)` | `oklch(0.35 0 0)` | `#e4e4e7` | `#3f3f46` | `border-input` |
-| Ring | `--color-ring` | `oklch(0.556 0 0)` | `oklch(0.556 0 0)` | `#71717a` | `#71717a` | `ring-ring` |
-| Overlay | `--color-overlay` | `oklch(0.145 0 0 / 0.6)` | `oklch(0 0 0 / 0.7)` | `#0a0a0a99` | `#000000b3` | `bg-overlay` |
+| Token Name             | CSS Variable                     | Light OKLCH                 | Dark OKLCH                  | Light Hex   | Dark Hex    | Tailwind Utility              |
+| ---------------------- | -------------------------------- | --------------------------- | --------------------------- | ----------- | ----------- | ----------------------------- |
+| Background             | `--color-background`             | `oklch(1 0 0)`              | `oklch(0.145 0 0)`          | `#ffffff`   | `#0a0a0a`   | `bg-background`               |
+| Foreground             | `--color-foreground`             | `oklch(0.145 0 0)`          | `oklch(0.985 0 0)`          | `#0a0a0a`   | `#fafafa`   | `text-foreground`             |
+| Surface                | `--color-surface`                | `oklch(0.985 0 0)`          | `oklch(0.205 0 0)`          | `#fafafa`   | `#18181b`   | `bg-surface`                  |
+| Surface Foreground     | `--color-surface-foreground`     | `oklch(0.145 0 0)`          | `oklch(0.985 0 0)`          | `#0a0a0a`   | `#fafafa`   | `text-surface-foreground`     |
+| Muted                  | `--color-muted`                  | `oklch(0.96 0 0)`           | `oklch(0.269 0 0)`          | `#f4f4f5`   | `#27272a`   | `bg-muted`                    |
+| Muted Foreground       | `--color-muted-foreground`       | `oklch(0.556 0 0)`          | `oklch(0.708 0 0)`          | `#71717a`   | `#a1a1aa`   | `text-muted-foreground`       |
+| Primary                | `--color-primary`                | `oklch(0.145 0 0)`          | `oklch(0.985 0 0)`          | `#0a0a0a`   | `#fafafa`   | `bg-primary`                  |
+| Primary Foreground     | `--color-primary-foreground`     | `oklch(0.985 0 0)`          | `oklch(0.205 0 0)`          | `#fafafa`   | `#18181b`   | `text-primary-foreground`     |
+| Secondary              | `--color-secondary`              | `oklch(0.96 0 0)`           | `oklch(0.269 0 0)`          | `#f4f4f5`   | `#27272a`   | `bg-secondary`                |
+| Secondary Foreground   | `--color-secondary-foreground`   | `oklch(0.205 0 0)`          | `oklch(0.985 0 0)`          | `#18181b`   | `#fafafa`   | `text-secondary-foreground`   |
+| Accent                 | `--color-accent`                 | `oklch(0.96 0 0)`           | `oklch(0.269 0 0)`          | `#f4f4f5`   | `#27272a`   | `bg-accent`                   |
+| Accent Foreground      | `--color-accent-foreground`      | `oklch(0.205 0 0)`          | `oklch(0.985 0 0)`          | `#18181b`   | `#fafafa`   | `text-accent-foreground`      |
+| Destructive            | `--color-destructive`            | `oklch(0.577 0.245 27.325)` | `oklch(0.577 0.245 27.325)` | `#dc2626`   | `#dc2626`   | `bg-destructive`              |
+| Destructive Foreground | `--color-destructive-foreground` | `oklch(0.985 0 0)`          | `oklch(0.985 0 0)`          | `#fafafa`   | `#fafafa`   | `text-destructive-foreground` |
+| Border                 | `--color-border`                 | `oklch(0.87 0 0)`           | `oklch(0.35 0 0)`           | `#e4e4e7`   | `#3f3f46`   | `border-border`               |
+| Border Strong          | `--color-border-strong`          | `oklch(0.705 0 0)`          | `oklch(0.5 0 0)`            | `#a1a1aa`   | `#52525b`   | `border-border-strong`        |
+| Input                  | `--color-input`                  | `oklch(0.87 0 0)`           | `oklch(0.35 0 0)`           | `#e4e4e7`   | `#3f3f46`   | `border-input`                |
+| Ring                   | `--color-ring`                   | `oklch(0.556 0 0)`          | `oklch(0.556 0 0)`          | `#71717a`   | `#71717a`   | `ring-ring`                   |
+| Overlay                | `--color-overlay`                | `oklch(0.145 0 0 / 0.6)`    | `oklch(0 0 0 / 0.7)`        | `#0a0a0a99` | `#000000b3` | `bg-overlay`                  |
 
 **Usage examples:**
 
@@ -65,7 +65,9 @@ Every color token defines a foreground/background pair. Use the base token for b
 <p class="text-muted-foreground">Last updated 3 hours ago</p>
 
 <!-- Card on a surface -->
-<div class="bg-surface text-surface-foreground border border-border rounded-xl p-6">
+<div
+  class="bg-surface text-surface-foreground border border-border rounded-xl p-6"
+>
   ...
 </div>
 ```
@@ -74,12 +76,12 @@ Every color token defines a foreground/background pair. Use the base token for b
 
 ## Radius Tokens
 
-| Token Name | CSS Variable | Value | Pixels | Tailwind Utility |
-|---|---|---|---|---|
-| Small | `--radius-sm` | `0.25rem` | 4px | `rounded-sm` |
-| Default / Medium | `--radius` / `--radius-md` | `0.375rem` | 6px | `rounded-md` |
-| Large | `--radius-lg` | `0.5rem` | 8px | `rounded-lg` |
-| Extra Large | `--radius-xl` | `0.75rem` | 12px | `rounded-xl` |
+| Token Name       | CSS Variable               | Value      | Pixels | Tailwind Utility |
+| ---------------- | -------------------------- | ---------- | ------ | ---------------- |
+| Small            | `--radius-sm`              | `0.25rem`  | 4px    | `rounded-sm`     |
+| Default / Medium | `--radius` / `--radius-md` | `0.375rem` | 6px    | `rounded-md`     |
+| Large            | `--radius-lg`              | `0.5rem`   | 8px    | `rounded-lg`     |
+| Extra Large      | `--radius-xl`              | `0.75rem`  | 12px   | `rounded-xl`     |
 
 The `--radius` and `--radius-md` tokens are aliases for the same value. Components use `--radius-lg` or `--radius-xl` most often; smaller radii are used for badges, chips, and nested elements.
 
@@ -89,21 +91,21 @@ The `--radius` and `--radius-md` tokens are aliases for the same value. Componen
 
 Shadow tokens use OKLCH black with varying alpha for consistency with the color system. In dark mode, shadows are typically invisible against dark backgrounds; consider using border or surface elevation instead.
 
-| Token Name | CSS Variable | Value | Tailwind Utility |
-|---|---|---|---|
-| Small | `--shadow-sm` | `0 1px 2px 0 oklch(0 0 0 / 0.04)` | `shadow-sm` |
-| Default | `--shadow` | `0 1px 3px 0 oklch(0 0 0 / 0.07), 0 1px 2px -1px oklch(0 0 0 / 0.07)` | `shadow` |
-| Medium | `--shadow-md` | `0 4px 6px -1px oklch(0 0 0 / 0.07), 0 2px 4px -2px oklch(0 0 0 / 0.07)` | `shadow-md` |
-| Large | `--shadow-lg` | `0 10px 15px -3px oklch(0 0 0 / 0.07), 0 4px 6px -4px oklch(0 0 0 / 0.07)` | `shadow-lg` |
+| Token Name | CSS Variable  | Value                                                                      | Tailwind Utility |
+| ---------- | ------------- | -------------------------------------------------------------------------- | ---------------- |
+| Small      | `--shadow-sm` | `0 1px 2px 0 oklch(0 0 0 / 0.04)`                                          | `shadow-sm`      |
+| Default    | `--shadow`    | `0 1px 3px 0 oklch(0 0 0 / 0.07), 0 1px 2px -1px oklch(0 0 0 / 0.07)`      | `shadow`         |
+| Medium     | `--shadow-md` | `0 4px 6px -1px oklch(0 0 0 / 0.07), 0 2px 4px -2px oklch(0 0 0 / 0.07)`   | `shadow-md`      |
+| Large      | `--shadow-lg` | `0 10px 15px -3px oklch(0 0 0 / 0.07), 0 4px 6px -4px oklch(0 0 0 / 0.07)` | `shadow-lg`      |
 
 ---
 
 ## Typography Tokens
 
-| Token Name | CSS Variable | Value | Tailwind Utility |
-|---|---|---|---|
-| Sans (default) | `--font-sans` | `'Inter', ui-sans-serif, system-ui, sans-serif` | `font-sans` |
-| Monospace | `--font-mono` | `'JetBrains Mono', ui-monospace, monospace` | `font-mono` |
+| Token Name     | CSS Variable  | Value                                           | Tailwind Utility |
+| -------------- | ------------- | ----------------------------------------------- | ---------------- |
+| Sans (default) | `--font-sans` | `'Inter', ui-sans-serif, system-ui, sans-serif` | `font-sans`      |
+| Monospace      | `--font-mono` | `'JetBrains Mono', ui-monospace, monospace`     | `font-mono`      |
 
 `Inter` and `JetBrains Mono` are the primary typefaces. The fallback stacks ensure acceptable rendering when web fonts have not loaded or are unavailable.
 
@@ -113,18 +115,18 @@ Shadow tokens use OKLCH black with varying alpha for consistency with the color 
 
 All transitions use the same easing function -- `cubic-bezier(0.16, 1, 0.3, 1)` -- which produces a quick start with a gentle deceleration (ease-out character).
 
-| Token Name | CSS Variable | Duration | Easing | Tailwind Utility |
-|---|---|---|---|---|
-| Fast | `--transition-fast` | 150ms | `cubic-bezier(0.16, 1, 0.3, 1)` | `transition-fast` |
-| Normal | `--transition-normal` | 200ms | `cubic-bezier(0.16, 1, 0.3, 1)` | `transition-normal` |
-| Slow | `--transition-slow` | 300ms | `cubic-bezier(0.16, 1, 0.3, 1)` | `transition-slow` |
+| Token Name | CSS Variable          | Duration | Easing                          | Tailwind Utility    |
+| ---------- | --------------------- | -------- | ------------------------------- | ------------------- |
+| Fast       | `--transition-fast`   | 150ms    | `cubic-bezier(0.16, 1, 0.3, 1)` | `transition-fast`   |
+| Normal     | `--transition-normal` | 200ms    | `cubic-bezier(0.16, 1, 0.3, 1)` | `transition-normal` |
+| Slow       | `--transition-slow`   | 300ms    | `cubic-bezier(0.16, 1, 0.3, 1)` | `transition-slow`   |
 
 ### Animation Tokens
 
-| Token Name | CSS Variable | Value |
-|---|---|---|
+| Token Name     | CSS Variable               | Value                           |
+| -------------- | -------------------------- | ------------------------------- |
 | Accordion Down | `--animate-accordion-down` | `accordion-down 200ms ease-out` |
-| Accordion Up | `--animate-accordion-up` | `accordion-up 200ms ease-out` |
+| Accordion Up   | `--animate-accordion-up`   | `accordion-up 200ms ease-out`   |
 
 The `accordion-down` and `accordion-up` keyframes are defined alongside the tokens and animate height from `0` to `var(--radix-accordion-content-height)` (and the reverse).
 
@@ -160,7 +162,7 @@ Tokens are plain CSS custom properties. Override them by redefining the variable
 
 ```html
 <div style="--color-primary: oklch(0.6 0.2 150)">
-  <Button>Green Primary</Button>
+  <button>Green Primary</button>
 </div>
 ```
 
@@ -169,9 +171,7 @@ Tokens are plain CSS custom properties. Override them by redefining the variable
 Because tokens map directly to Tailwind utilities, you can also override at the element level:
 
 ```html
-<Button className="bg-[oklch(0.6_0.2_150)] text-white">
-  Custom green
-</Button>
+<button className="bg-[oklch(0.6_0.2_150)] text-white">Custom green</button>
 ```
 
 ### Guidelines
@@ -190,22 +190,22 @@ This section provides three approaches for bringing `@repo/ui` tokens into Figma
 
 Figma does not natively support OKLCH values. Use this table to convert every OKLCH token to its sRGB hex equivalent.
 
-| OKLCH Value | Hex | Description |
-|---|---|---|
-| `oklch(1 0 0)` | `#ffffff` | Pure white |
-| `oklch(0.985 0 0)` | `#fafafa` | Near white |
-| `oklch(0.96 0 0)` | `#f4f4f5` | Light gray |
-| `oklch(0.87 0 0)` | `#e4e4e7` | Border gray (light) |
-| `oklch(0.708 0 0)` | `#a1a1aa` | Mid gray |
-| `oklch(0.705 0 0)` | `#a1a1aa` | Mid gray (alias) |
-| `oklch(0.556 0 0)` | `#71717a` | Muted text gray |
-| `oklch(0.5 0 0)` | `#52525b` | Dark mid gray |
-| `oklch(0.35 0 0)` | `#3f3f46` | Border gray (dark) |
-| `oklch(0.269 0 0)` | `#27272a` | Dark surface |
-| `oklch(0.205 0 0)` | `#18181b` | Near black |
-| `oklch(0.145 0 0)` | `#0a0a0a` | App black |
-| `oklch(0 0 0)` | `#000000` | Pure black |
-| `oklch(0.577 0.245 27.325)` | `#dc2626` | Destructive red |
+| OKLCH Value                 | Hex       | Description         |
+| --------------------------- | --------- | ------------------- |
+| `oklch(1 0 0)`              | `#ffffff` | Pure white          |
+| `oklch(0.985 0 0)`          | `#fafafa` | Near white          |
+| `oklch(0.96 0 0)`           | `#f4f4f5` | Light gray          |
+| `oklch(0.87 0 0)`           | `#e4e4e7` | Border gray (light) |
+| `oklch(0.708 0 0)`          | `#a1a1aa` | Mid gray            |
+| `oklch(0.705 0 0)`          | `#a1a1aa` | Mid gray (alias)    |
+| `oklch(0.556 0 0)`          | `#71717a` | Muted text gray     |
+| `oklch(0.5 0 0)`            | `#52525b` | Dark mid gray       |
+| `oklch(0.35 0 0)`           | `#3f3f46` | Border gray (dark)  |
+| `oklch(0.269 0 0)`          | `#27272a` | Dark surface        |
+| `oklch(0.205 0 0)`          | `#18181b` | Near black          |
+| `oklch(0.145 0 0)`          | `#0a0a0a` | App black           |
+| `oklch(0 0 0)`              | `#000000` | Pure black          |
+| `oklch(0.577 0.245 27.325)` | `#dc2626` | Destructive red     |
 
 For alpha values (overlay tokens), append the alpha channel as a two-digit hex suffix: `#0a0a0a99` for 60% opacity, `#000000b3` for 70% opacity.
 
@@ -230,27 +230,27 @@ Figma Variables (introduced in Figma mid-2023) are the recommended native approa
 
 Create one variable per token. Set the type to **Color** and enter the hex value for each mode.
 
-| Variable Name | Type | Light Value | Dark Value |
-|---|---|---|---|
-| `color/background` | Color | `#ffffff` | `#0a0a0a` |
-| `color/foreground` | Color | `#0a0a0a` | `#fafafa` |
-| `color/surface` | Color | `#fafafa` | `#18181b` |
-| `color/surface-foreground` | Color | `#0a0a0a` | `#fafafa` |
-| `color/muted` | Color | `#f4f4f5` | `#27272a` |
-| `color/muted-foreground` | Color | `#71717a` | `#a1a1aa` |
-| `color/primary` | Color | `#0a0a0a` | `#fafafa` |
-| `color/primary-foreground` | Color | `#fafafa` | `#18181b` |
-| `color/secondary` | Color | `#f4f4f5` | `#27272a` |
-| `color/secondary-foreground` | Color | `#18181b` | `#fafafa` |
-| `color/accent` | Color | `#f4f4f5` | `#27272a` |
-| `color/accent-foreground` | Color | `#18181b` | `#fafafa` |
-| `color/destructive` | Color | `#dc2626` | `#dc2626` |
-| `color/destructive-foreground` | Color | `#fafafa` | `#fafafa` |
-| `color/border` | Color | `#e4e4e7` | `#3f3f46` |
-| `color/border-strong` | Color | `#a1a1aa` | `#52525b` |
-| `color/input` | Color | `#e4e4e7` | `#3f3f46` |
-| `color/ring` | Color | `#71717a` | `#71717a` |
-| `color/overlay` | Color | `#0a0a0a` (60% opacity) | `#000000` (70% opacity) |
+| Variable Name                  | Type  | Light Value             | Dark Value              |
+| ------------------------------ | ----- | ----------------------- | ----------------------- |
+| `color/background`             | Color | `#ffffff`               | `#0a0a0a`               |
+| `color/foreground`             | Color | `#0a0a0a`               | `#fafafa`               |
+| `color/surface`                | Color | `#fafafa`               | `#18181b`               |
+| `color/surface-foreground`     | Color | `#0a0a0a`               | `#fafafa`               |
+| `color/muted`                  | Color | `#f4f4f5`               | `#27272a`               |
+| `color/muted-foreground`       | Color | `#71717a`               | `#a1a1aa`               |
+| `color/primary`                | Color | `#0a0a0a`               | `#fafafa`               |
+| `color/primary-foreground`     | Color | `#fafafa`               | `#18181b`               |
+| `color/secondary`              | Color | `#f4f4f5`               | `#27272a`               |
+| `color/secondary-foreground`   | Color | `#18181b`               | `#fafafa`               |
+| `color/accent`                 | Color | `#f4f4f5`               | `#27272a`               |
+| `color/accent-foreground`      | Color | `#18181b`               | `#fafafa`               |
+| `color/destructive`            | Color | `#dc2626`               | `#dc2626`               |
+| `color/destructive-foreground` | Color | `#fafafa`               | `#fafafa`               |
+| `color/border`                 | Color | `#e4e4e7`               | `#3f3f46`               |
+| `color/border-strong`          | Color | `#a1a1aa`               | `#52525b`               |
+| `color/input`                  | Color | `#e4e4e7`               | `#3f3f46`               |
+| `color/ring`                   | Color | `#71717a`               | `#71717a`               |
+| `color/overlay`                | Color | `#0a0a0a` (60% opacity) | `#000000` (70% opacity) |
 
 For the overlay token, set the hex color and then reduce the opacity in the color picker to 60% (Light) or 70% (Dark).
 
@@ -258,12 +258,12 @@ For the overlay token, set the hex color and then reduce the opacity in the colo
 
 Create number variables for border radius. These do not need modes.
 
-| Variable Name | Type | Value |
-|---|---|---|
-| `radius/sm` | Number | `4` |
-| `radius/md` | Number | `6` |
-| `radius/lg` | Number | `8` |
-| `radius/xl` | Number | `12` |
+| Variable Name | Type   | Value |
+| ------------- | ------ | ----- |
+| `radius/sm`   | Number | `4`   |
+| `radius/md`   | Number | `6`   |
+| `radius/lg`   | Number | `8`   |
+| `radius/xl`   | Number | `12`  |
 
 #### Step 5: Apply Variables to Components
 
@@ -636,10 +636,10 @@ The following Node.js script concept reads `src/tokens/index.css`, extracts cust
 // Dependencies:
 //   npm install culori
 
-import { readFileSync, writeFileSync } from 'node:fs';
-import { formatHex, parse } from 'culori';
+import { readFileSync, writeFileSync } from 'node:fs'
+import { formatHex, parse } from 'culori'
 
-const css = readFileSync('src/tokens/index.css', 'utf-8');
+const css = readFileSync('src/tokens/index.css', 'utf-8')
 
 /**
  * Extract all --color-* custom properties from a CSS block.
@@ -648,19 +648,19 @@ const css = readFileSync('src/tokens/index.css', 'utf-8');
 function extractTokens(css, selector) {
   const regex = new RegExp(
     `${selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*\\{([^}]+)\\}`,
-    'g'
-  );
-  const match = regex.exec(css);
-  if (!match) return [];
+    'g',
+  )
+  const match = regex.exec(css)
+  if (!match) return []
 
-  const block = match[1];
-  const propRegex = /--([\w-]+)\s*:\s*([^;]+);/g;
-  const tokens = [];
-  let m;
+  const block = match[1]
+  const propRegex = /--([\w-]+)\s*:\s*([^;]+);/g
+  const tokens = []
+  let m
   while ((m = propRegex.exec(block)) !== null) {
-    tokens.push({ name: m[1], value: m[2].trim() });
+    tokens.push({ name: m[1], value: m[2].trim() })
   }
-  return tokens;
+  return tokens
 }
 
 /**
@@ -668,40 +668,37 @@ function extractTokens(css, selector) {
  * if parsing fails (e.g., for non-color tokens).
  */
 function toHex(oklchValue) {
-  const color = parse(oklchValue);
-  if (!color) return oklchValue;
-  return formatHex(color);
+  const color = parse(oklchValue)
+  if (!color) return oklchValue
+  return formatHex(color)
 }
 
-const lightTokens = extractTokens(css, ':root');
-const darkTokens = extractTokens(css, '.dark');
+const lightTokens = extractTokens(css, ':root')
+const darkTokens = extractTokens(css, '.dark')
 
-const darkMap = Object.fromEntries(
-  darkTokens.map((t) => [t.name, t.value])
-);
+const darkMap = Object.fromEntries(darkTokens.map((t) => [t.name, t.value]))
 
-const output = {};
+const output = {}
 
 for (const token of lightTokens) {
-  if (!token.name.startsWith('color-')) continue;
+  if (!token.name.startsWith('color-')) continue
 
-  const key = token.name; // e.g. "color-background"
+  const key = token.name // e.g. "color-background"
   output[key] = {
     $type: 'color',
     $value: {
       Light: toHex(token.value),
       Dark: toHex(darkMap[key] || token.value),
     },
-  };
+  }
 }
 
-writeFileSync(
-  'tokens.json',
-  JSON.stringify(output, null, 2),
-  'utf-8'
-);
+writeFileSync('tokens.json', JSON.stringify(output, null, 2), 'utf-8')
 
-console.log('Wrote tokens.json with %d color tokens', Object.keys(output).length);
+console.log(
+  'Wrote tokens.json with %d color tokens',
+  Object.keys(output).length,
+)
 ```
 
 Run with:

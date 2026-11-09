@@ -1,6 +1,6 @@
 import { Body, Controller, Post, UsePipes } from '@nestjs/common'
 import type { RecipientDTO } from './dto/recipient'
-import { EmailSendService } from './email-send.service'
+import type { EmailSendService } from './email-send.service'
 import type { TemplateBody } from './dto/template'
 import { ZodValidationPipe } from '../common/pipes/validation'
 import { EmailSendSchema } from './validation-schema/email-send'

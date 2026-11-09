@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { Button } from '../button'
 import { Input } from '../input'
 import { Label } from '../label'
+
 import {
   Sheet,
   SheetClose,
@@ -47,12 +48,24 @@ export const Default: Story = {
         </SheetHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="sheet-name" className="text-right">Name</Label>
-            <Input id="sheet-name" defaultValue="Pedro Duarte" className="col-span-3" />
+            <Label htmlFor="sheet-name" className="text-right">
+              Name
+            </Label>
+            <Input
+              id="sheet-name"
+              defaultValue="Pedro Duarte"
+              className="col-span-3"
+            />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="sheet-username" className="text-right">Username</Label>
-            <Input id="sheet-username" defaultValue="@peduarte" className="col-span-3" />
+            <Label htmlFor="sheet-username" className="text-right">
+              Username
+            </Label>
+            <Input
+              id="sheet-username"
+              defaultValue="@peduarte"
+              className="col-span-3"
+            />
           </div>
         </div>
         <SheetFooter>
@@ -76,7 +89,9 @@ export const Sides: Story = {
           <SheetContent side={side}>
             <SheetHeader>
               <SheetTitle>Sheet from {side}</SheetTitle>
-              <SheetDescription>This sheet slides in from the {side}.</SheetDescription>
+              <SheetDescription>
+                This sheet slides in from the {side}.
+              </SheetDescription>
             </SheetHeader>
           </SheetContent>
         </Sheet>

@@ -2,11 +2,7 @@ import { cn } from '../../utils'
 
 type CardProps = React.ComponentPropsWithRef<'div'>
 
-function Card({
-  className,
-  ref,
-  ...props
-}: CardProps) {
+function Card({ className, ref, ...props }: CardProps) {
   return (
     <div
       ref={ref}
@@ -23,11 +19,7 @@ function Card({
 
 type CardHeaderProps = React.ComponentPropsWithRef<'div'>
 
-function CardHeader({
-  className,
-  ref,
-  ...props
-}: CardHeaderProps) {
+function CardHeader({ className, ref, ...props }: CardHeaderProps) {
   return (
     <div
       ref={ref}
@@ -40,16 +32,16 @@ function CardHeader({
 
 type CardTitleProps = React.ComponentPropsWithRef<'h3'>
 
-function CardTitle({
-  className,
-  ref,
-  ...props
-}: CardTitleProps) {
+/* oxlint-disable jsx-a11y/heading-has-content -- children are supplied through props. */
+function CardTitle({ className, ref, ...props }: CardTitleProps) {
   return (
     <h3
       ref={ref}
       data-slot="card-title"
-      className={cn('text-lg font-semibold leading-none tracking-tight', className)}
+      className={cn(
+        'text-lg font-semibold leading-none tracking-tight',
+        className,
+      )}
       {...props}
     />
   )
@@ -57,11 +49,7 @@ function CardTitle({
 
 type CardDescriptionProps = React.ComponentPropsWithRef<'p'>
 
-function CardDescription({
-  className,
-  ref,
-  ...props
-}: CardDescriptionProps) {
+function CardDescription({ className, ref, ...props }: CardDescriptionProps) {
   return (
     <p
       ref={ref}
@@ -74,11 +62,7 @@ function CardDescription({
 
 type CardContentProps = React.ComponentPropsWithRef<'div'>
 
-function CardContent({
-  className,
-  ref,
-  ...props
-}: CardContentProps) {
+function CardContent({ className, ref, ...props }: CardContentProps) {
   return (
     <div
       ref={ref}
@@ -91,11 +75,7 @@ function CardContent({
 
 type CardFooterProps = React.ComponentPropsWithRef<'div'>
 
-function CardFooter({
-  className,
-  ref,
-  ...props
-}: CardFooterProps) {
+function CardFooter({ className, ref, ...props }: CardFooterProps) {
   return (
     <div
       ref={ref}

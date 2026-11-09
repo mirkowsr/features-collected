@@ -13,7 +13,15 @@ export {
 } from './animations/presets'
 
 // ─── Components ───────────────────────────────────────────────────
-export { Alert, AlertTitle, AlertDescription, alertVariants, type AlertProps, type AlertTitleProps, type AlertDescriptionProps } from './components/alert'
+export {
+  Alert,
+  AlertTitle,
+  AlertDescription,
+  alertVariants,
+  type AlertProps,
+  type AlertTitleProps,
+  type AlertDescriptionProps,
+} from './components/alert'
 export { Badge, badgeVariants, type BadgeProps } from './components/badge'
 export { Button, buttonVariants, type ButtonProps } from './components/button'
 export {

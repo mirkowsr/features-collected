@@ -1,17 +1,14 @@
-import {
-  GetObjectCommand,
-  PutObjectCommand,
-  S3Client,
-} from '@aws-sdk/client-s3'
+import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3'
+import type { S3Client } from '@aws-sdk/client-s3'
 import {
   Injectable,
   InternalServerErrorException,
   Logger,
 } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
+import type { ConfigService } from '@nestjs/config'
 import to from 'await-to-js'
 import { InjectS3 } from '../aws-s3'
-import { UploadTemplateDTO } from './dto/storage.dto'
+import type { UploadTemplateDTO } from './dto/storage.dto'
 
 @Injectable()
 export class StorageService {

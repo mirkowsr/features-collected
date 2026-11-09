@@ -5,13 +5,11 @@ import { cn } from '../../utils'
 
 const Select = SelectPrimitive.Root
 
-type SelectGroupProps = React.ComponentPropsWithRef<typeof SelectPrimitive.Group>
+type SelectGroupProps = React.ComponentPropsWithRef<
+  typeof SelectPrimitive.Group
+>
 
-function SelectGroup({
-  className,
-  ref,
-  ...props
-}: SelectGroupProps) {
+function SelectGroup({ className, ref, ...props }: SelectGroupProps) {
   return (
     <SelectPrimitive.Group
       ref={ref}
@@ -22,13 +20,11 @@ function SelectGroup({
   )
 }
 
-type SelectValueProps = React.ComponentPropsWithRef<typeof SelectPrimitive.Value>
+type SelectValueProps = React.ComponentPropsWithRef<
+  typeof SelectPrimitive.Value
+>
 
-function SelectValue({
-  className,
-  ref,
-  ...props
-}: SelectValueProps) {
+function SelectValue({ className, ref, ...props }: SelectValueProps) {
   return (
     <SelectPrimitive.Value
       ref={ref}
@@ -39,7 +35,9 @@ function SelectValue({
   )
 }
 
-type SelectTriggerProps = React.ComponentPropsWithRef<typeof SelectPrimitive.Trigger>
+type SelectTriggerProps = React.ComponentPropsWithRef<
+  typeof SelectPrimitive.Trigger
+>
 
 function SelectTrigger({
   className,
@@ -69,7 +67,9 @@ function SelectTrigger({
   )
 }
 
-type SelectScrollUpButtonProps = React.ComponentPropsWithRef<typeof SelectPrimitive.ScrollUpButton>
+type SelectScrollUpButtonProps = React.ComponentPropsWithRef<
+  typeof SelectPrimitive.ScrollUpButton
+>
 
 function SelectScrollUpButton({
   className,
@@ -80,7 +80,10 @@ function SelectScrollUpButton({
     <SelectPrimitive.ScrollUpButton
       ref={ref}
       data-slot="select-scroll-up-button"
-      className={cn('flex cursor-default items-center justify-center py-1', className)}
+      className={cn(
+        'flex cursor-default items-center justify-center py-1',
+        className,
+      )}
       {...props}
     >
       <ChevronUp className="h-4 w-4" />
@@ -101,7 +104,10 @@ function SelectScrollDownButton({
     <SelectPrimitive.ScrollDownButton
       ref={ref}
       data-slot="select-scroll-down-button"
-      className={cn('flex cursor-default items-center justify-center py-1', className)}
+      className={cn(
+        'flex cursor-default items-center justify-center py-1',
+        className,
+      )}
       {...props}
     >
       <ChevronDown className="h-4 w-4" />
@@ -109,7 +115,9 @@ function SelectScrollDownButton({
   )
 }
 
-type SelectContentProps = React.ComponentPropsWithRef<typeof SelectPrimitive.Content>
+type SelectContentProps = React.ComponentPropsWithRef<
+  typeof SelectPrimitive.Content
+>
 
 function SelectContent({
   className,
@@ -150,13 +158,11 @@ function SelectContent({
   )
 }
 
-type SelectLabelProps = React.ComponentPropsWithRef<typeof SelectPrimitive.Label>
+type SelectLabelProps = React.ComponentPropsWithRef<
+  typeof SelectPrimitive.Label
+>
 
-function SelectLabel({
-  className,
-  ref,
-  ...props
-}: SelectLabelProps) {
+function SelectLabel({ className, ref, ...props }: SelectLabelProps) {
   return (
     <SelectPrimitive.Label
       ref={ref}
@@ -169,12 +175,7 @@ function SelectLabel({
 
 type SelectItemProps = React.ComponentPropsWithRef<typeof SelectPrimitive.Item>
 
-function SelectItem({
-  className,
-  children,
-  ref,
-  ...props
-}: SelectItemProps) {
+function SelectItem({ className, children, ref, ...props }: SelectItemProps) {
   return (
     <SelectPrimitive.Item
       ref={ref}
@@ -197,13 +198,11 @@ function SelectItem({
   )
 }
 
-type SelectSeparatorProps = React.ComponentPropsWithRef<typeof SelectPrimitive.Separator>
+type SelectSeparatorProps = React.ComponentPropsWithRef<
+  typeof SelectPrimitive.Separator
+>
 
-function SelectSeparator({
-  className,
-  ref,
-  ...props
-}: SelectSeparatorProps) {
+function SelectSeparator({ className, ref, ...props }: SelectSeparatorProps) {
   return (
     <SelectPrimitive.Separator
       ref={ref}

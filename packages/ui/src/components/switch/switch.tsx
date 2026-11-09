@@ -4,11 +4,7 @@ import { cn } from '../../utils'
 
 type SwitchProps = React.ComponentPropsWithRef<typeof SwitchPrimitive.Root>
 
-function Switch({
-  className,
-  ref,
-  ...props
-}: SwitchProps) {
+function Switch({ className, ref, ...props }: SwitchProps) {
   return (
     <SwitchPrimitive.Root
       ref={ref}

@@ -1,5 +1,12 @@
 #!/usr/bin/env node
-import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'fs'
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  statSync,
+  writeFileSync,
+} from 'fs'
 import { join, relative } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -87,7 +94,10 @@ async function main() {
 
   // 2. Frontend
   const frontendOptions = ['React (Vite)', 'Astro', 'Both', 'None']
-  const [frontendChoice] = await select('  Frontend framework?', frontendOptions)
+  const [frontendChoice] = await select(
+    '  Frontend framework?',
+    frontendOptions,
+  )
 
   // 3. Backend
   const includeBackend = await confirm('\n  Include NestJS backend?')
@@ -96,7 +106,8 @@ async function main() {
   console.log('\n  Creating feature...\n')
   const replacer = makeReplacer(featureName)
 
-  const wantsReact = frontendChoice === 'React (Vite)' || frontendChoice === 'Both'
+  const wantsReact =
+    frontendChoice === 'React (Vite)' || frontendChoice === 'Both'
   const wantsAstro = frontendChoice === 'Astro' || frontendChoice === 'Both'
   const wantsBoth = wantsReact && wantsAstro
 
@@ -106,24 +117,47 @@ async function main() {
     return (str) =>
       str
         .replaceAll('__FEATURE_NAME__', featureName)
-        .replaceAll(`${featureName}-frontend-${framework}`, `${featureName}-frontend`)
+        .replaceAll(
+          `${featureName}-frontend-${framework}`,
+          `${featureName}-frontend`,
+        )
   }
 
   if (wantsBoth) {
-    copyDir(join(TEMPLATES_DIR, 'frontend-react'), join(featureDir, 'frontend-react'), replacer)
+    copyDir(
+      join(TEMPLATES_DIR, 'frontend-react'),
+      join(featureDir, 'frontend-react'),
+      replacer,
+    )
     console.log(`  ✓ features/${featureName}/frontend-react`)
-    copyDir(join(TEMPLATES_DIR, 'frontend-astro'), join(featureDir, 'frontend-astro'), replacer)
+    copyDir(
+      join(TEMPLATES_DIR, 'frontend-astro'),
+      join(featureDir, 'frontend-astro'),
+      replacer,
+    )
     console.log(`  ✓ features/${featureName}/frontend-astro`)
   } else if (wantsReact) {
-    copyDir(join(TEMPLATES_DIR, 'frontend-react'), join(featureDir, 'frontend'), makeFrameworkReplacer('react'))
+    copyDir(
+      join(TEMPLATES_DIR, 'frontend-react'),
+      join(featureDir, 'frontend'),
+      makeFrameworkReplacer('react'),
+    )
     console.log(`  ✓ features/${featureName}/frontend`)
   } else if (wantsAstro) {
-    copyDir(join(TEMPLATES_DIR, 'frontend-astro'), join(featureDir, 'frontend'), makeFrameworkReplacer('astro'))
+    copyDir(
+      join(TEMPLATES_DIR, 'frontend-astro'),
+      join(featureDir, 'frontend'),
+      makeFrameworkReplacer('astro'),
+    )
     console.log(`  ✓ features/${featureName}/frontend`)
   }
 
   if (includeBackend) {
-    copyDir(join(TEMPLATES_DIR, 'backend-nestjs'), join(featureDir, 'backend'), replacer)
+    copyDir(
+      join(TEMPLATES_DIR, 'backend-nestjs'),
+      join(featureDir, 'backend'),
+      replacer,
+    )
     console.log(`  ✓ features/${featureName}/backend`)
   }
 

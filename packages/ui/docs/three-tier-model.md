@@ -18,7 +18,14 @@ Import pre-styled components and use them directly. They handle Radix primitives
 accessibility, and refs internally. You get a consistent, accessible UI with zero configuration.
 
 ```tsx
-import { Button, Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from '@repo/ui'
+import {
+  Button,
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+} from '@repo/ui'
 
 function MyFeature() {
   return (
@@ -50,13 +57,13 @@ plain anchor tag or a third-party component.
 
 Available variant exports:
 
-| Export | Variants | Sizes |
-|---|---|---|
+| Export           | Variants                                              | Sizes                 |
+| ---------------- | ----------------------------------------------------- | --------------------- |
 | `buttonVariants` | default, destructive, outline, secondary, ghost, link | default, sm, lg, icon |
-| `badgeVariants` | default, secondary, destructive, outline | -- |
-| `alertVariants` | default, destructive | -- |
-| `toggleVariants` | default, outline | default, sm, lg |
-| `sheetVariants` | top, right, bottom, left (side) | -- |
+| `badgeVariants`  | default, secondary, destructive, outline              | --                    |
+| `alertVariants`  | default, destructive                                  | --                    |
+| `toggleVariants` | default, outline                                      | default, sm, lg       |
+| `sheetVariants`  | top, right, bottom, left (side)                       | --                    |
 
 ```tsx
 import { buttonVariants } from '@repo/ui'
@@ -107,9 +114,9 @@ Tailwind class conflicts.
 ```tsx
 import { cn } from '@repo/ui'
 
-cn('px-4 py-2', 'px-8')        // -> 'px-8 py-2' (tailwind-merge resolves conflicts)
+cn('px-4 py-2', 'px-8') // -> 'px-8 py-2' (tailwind-merge resolves conflicts)
 cn('text-sm', undefined, false) // -> 'text-sm' (clsx handles falsy values)
-cn('base-class', className)     // -> safe merging with consumer overrides
+cn('base-class', className) // -> safe merging with consumer overrides
 ```
 
 `cn()` is the only utility you need at this tier. It is re-exported from the package root
@@ -117,13 +124,13 @@ alongside all components and variants.
 
 ## Choosing the Right Tier
 
-| Scenario | Tier | Why |
-|---|---|---|
-| Standard UI -- buttons, forms, dialogs | Tier 1 | Fastest, consistent, accessible |
-| Custom element needs design system styling | Tier 2 | Visual consistency without Radix |
+| Scenario                                     | Tier   | Why                                  |
+| -------------------------------------------- | ------ | ------------------------------------ |
+| Standard UI -- buttons, forms, dialogs       | Tier 1 | Fastest, consistent, accessible      |
+| Custom element needs design system styling   | Tier 2 | Visual consistency without Radix     |
 | Highly custom component with unique behavior | Tier 3 | Full control, tokens still available |
-| Third-party component needs consistent look | Tier 2 | Apply variants to any element |
-| One-off layout or section | Tier 3 | Just tokens + `cn()` |
+| Third-party component needs consistent look  | Tier 2 | Apply variants to any element        |
+| One-off layout or section                    | Tier 3 | Just tokens + `cn()`                 |
 
 Start at Tier 1. Drop to a lower tier only when you hit a limitation that requires it. The
 tiers are not mutually exclusive -- a single feature can mix all three depending on the needs of

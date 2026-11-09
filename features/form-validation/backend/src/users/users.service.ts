@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common'
-import { UserDto } from './validation/user'
-import { DrizzleModule } from '../db/drizzle.module'
+
 import { InjectDrizzle } from '../db/drizzle.decorator'
-import { DrizzleSchema } from '../db/types/drizzle.type'
 import { users } from '../db/schema'
+import type { DrizzleSchema } from '../db/types/drizzle.type'
+
+import type { UserDto } from './validation/user'
 
 @Injectable()
 export class UsersService {

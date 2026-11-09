@@ -37,13 +37,7 @@ export const toggleVariants = cva(
 type ToggleProps = React.ComponentPropsWithRef<typeof TogglePrimitive.Root> &
   VariantProps<typeof toggleVariants>
 
-function Toggle({
-  className,
-  variant,
-  size,
-  ref,
-  ...props
-}: ToggleProps) {
+function Toggle({ className, variant, size, ref, ...props }: ToggleProps) {
   return (
     <TogglePrimitive.Root
       ref={ref}

@@ -6,13 +6,11 @@ import { cn } from '../../utils'
 const Dialog = DialogPrimitive.Root
 const DialogPortal = DialogPrimitive.Portal
 
-type DialogTriggerProps = React.ComponentPropsWithRef<typeof DialogPrimitive.Trigger>
+type DialogTriggerProps = React.ComponentPropsWithRef<
+  typeof DialogPrimitive.Trigger
+>
 
-function DialogTrigger({
-  className,
-  ref,
-  ...props
-}: DialogTriggerProps) {
+function DialogTrigger({ className, ref, ...props }: DialogTriggerProps) {
   return (
     <DialogPrimitive.Trigger
       ref={ref}
@@ -23,13 +21,11 @@ function DialogTrigger({
   )
 }
 
-type DialogCloseProps = React.ComponentPropsWithRef<typeof DialogPrimitive.Close>
+type DialogCloseProps = React.ComponentPropsWithRef<
+  typeof DialogPrimitive.Close
+>
 
-function DialogClose({
-  className,
-  ref,
-  ...props
-}: DialogCloseProps) {
+function DialogClose({ className, ref, ...props }: DialogCloseProps) {
   return (
     <DialogPrimitive.Close
       ref={ref}
@@ -40,7 +36,9 @@ function DialogClose({
   )
 }
 
-type DialogOverlayProps = React.ComponentPropsWithRef<typeof DialogPrimitive.Overlay>
+type DialogOverlayProps = React.ComponentPropsWithRef<
+  typeof DialogPrimitive.Overlay
+>
 
 function DialogOverlay({ className, ref, ...props }: DialogOverlayProps) {
   return (
@@ -58,9 +56,16 @@ function DialogOverlay({ className, ref, ...props }: DialogOverlayProps) {
   )
 }
 
-type DialogContentProps = React.ComponentPropsWithRef<typeof DialogPrimitive.Content>
+type DialogContentProps = React.ComponentPropsWithRef<
+  typeof DialogPrimitive.Content
+>
 
-function DialogContent({ className, children, ref, ...props }: DialogContentProps) {
+function DialogContent({
+  className,
+  children,
+  ref,
+  ...props
+}: DialogContentProps) {
   return (
     <DialogPortal>
       <DialogOverlay />
@@ -116,28 +121,42 @@ function DialogFooter({ className, ref, ...props }: DialogFooterProps) {
     <div
       ref={ref}
       data-slot="dialog-footer"
-      className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:gap-2', className)}
+      className={cn(
+        'flex flex-col-reverse sm:flex-row sm:justify-end sm:gap-2',
+        className,
+      )}
       {...props}
     />
   )
 }
 
-type DialogTitleProps = React.ComponentPropsWithRef<typeof DialogPrimitive.Title>
+type DialogTitleProps = React.ComponentPropsWithRef<
+  typeof DialogPrimitive.Title
+>
 
 function DialogTitle({ className, ref, ...props }: DialogTitleProps) {
   return (
     <DialogPrimitive.Title
       ref={ref}
       data-slot="dialog-title"
-      className={cn('text-lg font-semibold leading-none tracking-tight', className)}
+      className={cn(
+        'text-lg font-semibold leading-none tracking-tight',
+        className,
+      )}
       {...props}
     />
   )
 }
 
-type DialogDescriptionProps = React.ComponentPropsWithRef<typeof DialogPrimitive.Description>
+type DialogDescriptionProps = React.ComponentPropsWithRef<
+  typeof DialogPrimitive.Description
+>
 
-function DialogDescription({ className, ref, ...props }: DialogDescriptionProps) {
+function DialogDescription({
+  className,
+  ref,
+  ...props
+}: DialogDescriptionProps) {
   return (
     <DialogPrimitive.Description
       ref={ref}

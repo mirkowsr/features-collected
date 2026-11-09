@@ -21,8 +21,8 @@ The token stylesheet (`src/tokens/index.css`) defines two sets of values inside 
 @layer base {
   :root {
     /* Light mode tokens */
-    --color-background: oklch(1 0 0);          /* pure white */
-    --color-foreground: oklch(0.145 0 0);      /* near black */
+    --color-background: oklch(1 0 0); /* pure white */
+    --color-foreground: oklch(0.145 0 0); /* near black */
     --color-surface: oklch(0.985 0 0);
     --color-muted: oklch(0.96 0 0);
     --color-primary: oklch(0.145 0 0);
@@ -33,8 +33,8 @@ The token stylesheet (`src/tokens/index.css`) defines two sets of values inside 
 
   .dark {
     /* Dark mode overrides */
-    --color-background: oklch(0.145 0 0);      /* near black */
-    --color-foreground: oklch(0.985 0 0);      /* near white */
+    --color-background: oklch(0.145 0 0); /* near black */
+    --color-foreground: oklch(0.985 0 0); /* near white */
     --color-surface: oklch(0.205 0 0);
     --color-muted: oklch(0.269 0 0);
     --color-primary: oklch(0.985 0 0);
@@ -98,12 +98,15 @@ Detect the operating system's preferred color scheme and react to changes:
 function useSystemTheme() {
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     if (typeof window === 'undefined') return 'light'
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light'
   })
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-color-scheme: dark)')
-    const handler = (e: MediaQueryListEvent) => setTheme(e.matches ? 'dark' : 'light')
+    const handler = (e: MediaQueryListEvent) =>
+      setTheme(e.matches ? 'dark' : 'light')
     mq.addEventListener('change', handler)
     return () => mq.removeEventListener('change', handler)
   }, [])
@@ -125,7 +128,9 @@ function usePersistedTheme() {
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     const saved = localStorage.getItem('theme')
     if (saved === 'dark' || saved === 'light') return saved
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light'
   })
 
   useEffect(() => {

@@ -6,7 +6,9 @@ import { buttonVariants } from '../button'
 const AlertDialog = AlertDialogPrimitive.Root
 const AlertDialogPortal = AlertDialogPrimitive.Portal
 
-type AlertDialogTriggerProps = React.ComponentPropsWithRef<typeof AlertDialogPrimitive.Trigger>
+type AlertDialogTriggerProps = React.ComponentPropsWithRef<
+  typeof AlertDialogPrimitive.Trigger
+>
 
 function AlertDialogTrigger({
   className,
@@ -23,9 +25,15 @@ function AlertDialogTrigger({
   )
 }
 
-type AlertDialogOverlayProps = React.ComponentPropsWithRef<typeof AlertDialogPrimitive.Overlay>
+type AlertDialogOverlayProps = React.ComponentPropsWithRef<
+  typeof AlertDialogPrimitive.Overlay
+>
 
-function AlertDialogOverlay({ className, ref, ...props }: AlertDialogOverlayProps) {
+function AlertDialogOverlay({
+  className,
+  ref,
+  ...props
+}: AlertDialogOverlayProps) {
   return (
     <AlertDialogPrimitive.Overlay
       ref={ref}
@@ -41,9 +49,15 @@ function AlertDialogOverlay({ className, ref, ...props }: AlertDialogOverlayProp
   )
 }
 
-type AlertDialogContentProps = React.ComponentPropsWithRef<typeof AlertDialogPrimitive.Content>
+type AlertDialogContentProps = React.ComponentPropsWithRef<
+  typeof AlertDialogPrimitive.Content
+>
 
-function AlertDialogContent({ className, ref, ...props }: AlertDialogContentProps) {
+function AlertDialogContent({
+  className,
+  ref,
+  ...props
+}: AlertDialogContentProps) {
   return (
     <AlertDialogPortal>
       <AlertDialogOverlay />
@@ -67,7 +81,11 @@ function AlertDialogContent({ className, ref, ...props }: AlertDialogContentProp
 
 type AlertDialogHeaderProps = React.ComponentPropsWithRef<'div'>
 
-function AlertDialogHeader({ className, ref, ...props }: AlertDialogHeaderProps) {
+function AlertDialogHeader({
+  className,
+  ref,
+  ...props
+}: AlertDialogHeaderProps) {
   return (
     <div
       ref={ref}
@@ -80,18 +98,27 @@ function AlertDialogHeader({ className, ref, ...props }: AlertDialogHeaderProps)
 
 type AlertDialogFooterProps = React.ComponentPropsWithRef<'div'>
 
-function AlertDialogFooter({ className, ref, ...props }: AlertDialogFooterProps) {
+function AlertDialogFooter({
+  className,
+  ref,
+  ...props
+}: AlertDialogFooterProps) {
   return (
     <div
       ref={ref}
       data-slot="alert-dialog-footer"
-      className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:gap-2', className)}
+      className={cn(
+        'flex flex-col-reverse sm:flex-row sm:justify-end sm:gap-2',
+        className,
+      )}
       {...props}
     />
   )
 }
 
-type AlertDialogTitleProps = React.ComponentPropsWithRef<typeof AlertDialogPrimitive.Title>
+type AlertDialogTitleProps = React.ComponentPropsWithRef<
+  typeof AlertDialogPrimitive.Title
+>
 
 function AlertDialogTitle({ className, ref, ...props }: AlertDialogTitleProps) {
   return (
@@ -108,7 +135,11 @@ type AlertDialogDescriptionProps = React.ComponentPropsWithRef<
   typeof AlertDialogPrimitive.Description
 >
 
-function AlertDialogDescription({ className, ref, ...props }: AlertDialogDescriptionProps) {
+function AlertDialogDescription({
+  className,
+  ref,
+  ...props
+}: AlertDialogDescriptionProps) {
   return (
     <AlertDialogPrimitive.Description
       ref={ref}
@@ -119,9 +150,15 @@ function AlertDialogDescription({ className, ref, ...props }: AlertDialogDescrip
   )
 }
 
-type AlertDialogActionProps = React.ComponentPropsWithRef<typeof AlertDialogPrimitive.Action>
+type AlertDialogActionProps = React.ComponentPropsWithRef<
+  typeof AlertDialogPrimitive.Action
+>
 
-function AlertDialogAction({ className, ref, ...props }: AlertDialogActionProps) {
+function AlertDialogAction({
+  className,
+  ref,
+  ...props
+}: AlertDialogActionProps) {
   return (
     <AlertDialogPrimitive.Action
       ref={ref}
@@ -132,14 +169,24 @@ function AlertDialogAction({ className, ref, ...props }: AlertDialogActionProps)
   )
 }
 
-type AlertDialogCancelProps = React.ComponentPropsWithRef<typeof AlertDialogPrimitive.Cancel>
+type AlertDialogCancelProps = React.ComponentPropsWithRef<
+  typeof AlertDialogPrimitive.Cancel
+>
 
-function AlertDialogCancel({ className, ref, ...props }: AlertDialogCancelProps) {
+function AlertDialogCancel({
+  className,
+  ref,
+  ...props
+}: AlertDialogCancelProps) {
   return (
     <AlertDialogPrimitive.Cancel
       ref={ref}
       data-slot="alert-dialog-cancel"
-      className={cn(buttonVariants({ variant: 'outline' }), 'mt-2 sm:mt-0', className)}
+      className={cn(
+        buttonVariants({ variant: 'outline' }),
+        'mt-2 sm:mt-0',
+        className,
+      )}
       {...props}
     />
   )

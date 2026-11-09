@@ -6,7 +6,9 @@ import { resolve } from 'path'
 const feature = process.argv[2]
 
 if (!feature) {
-  console.error('\n  Usage: pnpm feature <feature-name>\n  Example: pnpm feature feature-a\n')
+  console.error(
+    '\n  Usage: pnpm feature <feature-name>\n  Example: pnpm feature feature-a\n',
+  )
   process.exit(1)
 }
 

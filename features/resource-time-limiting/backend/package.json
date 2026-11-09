@@ -1,15 +1,16 @@
 {
   "name": "@repo/resource-time-limiting-backend",
-  "private": true,
   "version": "0.0.1",
+  "private": true,
   "scripts": {
     "dev": "nest start --watch",
     "build": "nest build",
     "start": "node dist/main",
-    "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
-    "format": "prettier --write src",
-    "format:check": "prettier --check src",
+    "lint": "oxlint src",
+    "lint:fix": "oxlint src --fix",
+    "format": "oxfmt src",
+    "format:check": "oxfmt --check src",
+    "typecheck": "tsc --noEmit",
     "seed": "tsx src/seed.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
@@ -35,10 +36,8 @@
     "@nestjs/schematics": "^11.0.0",
     "@types/node": "^22.0.0",
     "drizzle-kit": "^0.31.4",
-    "eslint": "^9.0.0",
-    "prettier": "^3.0.0",
+    "oxfmt": "^0.73.0",
     "tsx": "^4.20.5",
     "typescript": "^5.4.0"
-  },
-  "prettier": "@repo/prettier-config"
+  }
 }

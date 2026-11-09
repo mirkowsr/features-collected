@@ -1,40 +1,40 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { ChevronRight } from "lucide-react";
+import type { Meta, StoryObj } from '@storybook/react'
+import { ChevronRight } from 'lucide-react'
 
-import { Button } from "./button";
+import { Button } from './button'
 
 const meta: Meta<typeof Button> = {
-  title: "Components/Button",
+  title: 'Components/Button',
   component: Button,
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   argTypes: {
     variant: {
-      control: "select",
+      control: 'select',
       options: [
-        "default",
-        "secondary",
-        "outline",
-        "ghost",
-        "destructive",
-        "link",
+        'default',
+        'secondary',
+        'outline',
+        'ghost',
+        'destructive',
+        'link',
       ],
     },
     size: {
-      control: "select",
-      options: ["sm", "default", "lg", "icon"],
+      control: 'select',
+      options: ['sm', 'default', 'lg', 'icon'],
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    onClick: () => alert("Button clicked!"),
-    children: "Button",
+    onClick: () => alert('Button clicked!'),
+    children: 'Button',
   },
-};
+}
 
 export const AllVariants: Story = {
   render: () => (
@@ -47,7 +47,7 @@ export const AllVariants: Story = {
       <Button variant="link">Link</Button>
     </div>
   ),
-};
+}
 
 export const AllSizes: Story = {
   render: () => (
@@ -57,14 +57,14 @@ export const AllSizes: Story = {
       <Button size="lg">Large</Button>
     </div>
   ),
-};
+}
 
 export const Disabled: Story = {
   args: {
-    children: "Disabled",
+    children: 'Disabled',
     disabled: true,
   },
-};
+}
 
 export const WithIcon: Story = {
   render: () => (
@@ -73,7 +73,7 @@ export const WithIcon: Story = {
       <ChevronRight />
     </Button>
   ),
-};
+}
 
 export const AsChild: Story = {
   render: () => (
@@ -81,4 +81,4 @@ export const AsChild: Story = {
       <a href="https://example.com">Link as Button</a>
     </Button>
   ),
-};
+}

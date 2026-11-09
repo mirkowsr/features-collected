@@ -1,5 +1,4 @@
 import { cva } from 'class-variance-authority'
-
 import type { VariantProps } from 'class-variance-authority'
 
 import { cn } from '../../utils'
@@ -28,12 +27,7 @@ export const alertVariants = cva(
 type AlertProps = React.ComponentPropsWithRef<'div'> &
   VariantProps<typeof alertVariants>
 
-function Alert({
-  className,
-  variant,
-  ref,
-  ...props
-}: AlertProps) {
+function Alert({ className, variant, ref, ...props }: AlertProps) {
   return (
     <div
       ref={ref}
@@ -47,11 +41,8 @@ function Alert({
 
 type AlertTitleProps = React.ComponentPropsWithRef<'h5'>
 
-function AlertTitle({
-  className,
-  ref,
-  ...props
-}: AlertTitleProps) {
+/* oxlint-disable jsx-a11y/heading-has-content -- children are supplied through props. */
+function AlertTitle({ className, ref, ...props }: AlertTitleProps) {
   return (
     <h5
       ref={ref}
@@ -64,11 +55,7 @@ function AlertTitle({
 
 type AlertDescriptionProps = React.ComponentPropsWithRef<'div'>
 
-function AlertDescription({
-  className,
-  ref,
-  ...props
-}: AlertDescriptionProps) {
+function AlertDescription({ className, ref, ...props }: AlertDescriptionProps) {
   return (
     <div
       ref={ref}
@@ -79,4 +66,11 @@ function AlertDescription({
   )
 }
 
-export { Alert, AlertTitle, AlertDescription, type AlertProps, type AlertTitleProps, type AlertDescriptionProps }
+export {
+  Alert,
+  AlertTitle,
+  AlertDescription,
+  type AlertProps,
+  type AlertTitleProps,
+  type AlertDescriptionProps,
+}

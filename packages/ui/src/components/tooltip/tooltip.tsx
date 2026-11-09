@@ -5,13 +5,11 @@ import { cn } from '../../utils'
 const TooltipProvider = TooltipPrimitive.Provider
 const Tooltip = TooltipPrimitive.Root
 
-type TooltipTriggerProps = React.ComponentPropsWithRef<typeof TooltipPrimitive.Trigger>
+type TooltipTriggerProps = React.ComponentPropsWithRef<
+  typeof TooltipPrimitive.Trigger
+>
 
-function TooltipTrigger({
-  className,
-  ref,
-  ...props
-}: TooltipTriggerProps) {
+function TooltipTrigger({ className, ref, ...props }: TooltipTriggerProps) {
   return (
     <TooltipPrimitive.Trigger
       ref={ref}
@@ -22,7 +20,9 @@ function TooltipTrigger({
   )
 }
 
-type TooltipContentProps = React.ComponentPropsWithRef<typeof TooltipPrimitive.Content>
+type TooltipContentProps = React.ComponentPropsWithRef<
+  typeof TooltipPrimitive.Content
+>
 
 function TooltipContent({
   className,

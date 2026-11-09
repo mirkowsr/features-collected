@@ -2,11 +2,7 @@ import { cn } from '../../utils'
 
 type TableProps = React.ComponentPropsWithRef<'table'>
 
-function Table({
-  className,
-  ref,
-  ...props
-}: TableProps) {
+function Table({ className, ref, ...props }: TableProps) {
   return (
     <div data-slot="table-container" className="relative w-full overflow-auto">
       <table
@@ -21,11 +17,7 @@ function Table({
 
 type TableHeaderProps = React.ComponentPropsWithRef<'thead'>
 
-function TableHeader({
-  className,
-  ref,
-  ...props
-}: TableHeaderProps) {
+function TableHeader({ className, ref, ...props }: TableHeaderProps) {
   return (
     <thead
       ref={ref}
@@ -38,11 +30,7 @@ function TableHeader({
 
 type TableBodyProps = React.ComponentPropsWithRef<'tbody'>
 
-function TableBody({
-  className,
-  ref,
-  ...props
-}: TableBodyProps) {
+function TableBody({ className, ref, ...props }: TableBodyProps) {
   return (
     <tbody
       ref={ref}
@@ -55,11 +43,7 @@ function TableBody({
 
 type TableFooterProps = React.ComponentPropsWithRef<'tfoot'>
 
-function TableFooter({
-  className,
-  ref,
-  ...props
-}: TableFooterProps) {
+function TableFooter({ className, ref, ...props }: TableFooterProps) {
   return (
     <tfoot
       ref={ref}
@@ -75,11 +59,7 @@ function TableFooter({
 
 type TableRowProps = React.ComponentPropsWithRef<'tr'>
 
-function TableRow({
-  className,
-  ref,
-  ...props
-}: TableRowProps) {
+function TableRow({ className, ref, ...props }: TableRowProps) {
   return (
     <tr
       ref={ref}
@@ -95,11 +75,7 @@ function TableRow({
 
 type TableHeadProps = React.ComponentPropsWithRef<'th'>
 
-function TableHead({
-  className,
-  ref,
-  ...props
-}: TableHeadProps) {
+function TableHead({ className, ref, ...props }: TableHeadProps) {
   return (
     <th
       ref={ref}
@@ -116,11 +92,7 @@ function TableHead({
 
 type TableCellProps = React.ComponentPropsWithRef<'td'>
 
-function TableCell({
-  className,
-  ref,
-  ...props
-}: TableCellProps) {
+function TableCell({ className, ref, ...props }: TableCellProps) {
   return (
     <td
       ref={ref}
@@ -137,11 +109,7 @@ function TableCell({
 
 type TableCaptionProps = React.ComponentPropsWithRef<'caption'>
 
-function TableCaption({
-  className,
-  ref,
-  ...props
-}: TableCaptionProps) {
+function TableCaption({ className, ref, ...props }: TableCaptionProps) {
   return (
     <caption
       ref={ref}

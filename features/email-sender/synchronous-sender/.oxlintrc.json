@@ -1,0 +1,13 @@
+{
+  "rules": {
+    "import/no-duplicates": "off",
+    "no-unused-vars": "off",
+    "typescript/no-non-null-assertion": "off",
+    "typescript/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ]
+  }
+}

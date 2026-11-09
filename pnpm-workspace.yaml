@@ -1,11 +1,10 @@
 packages:
-  - "features/*/*"
-  - "packages/*"
-  - "utils"
-  - "config/*"
+  - 'features/*/*'
+  - 'packages/*'
+  - 'utils'
 
 onlyBuiltDependencies:
-  - "@nestjs/core"
+  - '@nestjs/core'
   - esbuild
 
 ignoredBuiltDependencies:
